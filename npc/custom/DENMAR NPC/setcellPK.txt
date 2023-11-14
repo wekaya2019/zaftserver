@@ -1,0 +1,53 @@
+-	script	SetPvPCells	-1,{
+    end;
+    
+    OnInit:
+    //setcell "prontera",<x1>,<y1>,<x2>,<y2>,<type>,<flag>;
+    //A1
+
+
+	setcell "aretnorp",216,244,223,244,cell_pk,1;
+	setcell "aretnorp",215,243,224,243,cell_pk,1;
+	setcell "aretnorp",213,242,225,242,cell_pk,1;
+	setcell "aretnorp",212,241,227,241,cell_pk,1;
+	setcell "aretnorp",210,240,229,240,cell_pk,1;
+	setcell "aretnorp",209,239,230,239,cell_pk,1;
+
+
+	setcell "aretnorp",209,238,230,238,cell_pk,1;
+	setcell "aretnorp",209,237,231,237,cell_pk,1;
+	setcell "aretnorp",208,236,231,236,cell_pk,1;
+	setcell "aretnorp",208,235,231,235,cell_pk,1;
+	setcell "aretnorp",207,234,232,234,cell_pk,1;
+	setcell "aretnorp",207,233,232,233,cell_pk,1;
+	setcell "aretnorp",207,232,232,232,cell_pk,1;
+
+
+
+	setcell "aretnorp",207,231,232,231,cell_pk,1;
+	setcell "aretnorp",207,230,232,230,cell_pk,1;
+	setcell "aretnorp",207,229,232,229,cell_pk,1;
+	setcell "aretnorp",208,228,231,228,cell_pk,1;
+	setcell "aretnorp",208,227,231,227,cell_pk,1;
+	setcell "aretnorp",208,226,230,226,cell_pk,1;
+	setcell "aretnorp",209,225,230,225,cell_pk,1;
+	setcell "aretnorp",209,224,230,224,cell_pk,1;
+
+	setcell "aretnorp",210,223,229,223,cell_pk,1;
+	setcell "aretnorp",209,222,227,222,cell_pk,1;
+	setcell "aretnorp",214,221,226,221,cell_pk,1;
+	setcell "aretnorp",212,220,224,220,cell_pk,1;
+	setcell "aretnorp",216,219,223,219,cell_pk,1;
+
+
+
+
+
+
+
+
+
+
+
+
+}

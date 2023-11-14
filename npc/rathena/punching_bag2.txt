@@ -1,0 +1,11 @@
+prontera,0,0,0	script	Punching	-1,{
+
+OnInit:
+    monster "prontera",140,165,"Punching",1906,1,"Punching::OnDummyKill";
+    end;
+
+OnDummyKill:
+    monster "prontera",140,165,"Punching",1906,1,"Punching::OnDummyKill";
+    end;
+
+}

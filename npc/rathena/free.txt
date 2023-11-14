@@ -1,0 +1,22 @@
+-	script	Freebies Giver	-,{
+OnPCLoginEvent:
+    if (!#Freebies) {
+       getitem 7608,50;
+       getitem 30177,10;
+       getitem 674,50;
+       getitem 2375,1;
+       getitem 2433,1;
+       getitem 2537,1;
+       getitem 2729,2;
+	   getitem 30490,1;
+       getitem 2374,1;
+	   getitem 30489,1;
+	   getitem 5518,1;
+	   getitem 5377,1;
+	   getitem 30355,5;
+	
+        announce "Welcome to Zaft Ragnarok Online, "+strcharinfo(0)+" !","0x33FF66";
+        set #Freebies, 1;
+    }
+    end;
+    }

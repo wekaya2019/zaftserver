@@ -1,0 +1,119 @@
+prontera,145,200,4	script	Breaker Ladder	885,{
+
+
+
+query_sql "SELECT `char`.char_id,`char`.`name`,global_reg_value.`value` FROM global_reg_value LEFT JOIN `char` ON global_reg_value.char_id=`char`.char_id WHERE global_reg_value.str='brokeemp' ORDER BY CAST(`global_reg_value`.`value` AS UNSIGNED) DESC LIMIT 10", .@char_id, .@name$, .@count;
+
+
+
+mes "[ ^00FF00 Kaspersky ^000000 ]";
+mes "Hello there "+strcharinfo(0)+", what do you want to do?";
+menu "Check Emperium Break Points",-,"View Breaker Ladder",Llad,"Exchange Points",Lex,"Nothing",Lno;
+next;
+
+next;
+mes "[ ^00FF00 Kaspersky ^000000 ]";
+mes "Hmm, wait a second, i'll go check my records..";
+next;
+mes strcharinfo(0)+"'s Emperium Break Points is ^FF0000"+brokeemp+"^000000 Point(s)";
+end;
+
+Lno:
+next;
+mes "[ ^00FF00 Kaspersky ^000000 ]";
+mes "Suit yourself..";
+end;
+
+Lex:
+next;
+mes "[ ^00FF00 Kaspersky ^000000 ]";
+mes "What points would you like to exchange?";
+mes "^FF0000Note: Check your inventory and weight before exchanging with me!";
+menu "Emperium Break Points",-,"Nothing",Lno;
+next;
+mes "[ ^00FF00 Kaspersky ^000000 ]";
+mes "What do you want to exchange with?";
+menu "Billow",-,"Emblem of Solar God",Lesg,"Ripple",Lrip,"Silver Ornament",Lsil,"Wrath of Valkyrie",Lval;
+next;
+mes "[ ^00FF00 Kaspersky ^000000 ]";
+mes "You need 50 Breaker Points for this..";
+mes "Do you still want Billow?";
+menu "Yes",-,"No",Lno;
+if(brokeemp < 50) goto Lnep;
+if(brokeemp >= 50)
+next;
+mes "Here you go!";
+getitem 7091,1;
+set brokeemp,brokeemp-50;
+end;
+
+
+Lnep:
+next;
+mes "[ ^00FF00 Kaspersky ^000000 ]";
+mes "Not enough points!";
+end;
+
+Lesg:
+next;
+mes "[ ^00FF00 Kaspersky ^000000 ]";
+mes "You need 70 Breaker Points for this..";
+mes "Do you still want Emblem of Solar God?";
+menu "Yes",-,"No",Lno;
+next;
+if(brokeemp < 70) goto Lnep;
+if(brokeemp >= 70)
+mes "[ ^00FF00 Kaspersky ^000000 ]";
+mes "Here you go!";
+getitem 7086,1;
+set brokeemp,brokeemp-70;
+end;
+
+Lrip:
+mes "[ ^00FF00 Kaspersky ^000000 ]";
+mes "You need 50 Breaker Points for this..";
+mes "Do you still want Ripple?";
+menu "Yes",-,"No",Lno;
+if(brokeemp < 50) goto Lnep;
+if(brokeemp >= 50)
+next;
+mes "Here you go!";
+getitem 7090,1;
+set brokeemp,brokeemp-50;
+end;
+
+Lval:
+mes "[ ^00FF00 Kaspersky ^000000 ]";
+mes "You need 50 Breaker Points for this..";
+mes "Do you still want Wrath of Valkyrie?";
+menu "Yes",-,"No",Lno;
+if(brokeemp < 50) goto Lnep;
+if(brokeemp >= 50)
+next;
+mes "Here you go!";
+getitem 7078,1;
+set brokeemp,brokeemp-50;
+end;
+
+Lsil:
+mes "[ ^00FF00 Kaspersky ^000000 ]";
+mes "You need 50 Breaker Points for this..";
+mes "Do you still want Silver Ornament?";
+menu "Yes",-,"No",Lno;
+if(brokeemp < 50) goto Lnep;
+if(brokeemp >= 50)
+next;
+mes "Here you go!";
+getitem 7077,1;
+set brokeemp,brokeemp-50;
+end;
+
+Llad:
+    next;
+    for( set .@x,0; .@x<=9; set .@x,.@x+1 )
+    {
+        mes "^0000FF"+(.@x+1)+".^000000 "+.@name$[.@x]+" - ^FF0000"+.@count[.@x]+"^000000 Point(s)";
+    } // .@x starts at 0, but you want to start with '1st', so use (.@x+1);)
+end;
+
+}

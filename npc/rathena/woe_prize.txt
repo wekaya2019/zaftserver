@@ -1,0 +1,43 @@
+/*
+15,prtg_cas01,Kriemhild,Agit#prtg_cas01,1			// kRO : Creamhilt
+16,prtg_cas02,Swanhild,Agit#prtg_cas02,1			// kRO : Sbanhealt
+17,prtg_cas03,Fadhgridh,Agit#prtg_cas03,1			// kRO : Lazrigees
+18,prtg_cas04,Skoegul,Agit#prtg_cas04,1			// kRO : Squagul
+19,prtg_cas05,Gondul,Agit#prtg_cas05,1			// kRO : Guindull
+prontera castles ... so only need to use agitcheck(), not agitcheck2()
+*/
+prontera,141,176,5	script	Woe Prize	100,{
+//	setcastledata "prtg_cas05", 1, getcharid(2); // just testing ..
+	if ( agitcheck() ) {
+		mes "a war is currently in progress";
+		mes "if your guild owned a castle ask your guild master to see me to claim the reward";
+		close;
+	}
+	set .@menu, select(.menu$) -1;
+	if ( getcastledata("prtg_cas0"+( .@menu +1 ), 1) == getcharid(2) ) {
+		if ( $castle_claimed & pow(2, .@menu) ) {
+			mes "your guild already received the reward for "+ .castlename$[.@menu];
+			close;
+		}
+		else if ( getguildmasterid( getcharid(2) ) == getcharid(0) ) {
+			mes "receiving the reward for "+ .castlename$[.@menu];
+			getitem 7539, 200 * (5 - .@menu); // some mathematics ...
+			set $castle_claimed, $castle_claimed | pow(2, .@menu);
+			close;
+		}
+		else {
+			mes "ask your guild master to see me";
+			close;
+		}
+	}
+	mes "your guild failed to take "+ .castlename$[.@menu];
+	mes "if your guild owned a castle ask your guild master to claim reward from me";
+	close;
+OnAgitEnd:
+	set $castle_claimed, 0; // everytime woe ends the variable resets
+	end;
+OnInit:
+	setarray .castlename$, "Kriemhild", "Swanhild", "Fadhgridh", "Skoegul", "Gondul";
+	for ( set .@i, 0; .@i < 5; set .@i, .@i +1 )
+		set .menu$, .menu$ + .castlename$[.@i] +":";
+}

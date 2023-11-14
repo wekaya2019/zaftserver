@@ -1,0 +1,79 @@
+// http://rathena.org/board/topic/83017-pro-lotti-girl-refine-master/
+prontera,143,282,6	script	Lotti Girl	714,{
+	mes "[Lotti Girl]";
+	mes "Hello Sir! Are you out";
+	mes "shopping in the city?!";
+	next;
+	mes "[Lotti Girl]";
+	mes "I'm Lotti! I'll exchange cool";
+	mes "random prizes for every";
+	mes "^ff00001 Lotti Ticket^000000.";
+//	next;
+//	mes "[Lotti Girl]";
+//	mes "Our Grand prize is:";
+//	mes "^ff0000Tao Gunka Card^000000";
+//	mes "Special prizes are:";
+//	mes "^ff000020 Proof Of Donation^000000";
+//	mes "^ff0000+9 Weapon Refine Deed^000000";
+//	mes "and ^ff0000Field Manual Box^000000";
+	next;
+	mes "[Lotti Girl]";
+	mes "You can still get random item";
+	mes "if you failed to get the grand";
+	mes "prize and special prizes.";
+	if (countitem(30177) < 1)
+		close;
+	next;
+	if(select("Deal me in!:No way...")==2)
+		close;
+	mes "[Lotti Girl]";
+	mes "Here we go...";
+	delitem 30177,1;
+	set .@Total,8;
+	//<%>,<ItemID>,<Amount>
+	setarray .@P1[0],70,608,100;
+	setarray .@P2[0],0,4302,100;
+	setarray .@P3[0],5,7179,50;
+	setarray .@P4[0],20,12075,1;
+	setarray .@P5[0],90,13517,5;
+	setarray .@P6[0],20,12080,10;
+	setarray .@P7[0],20,12900,5;
+	setarray .@P8[0],20,12075,10;
+	setarray .@P9[0],90,674,10;
+	setarray .@P10[0],90,674,10;
+	setarray .@P11[0],0,12214,5; //convex mirror 10pcs 60%
+	setarray .@P12[0],99,674,5;  //Mithril Coin 10pcs 70% 
+	setarray .@P13[0],0,20251,20; //Hourly coin 20pcs 30%
+	setarray .@P14[0],5,13413,1,13412,1; //Naght Seiger(Red) 2% 1pc
+	setarray .@P15[0],60,7608,5; //TCG 10pcs 70%
+	setarray .@P16[0],1,2387,1,2440,1,2744,1; //sprint set 40%
+	setarray .@P17[0],1,4403,1; //Kiel Card 5% 1pc
+	setarray .@P18[0],1,4399,1; // Thanatos Card 2% 1pc
+	setarray .@Default[0],673,1; //convex mirror default 1pcs
+	set .@i, rand(1,.@Total);
+	if (rand(1,100) > getd(".@P"+.@i+"[0]"))
+	{
+		for(set .@j,0; .@j<getarraysize(.@Default); set .@j,.@j+2)
+		{
+			getitem .@Default[.@j], .@Default[.@j+1];
+			if(!.@k[0])
+				setarray .@k[0], .@Default[.@j], .@Default[.@j+1];
+		}
+	}
+	else{
+		for(set .@j,1; .@j<getarraysize(getd(".@P"+.@i)); set .@j,.@j+2)
+		{
+			getitem getd(".@P"+.@i+"["+.@j+"]"), getd(".@P"+.@i+"["+(.@j+1)+"]");
+			if (!.@k[0])
+			{
+				set .@gz,.@i;
+				setarray .@k[0], getd(".@P"+.@i+"["+.@j+"]"), getd(".@P"+.@i+"["+(.@j+1)+"]");
+				break;
+			}
+		}
+	}
+	if(1<=.@gz&&.@gz<=4)
+		announce "Congratulations! "+strcharinfo(0)+" just received "+getitemname(.@k[0])+" x "+.@k[1]+" from Lotti Girl (prontera 139 173)!",0;
+	specialeffect2 248;
+	close;
+}

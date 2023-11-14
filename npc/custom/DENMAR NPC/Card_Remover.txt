@@ -1,0 +1,26 @@
+aretnorp,252,220,6	script	Card Remover	78,{
+
+    disable_items;
+    mes "["+strnpcinfo(1)+"]";
+    mes "Do u want to remove some cards?";
+    if(select("Remove Card","Close") == 2 ) close;
+        mes " ","Choose an item.";
+        setarray .@position$[1], "Head","Body","Left hand","Right hand","Robe","Shoes","Accessory 1","Accessory 2","Head 2","Head 3";
+        set .@menu$,"";
+        for( set .@i,1; .@i <= 10; set .@i,.@i+1 ) {
+            if( getequipisequiped(.@i) )
+                set .@menu$, .@menu$ + .@position$[.@i] + "-" + "[" + getequipname(.@i) + "]";
+                set .@menu$, .@menu$ + ":";
+        }
+        set .@part, select(.@menu$);
+        if( !getequipisequiped(.@part) ) {
+            mes " ","Check Equip.";
+            close;
+        }
+        if(getequipcardcnt(.@part) == 0) {
+            mes " ","No cards compounded.";
+            close;
+        }
+        successremovecards .@part;
+        close;
+}

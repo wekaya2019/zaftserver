@@ -1,0 +1,35 @@
+prontera,153,193,4	script	Ultimate PvP Warper	871,{
+	if (.pvp_square$=="") donpcevent "Ultimate PVP warper::OnClock0000";
+
+                mes "[Pvp Warper]";
+                mes "Would You Like Join Pvp Arena";
+                next;
+                menu "ENTER",Iz,"Cancel",Cancel;
+
+                Iz:
+                   mes "[Pvp Warper]";
+                   mes "You Choose Izlude Town";
+                   next;
+                   mes "Let Go!!";
+                   next;
+                   warp "guild_vs3",0,0;
+                   L_All:
+                   announce "[Pvp Warper]: "+strcharinfo(0)+" Has Enter Pvp Room",0;
+                   close;
+
+            Cancel:
+                   mes "[Pvp Warper]";
+                   mes "Wah !! So Fast u're Surrender";
+                   next;
+                   mes "See You Again";
+                   next;
+                   emotion e_pif;
+                   close;
+}
+
+guild_vs3	mapflag	nogo	99
+pvp_y_1-2	mapflag	noreturn	99
+pvp_y_1-2	mapflag	noicewall	99
+guild_vs3	mapflag	nowarp	99
+guild_vs3	mapflag	noreturn	99
+guild_vs3	mapflag	nocommand	99

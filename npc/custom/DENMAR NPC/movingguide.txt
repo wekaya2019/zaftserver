@@ -1,0 +1,54 @@
+aretnorp,193,172,5	script	Midgard Citizen	6040,{
+    end;
+OnInit:
+    .@interval = 5;
+    .@step = 20;
+    while (1) {
+        sleep .@interval * 1000;
+        getmapxy .@map$, .@x, .@y, 1;
+        while ( checkcell( .@map$, .@npc_x = .@x + rand( -.@step, .@step ), .@npc_y = .@y + rand( -.@step, .@step ), cell_chknopass ) );
+            npcwalkto .@npc_x, .@npc_y;
+    }
+    end;
+}
+
+
+
+aretnorp,266,237,5	duplicate(Midgard Citizen)	Citizen#d1	6017
+aretnorp,266,237,5	duplicate(Midgard Citizen)	Citizen#d2	6018
+aretnorp,266,237,5	duplicate(Midgard Citizen)	Citizen#d3	6019
+aretnorp,266,237,5	duplicate(Midgard Citizen)	Citizen#d4	6020
+aretnorp,266,237,5	duplicate(Midgard Citizen)	Citizen#d5	6021
+aretnorp,266,237,5	duplicate(Midgard Citizen)	Citizen#d6	6022
+aretnorp,266,237,5	duplicate(Midgard Citizen)	Citizen#d7	6023
+aretnorp,266,237,5	duplicate(Midgard Citizen)	Citizen#d8	6024
+aretnorp,266,237,5	duplicate(Midgard Citizen)	Citizen#d9	6025
+aretnorp,161,237,5	duplicate(Midgard Citizen)	Citizen#d10	6026
+aretnorp,161,237,5	duplicate(Midgard Citizen)	Citizen#d11	6027
+aretnorp,161,237,5	duplicate(Midgard Citizen)	Citizen#d12	6028
+aretnorp,161,237,5	duplicate(Midgard Citizen)	Citizen#d13	6029
+aretnorp,161,237,5	duplicate(Midgard Citizen)	Citizen#d14	6030
+aretnorp,161,237,5	duplicate(Midgard Citizen)	Citizen#d15	6031
+aretnorp,161,237,5	duplicate(Midgard Citizen)	Citizen#d16	6032
+aretnorp,161,237,5	duplicate(Midgard Citizen)	Citizen#d17	6033
+aretnorp,161,237,5	duplicate(Midgard Citizen)	Citizen#d18	6034
+aretnorp,161,237,5	duplicate(Midgard Citizen)	Citizen#d19	6035
+aretnorp,221,35,5	duplicate(Midgard Citizen)	Citizen#d20	6036
+aretnorp,221,35,5	duplicate(Midgard Citizen)	Citizen#d21	6037
+aretnorp,221,35,5	duplicate(Midgard Citizen)	Citizen#d22	6038
+aretnorp,221,35,5	duplicate(Midgard Citizen)	Citizen#d23	6039
+aretnorp,221,35,5	duplicate(Midgard Citizen)	Citizen#d24	6040
+aretnorp,221,35,5	duplicate(Midgard Citizen)	Citizen#d25	6041
+aretnorp,221,35,5	duplicate(Midgard Citizen)	Citizen#d26	6042
+aretnorp,221,35,5	duplicate(Midgard Citizen)	Citizen#d27	6043
+aretnorp,221,35,5	duplicate(Midgard Citizen)	Citizen#d28	6044
+aretnorp,221,35,5	duplicate(Midgard Citizen)	Citizen#d29	6045
+aretnorp,221,35,5	duplicate(Midgard Citizen)	Citizen#d30	6046
+aretnorp,45,304,5	duplicate(Midgard Citizen)	Wondering Eira#d31	6048
+aretnorp,45,304,5	duplicate(Midgard Citizen)	Wondering Bayeri#d32	6049
+aretnorp,45,304,5	duplicate(Midgard Citizen)	Wondering Sera#d33	6050
+aretnorp,45,304,5	duplicate(Midgard Citizen)	Wondering Dieter#d34	6051
+
+
+
+

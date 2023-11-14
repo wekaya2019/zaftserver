@@ -1,0 +1,22 @@
+//===== rAthena Script =======================================
+//= Complete Mall
+//===== By: ==================================================
+//= Mysterious
+//===== Current Version: =====================================
+//= 1.2
+//===== Compatible With: =====================================
+//= rAthena SVN 
+//===== Description: =========================================
+//= Full complete mall
+//===== Additional Comments: =================================
+//= v1.0 - First release [Mysterious]
+//= v1.1 - Just fixed credits [Mysterious]
+//= v1.2 - Little bit more information [Mysterious]
+//============================================================
+
+// Change if you desire
+// Warps to Mall and Out
+prontera,160,189,4	script	Gaming Area	702,{
+OnInit:	warp "prontera",156,269;
+end;
+}

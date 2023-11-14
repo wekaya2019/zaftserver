@@ -1,0 +1,34 @@
+prontera,178,174,4	script	Donation Refiner 8~10	707,{
+
+mes "What item do you want to be refined?";
+next;
+set @refine,.equip_part[select(getequipname(.equip_part[0]),
+				getequipname(.equip_part[1]),
+				getequipname(.equip_part[2]),
+				getequipname(.equip_part[3]),
+				getequipname(.equip_part[4]),
+				getequipname(.equip_part[5]),
+//				getequipname(.equip_part[6]),
+//				getequipname(.equip_part[7]),
+//				getequipname(.equip_part[8]),
+				getequipname(.equip_part[9]))-1];
+
+if(countitem(7179) < 1) {
+mes "You are missing:";
+mes ""+((countitem(7179) < 1)?"1 Proof of Donation":"")+"";
+close;
+}
+if(getequiprefinerycnt(@refine) >= 10) {
+mes "+10 Item cannot be refined anymore.";
+close;
+}
+else {
+delitem 7179,1;
+successrefitem @refine;
+mes "Clang Clang! Success!";
+close;
+}
+
+OnInit:
+	setarray .equip_part[0],1,2,3,4,5;
+}

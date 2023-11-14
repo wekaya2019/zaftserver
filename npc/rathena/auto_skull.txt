@@ -1,0 +1,15 @@
+-	script	auto_skullin	-1,{
+OnPCKillEvent:
+if( 
+	strcharinfo(3) != "pvp_y_1-2" &&
+	strcharinfo(3) != "prtg_cas01" &&
+	strcharinfo(3) != "gefg_cas02" &&
+	strcharinfo(3) != "arug_cas01" &&
+	strcharinfo(3) != "guild_vs3" &&
+	strcharinfo(3) != "aldeg_cas01" &&
+	strcharinfo(3) != "schg_cas01" &&
+	strcharinfo(3) != "payg_cas01"
+) end;
+getnameditem 7420, rid2name( killedrid );
+end;
+}

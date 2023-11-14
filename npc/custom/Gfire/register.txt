@@ -1,0 +1,60 @@
+//===== eAthena Script =======================================
+//= Quest Maker v3.0 Script
+//===== By: ==================================================
+//= Denmar [QM]
+//===== Current Version: =====================================
+//= 1.0
+//===== Compatible With: =====================================
+//= Hercules
+//===== Additional Comments: =================================
+//= v1.0 thanks to QM
+//============================================================
+
+aretnorp,230,218,6	script	Chaos	683,{
+	mes "[^000000Chaos^000000]";
+	mes "Hello Young Man!";
+	mes "How are you?";
+	mes "I am the friend of Sakray";
+	next;
+	mes "[^000000Chaos^000000]";
+	mes "I can let you go to the RAID Area if u will register ur TEAM first";
+	mes "[Bring me some stuff that I will require later]";
+	next;
+	mes "[^000000Chaos^000000]";
+	mes "I will use it to create the First Magic Ash";
+	mes "You are going to use the Magic Ash in the future quest.";
+	next;
+	mes "[^000000Chaos^000000]";
+	mes "You should Bring me ^FF00001000 TCG^000000 and atlaest ^FF0000100 MVP Voucher^000000";
+	next;
+	mes "[^000000Chaos^000000]";
+	mes "I think that is enough. I can consider you as pass and allowed get inside ";
+	mes "the Raid Area..";
+	next;
+	mes "[^000000Chaos^000000]";
+	menu "Do you have what I need?",L_required,"Give it to me then",L_Check,"No I dont have yet",L_partir;
+
+	L_required:
+		mes "^FF00001000^000000 TCG"; //7227
+		mes "^FF0000100^000000 MVP Voucher"; //7615
+		close;
+
+	L_Check:
+		if(countitem(7227) < 100) goto L_manque;
+		mes "I see, Indeed you worked hard to get this stuffs. anyways u can use ";
+		mes "this Magic Ash to activate the spell so that you and your Party ";
+		mes "Member can go inside.";
+		delitem 7227,100;
+		getitem 20167,1;
+		close;
+
+	L_manque:
+		mes "Sorry but you need to get what I need.";
+		if(countitem(7227) < 1000) mes "^FF0000"+(1000 - countitem(7227)) +"^000000 TCG";
+		if(countitem(7615) < 100) mes "^FF0000"+(100 - countitem(7615)) +"^000000 MVP Voucher";
+		close;
+
+	L_partir:
+		mes "See you around, I hope you will become interested soon.";
+		close;
+}

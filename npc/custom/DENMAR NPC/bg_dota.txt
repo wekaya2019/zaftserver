@@ -1,0 +1,210 @@
+//
+//
+//	Author		Goddameit
+//	Version		2014/02/22
+//	Web__		http://goo.gl/0vY9GV
+//
+//
+aretnorp,178,351,3	script	BG DoTa	572,{
+	if( getgroupid() >= 99 )
+	{
+		if( select("Do Reset","None") == 1 )
+			donpcevent strnpcinfo(0)+"::onresett";
+	}
+	if(.game_status==1||.game_status==2)
+	{
+		mes "Sorry, game is running";
+		close;
+	}
+	if(select("Join","Cancel")==2)
+		close;
+	if(.dat_join>=120)
+	{
+		mes "Sorry, full";
+		close;
+	}
+	for(.@i=1;.@i<=.dat_join;.@i++)
+		if(.dat_aid[.@i]==getcharid(3))
+		{
+			mes "You already join in.";
+			close;
+		}
+	.dat_join += 1;
+	.dat_aid[.dat_join] = getcharid(3);
+	bg_leave;
+	mes "Done";
+	close2;
+	if( .dat_join < 2 )
+		announce "[BG DoTa]: Player Amount : ["+.dat_join+"/10]",0;
+	if( .dat_join >= 2 && .active == 0 )
+	{
+		initnpctimer;
+		killmonsterall "dota01";
+		.active = 1;
+		bg_destroy .dat_bgid1;
+		bg_destroy .dat_bgid2;
+		.dat_bgid1 = 0;
+		.dat_bgid2 = 0;
+		mapwarp "dota01","aretnorp",196,244;
+		announce "[BG DoTa]: Game Active",0;
+	}
+	end;
+onleave:
+	bg_leave;
+	end;
+OnTimer1000:
+	.game_status = 1;
+	.@npcname$ = strnpcinfo(0);
+	announce "[BG DoTa]: Game Start",0;
+	.dat_bgid1 = bg_teamcreate("dota01",24,33,.@npcname$+"::onleave","");
+	.dat_bgid2 = bg_teamcreate("dota01",362,342,.@npcname$+"::onleave","");
+	for(.@i=1;.@i<=.dat_join;.@i++)
+		if(.@i%2)
+			bg_teamjoin(.dat_bgid1,.dat_aid[.@i]);
+		else
+			bg_teamjoin(.dat_bgid2,.dat_aid[.@i]);
+	bg_warp .dat_bgid1,"dota01",24,33;
+	bg_warp .dat_bgid2,"dota01",362,342;
+	end;
+onresett:
+	.dat_join = 0;
+	.active = 0;
+	.game_status = 0;
+	deletearray .dat_aid[0],128;
+	bg_destroy .dat_bgid1;
+	bg_destroy .dat_bgid2;
+OnInit:
+	mapwarp "dota01","prontera",150,180;
+	end;
+OnTimer2000:
+// 3215//3218
+	.@npcname$ = strnpcinfo(0);
+	set .gid_astone,bg_monster(.dat_bgid1,"dota01",68,48,"",1511,.@npcname$+"::onbgaloss");
+	set .gid_aline1[0],bg_monster(.dat_bgid1,"dota01",38,123,"",1246,.@npcname$+"::onlinea1b3");
+	set .gid_aline1[1],bg_monster(.dat_bgid1,"dota01",35,170,"",1246,.@npcname$+"::onlinea1b2");
+	set .gid_aline1[2],bg_monster(.dat_bgid1,"dota01",39,246,"",1246,.@npcname$+"::onlinea1b1");
+	set .gid_aline2[0],bg_monster(.dat_bgid1,"dota01",104,80,"",1246,.@npcname$+"::onlinea2b3");
+	set .gid_aline2[1],bg_monster(.dat_bgid1,"dota01",115,111,"",1246,.@npcname$+"::onlinea2b2");
+	set .gid_aline2[2],bg_monster(.dat_bgid1,"dota01",160,157,"",1246,.@npcname$+"::onlinea2b1");
+	set .gid_aline3[0],bg_monster(.dat_bgid1,"dota01",135,25,"",1246,.@npcname$+"::onlinea3b3");
+	set .gid_aline3[1],bg_monster(.dat_bgid1,"dota01",181,25,"",1246,.@npcname$+"::onlinea3b2");
+	set .gid_aline3[2],bg_monster(.dat_bgid1,"dota01",332,27,"",1246,.@npcname$+"::onlinea3b1");
+	set .gid_bstone,bg_monster(.dat_bgid2,"dota01",318,313,"",1630,.@npcname$+"::onbgbloss");
+	set .gid_bline1[0],bg_monster(.dat_bgid2,"dota01",275,362,"",2281,.@npcname$+"::onlineb1b3");
+	set .gid_bline1[1],bg_monster(.dat_bgid2,"dota01",205,356,"",2281,.@npcname$+"::onlineb1b2");
+	set .gid_bline1[2],bg_monster(.dat_bgid2,"dota01",89,351,"",2281,.@npcname$+"::onlineb1b1");
+	set .gid_bline2[0],bg_monster(.dat_bgid2,"dota01",359,264,"",2281,.@npcname$+"::onlineb2b3");
+	set .gid_bline2[1],bg_monster(.dat_bgid2,"dota01",360,203,"",2281,.@npcname$+"::onlineb2b2");
+	set .gid_bline2[2],bg_monster(.dat_bgid2,"dota01",358,157,"",2281,.@npcname$+"::onlineb2b1");
+	set .gid_bline3[0],bg_monster(.dat_bgid2,"dota01",275,280,"",2281,.@npcname$+"::onlineb3b3");
+	set .gid_bline3[1],bg_monster(.dat_bgid2,"dota01",261,234,"",2281,.@npcname$+"::onlineb3b2");
+	set .gid_bline3[2],bg_monster(.dat_bgid2,"dota01",236,203,"",2281,.@npcname$+"::onlineb3b1");
+	setmobnoattackable .gid_astone,1;
+	setmobnowalkable .gid_astone,1;
+	setmobnoattackable .gid_bstone,1;
+	setmobnowalkable .gid_bstone,1;
+	for(.@i=1;.@i<=3;.@i++)
+		for(.@j=0;.@j<3;.@j++)
+		{
+			setmobnowalkable getd(".gid_bline"+.@i+"["+.@j+"]"),1;
+			setmobnowalkable getd(".gid_aline"+.@i+"["+.@j+"]"),1;
+			if(.@j!=2)
+			{
+				setmobnoattackable getd(".gid_bline"+.@i+"["+.@j+"]"),1;
+				setmobnoattackable getd(".gid_aline"+.@i+"["+.@j+"]"),1;
+			}
+		}
+	end;
+//-----------------------------------------
+onbgaloss:
+	mapwarp "dota01","aretnorp",196,244;
+	sleep2 5000;
+	bg_warp .dat_bgid2,"dota01",390,8;
+	initnpctimer "BG DoTa Reward";
+	end;
+//-----------------------------------------
+onbgbloss:
+	mapwarp "dota01","aretnorp",196,244;
+	sleep2 5000;
+	bg_warp .dat_bgid1,"dota01",390,8;
+	initnpctimer "BG DoTa Reward";
+	end;
+
+//-----------------------------------------
+onlinea1b3:
+onlinea2b3:
+onlinea3b3:
+	.game_status = 2;
+	setmobnoattackable .gid_astone,0;
+	end;
+onlinea1b2:
+	setmobnoattackable .gid_aline1[0],0;
+	end;
+onlinea1b1:
+	setmobnoattackable .gid_aline1[1],0;
+	end;
+onlinea2b2:
+	setmobnoattackable .gid_aline2[0],0;
+	end;
+onlinea2b1:
+	setmobnoattackable .gid_aline2[1],0;
+	end;
+onlinea3b2:
+	setmobnoattackable .gid_aline3[0],0;
+	end;
+onlinea3b1:
+	setmobnoattackable .gid_aline3[1],0;
+	end;
+//-----------------------------------------
+onlineb1b3:
+onlineb2b3:
+onlineb3b3:
+	.game_status = 2;
+	setmobnoattackable .gid_bstone,0;
+	end;
+onlineb1b2:
+	setmobnoattackable .gid_bline1[0],0;
+	end;
+onlineb1b1:
+	setmobnoattackable .gid_bline1[1],0;
+	end;
+onlineb2b2:
+	setmobnoattackable .gid_bline2[0],0;
+	end;
+onlineb2b1:
+	setmobnoattackable .gid_bline2[1],0;
+	end;
+onlineb3b2:
+	setmobnoattackable .gid_bline3[0],0;
+	end;
+onlineb3b1:
+	setmobnoattackable .gid_bline3[1],0;
+	end;
+//-----------------------------------------
+}
+dota01,390,8,4	script	BG DoTa Reward	100,{
+	getitem 521,50;
+	getitem 512,5;
+	warp "aretnorp",184,351;
+	end;
+OnTimer20000:
+	donpcevent "BG DoTa::onresett";
+	end;
+}
+dota01	mapflag	battleground
+dota01	mapflag	nosave
+dota01	mapflag	noreturn
+dota01	mapflag	nobranch
+dota01	mapflag	pvp_noguild
+dota01	mapflag	partylock
+dota01	mapflag	nowarp
+dota01	mapflag	novending
+dota01	mapflag	noteleport
+dota01	mapflag	nomemo
+
+
+
+
+
+
+//aretnorp,177,352,3	duplicate(BG DoTa)	BG Register#h1-1	572

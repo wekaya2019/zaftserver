@@ -1,0 +1,71 @@
+//======Name========================================
+// Click The Pub!
+//======Version=====================================
+// 1.1
+//======Author(s)===================================
+// Sandbox
+//======Comments====================================
+// This simple event will create an NPC chatroom upon
+// starting, the first player to enter the chat room
+// will be declared winner. 
+//==================================================
+
+prontera,100,200,3	script	Click The Pub	78,{
+
+
+if(!.AM) {
+	if(getgroupid() > 40) {
+		mes "Hello! Do you want to start the event?";
+		next;
+		close;
+		mes "Thank you!";
+		goto OnCTPStart;
+		close;
+	} else end;
+}
+
+
+OnInit:
+	//Set the Prize's Item ID, followed by amount";
+		setarray .Prize[0],607,1;
+
+	//Set 1 for Automated, 0 for Manual
+		.AM = 0;
+	//If automated, set number of hours to repeat it. Default: 1 hour
+		.Repeat = 1;
+		
+	if(!.AM) end;
+
+OnCTPStart:
+	if(.AM && !agitcheck() && !agitcheck2()) { 
+		sleep .Repeat*600000;
+		enablenpc strnpcinfo(1);
+	}
+
+	announce "Click The Pub event will start in a few seconds!",0;
+	sleep 2000;
+	announce "Gather around prontera 100 200!",0;
+	sleep 2000;
+	announce "This event will give a prize to the player who enters my Pub first!",0;
+	sleep 2000;
+	announce "Ready...!",0;
+	for(.@i = 10; .@i > 0; .@i--) {
+		announce .@i,0;
+		waitingroom .@i,0;
+		sleep 1000;
+		delwaitingroom;
+	}
+	announce "Go! Go! Go!",0;
+	waitingroom "Click Me!",2,strnpcinfo(1)+"::OnFirstClick",1;
+	end;
+
+OnFirstClick:
+	warpwaitingpc "prontera",100,200,1;
+	announce rid2name($@warpwaitingpc[0])+" won the Click The Pub event!",0;
+	getitem .Prize[0],.Prize[1],$@warpwaitingpc[0];
+	delwaitingroom;
+	disablenpc strnpcinfo(1);
+	if(.AM) goto OnCTPStart;
+	end;
+
+}

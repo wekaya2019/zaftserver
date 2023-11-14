@@ -1,0 +1,9 @@
+prontera,122,171,5	script	sure +4 refiner	757,{
+while( .@x < 11 ){
+	if( getequipisenableref( .@x ) && getequipisequiped( .@x ) )
+		while( getequippercentrefinery( .@x ) == 100 )
+			successrefitem .@x;
+	.@x++;
+}
+end;
+}

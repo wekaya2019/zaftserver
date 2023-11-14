@@ -1,0 +1,20 @@
+prontera,159,191,5	script	Gender Bender	829,{
+
+mes "Good-day,";
+mes "I can help you with what most others can't, change your gender.";
+mes "Want to do it? You'll feel like a whole new person!";
+	if(select("Yes:No")&2) close;
+next;
+mes "Alright, great, now I just need 5 Medusa heads.";
+mes "Continue?";
+	if(select("Yes:No")&2 || countitem(7179)<100) close;
+next;
+mes "Just one second now.";
+next;
+mes "*Feel a person sticking a needle into you..";
+next;
+mes "Starting to wake up again..";
+delitem 1148,5;
+changesex;
+end;
+}

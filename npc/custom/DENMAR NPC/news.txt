@@ -1,0 +1,17 @@
+-	script	News	-1,{
+OnInit:
+set .Time,30;		// Announce every x Minute.
+
+setarray .News$[0],	// Random Message to be Announced
+		"Type [@Security] to secure your Account",
+		"Type [@account] to manage your account w/o going to the Website/Control Panel",
+		"Type [@joinbg] Join to Battle Ground",
+		"Thank You Playing Zaft Ragnarok Online Enjoy!";
+		
+
+while( 1 ){
+	announce .News$[ rand( getarraysize( .News$ ) ) ],0;
+	sleep ( .Time * 15000 );
+	}
+end;
+}

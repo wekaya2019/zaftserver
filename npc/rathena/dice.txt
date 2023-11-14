@@ -1,0 +1,239 @@
+//===== eAthena Script ======================================= 
+//= Dice Event NPC
+//===== By: ================================================== 
+//= Masao
+//===== Current Version: ===================================== 
+//= 1.0
+//===== Compatible With: ===================================== 
+//= eAthena SVN
+//===== Description: ========================================= 
+//= This game lets you and the Dicer throw 3 dices.
+//= Whoever get's a higher number (the player or dealer) wins.
+//===== Additional Comments: ================================= 
+//= 1.0 First version.
+//============================================================
+
+quiz_02,313,248,3	script	Dicer	57,{
+
+	set .@name$,"[Dicer]";
+	
+	mes .@name$;
+	mes "Hello "+strcharinfo(0)+",";
+	mes "i'm an expert in rolling dices! But if you don't believe me, why don't you find out an play a Round";
+	mes "Role n' Dice against me, and to make it more interesting, we play for Zeny, so what do you think?";
+	next;
+	menu "Yes, let's play!",L_Play,"Special Game!!",L_Special,"Rules!?",L_Rules,"No, thanks",L_Cancel;
+	
+L_Play:
+	mes "Allright, then please insert now the Amount of Zeny you want to play with!";
+	input @zenybet;
+	if (Zeny < @zenybet) goto L_NoZeny;
+	mes "Ok, so we play for "+@zenybet+", is that correct?";
+	next;
+	menu "Yes!",-,"No, i have to change something!",L_Play;
+	
+	set @dicer1, rand(1,6);
+	set @dicer2, rand(1,6);
+	set @dicer3, rand(1,6);
+	set @player1, rand(1,6);
+	set @player2, rand(1,6);
+	set @player3, rand(1,6);
+	set @dicertotal, @dicer1+@dicer2+@dicer3;
+	set @playertotal, @player1+@player2+@player3;
+
+	mes .@name$;
+	mes "Allright, first i dice and when i'm done, it's your turn! Man i feel so lucky today, be prepaired to lose your money, haha!";
+	next;
+	mes "[^0080FFDicers first Role^000000]";
+	mes "Roles the first dice!";
+	mes ".....roll.....roll....roll....";
+	emotion 58;
+	mes " ";
+	mes "First Dice: ^0080FF"+@dicer1+" ^000000";
+	next;
+	mes "[^0080FFDicers second Role^000000]";
+	mes "Roles second dice!";
+	emotion 58;
+	mes ".....roll.....roll....roll....";
+	mes " ";
+	mes "Second Dice: ^0080FF"+@dicer2+" ^000000";
+	next;
+	mes "[^0080FFDicers third Role^000000]";
+	mes "Roles third dice!";
+	emotion 58;
+	mes ".....roll.....roll....roll....";
+	mes " ";
+	mes "Third Dice: ^0080FF"+@dicer3+" ^000000";
+	next;
+
+	mes .@name$;
+	mes "Now it's your turn, good luck buddy.";
+	next;
+	mes "[^0080FFPlayers first Role^000000]";
+	mes "Roles first dice!";
+	mes ".....roll.....roll....roll....";
+	emotion 58;
+	mes " ";
+	mes "First Dice: ^0080FF"+@player1+" ^000000";
+	next;
+	mes "[^0080FFPlayers second Role^000000]";
+	mes "Roles second dice!";
+	emotion 58;
+	mes ".....roll.....roll....roll....";
+	mes " ";
+	mes "Second Dice: ^0080FF"+@player2+" ^000000";
+	next;
+	mes "[^0080FFPlayers third Role^000000]";
+	mes "Roles third dice!";
+	emotion 58;
+	mes ".....roll.....roll....roll....";
+	mes " ";
+	mes "Third Dice: ^0080FF"+@player3+" ^000000";
+	next;
+	mes .@name$;
+	mes "So, let us look now at the end result:";
+	mes " ";
+
+	mes "Dicer's Count: ^0080FF"+@dicertotal+" ^000000.";
+	mes "Player's Count: ^0080FF"+@playertotal+" ^000000.";
+	next;
+ 	if (@playertotal < @dicertotal) goto L_Lose;
+	if (@playertotal == @dicertotal) goto L_Again;
+	if (@playertotal > @dicertotal) goto L_Win;
+	
+L_Win:
+	
+	mes .@name$;
+	mes "I can't believe i lost! My luck must have left me!";
+	mes "But congratulations to you, next time i'll be the winner!";
+	mes "Now here take your prize.";
+	set zeny, zeny+@zenybet;
+	emotion 36;
+	close;
+	
+L_Again:
+
+	mes .@name$;
+	emotion 54;
+	mes "Haha, what a luck for you! It's a remi!";
+	mes "But i can't let that happen, would you like to try it again?";
+	next;
+	menu "Yes, play again!",L_Play,"No, it's enough",L_Cancel;
+	
+L_Special:
+
+	mes .@name$;
+	mes "So you want to try the special game?";
+	mes "Allright, then guess the Number i'll get after rolling the dices! Please guess a number between 3 and 18!!";
+	input @numberguess;
+	if(@numberguess<3) message strcharinfo(0),"Number is to low, please choose another Number.";
+	if(@numberguess>18) message strcharinfo(0),"Number is too high, please choose another Number.";
+	if(@numberguess<3||@numberguess>18) goto L_Special;
+	mes "Allright, so you're guessing that i will have the total number of "+@numberguess+" after";
+	mes "roling the dices 3 times, is that correct?";
+	next;
+	menu "Yes!",-,"No wait, i want to change the number!",L_Special;
+	
+	mes "Allright, then now put in the Amount of Zeny you want to play with!";
+	input @zenybetspecial;
+	if (Zeny < @zenybetspecial*2) goto L_NoZeny;
+	mes "Allright, so you want to play for "+@zenybetspecial+" zeny, is that correct?";
+	next;
+	menu "Yes! Let's go!",-,"No wait, i want to change the number!",L_Special;
+
+	set @dicerspecial1, rand(1,6);
+	set @dicerspecial2, rand(1,6);
+	set @dicerspecial3, rand(1,6);
+	set @dicertotalspecial, @dicerspecial1+@dicerspecial2+@dicerspecial3;
+
+	mes .@name$;
+	mes "Allright, first i dice and when i'm done, it's your turn! Man i feel so lucky today, be prepaired to lose your money, haha!";
+	next;
+	mes "[^0080FFDicers first Role^000000]";
+	mes "Roles the first dice!";
+	mes ".....roll.....roll....roll....";
+	emotion 58;
+	mes " ";
+	mes "First Dice: ^0080FF"+@dicerspecial1+" ^000000";
+	next;
+	mes "[^0080FFDicers second Role^000000]";
+	mes "Roles second dice!";
+	emotion 58;
+	mes ".....roll.....roll....roll....";
+	mes " ";
+	mes "Second Dice: ^0080FF"+@dicerspecial2+" ^000000";
+	next;
+	mes "[^0080FFDicers third Role^000000]";
+	mes "Roles third dice!";
+	emotion 58;
+	mes ".....roll.....roll....roll....";
+	mes " ";
+	mes "Third Dice: ^0080FF"+@dicerspecial3+" ^000000";
+	next;
+	mes .@name$;
+	mes "So, let us look now at the end result:";
+	mes " ";
+
+	mes "Dicer's Count: ^0080FF"+@dicerspecialtotal+" ^000000.";
+	mes "Your guess: ^0080FF"+@numberguess+" ^000000.";
+	next;
+	if (@dicerspecialtotal == @numberguess) goto L_Win2;
+	if (@numberguess < @dicerspecialtotal) goto L_Lose2;
+	if (@numberguess > @dicerspecialtotal) goto L_Lose2;
+	
+L_Win2:
+
+	mes .@name$;
+	mes "Wow, you must have really much luck to guess the right number!";
+	mes "you must have some sort of Trick!";
+	mes "But anyway, here's your prize.";
+	set zeny, zeny+@zenybetspecial*2;
+	emotion 36;
+	close;
+	
+L_Lose:
+
+	mes .@name$;
+	mes "Haha! I told you i'm the best and you will lose!";
+	mes "But don't be sad, maybe you win next time ;)";
+	mes "Thanks for the Zeny by the way, hehe";
+	set zeny, zeny-@zenybet;
+	emotion 39;
+	close;
+	
+L_Lose2:
+
+	mes .@name$;
+	mes "Haha! I told you i'm the best and you will lose!";
+	mes "But don't be sad, maybe you win next time ;)";
+	mes "Thanks for the Zeny by the way, hehe";
+	set zeny, zeny-@zenybetspecial*2;
+	emotion 39;
+	close;
+	
+L_Rules:
+
+	mes .@name$;
+	mes "The Rules are very easy, first you can choose between 2 game options";
+	mes "the first option is a regular Game, where i and you role a dice 3 times!";
+	mes "The one of us who got at the end the higher total of the dices roled wins!";
+	next;
+	mes "The second option is a special game, where you have to guess the total number that i will get";
+	mes "after roling the dices 3 times! When you get the correct total number, you will win the Prize by 2 times!";
+	mes "So, when you bet like 1'000 Zeny, and you win, then you'll get 2000 Zeny!";
+	mes "And thats all, have fun and good luck!";
+	close;
+	
+L_NoZeny:
+
+	mes .@name$;
+	emotion 20;
+	mes "Sorry, but you do not have enough zeny!";
+	close;
+	
+L_Cancel:
+
+	mes .@name$;
+	mes "Ok, bye.";
+	close;
+}

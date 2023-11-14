@@ -1,0 +1,77 @@
+prt_fild00,262,225,0	script	Fishing Hole	723,{
+	
+//Fishing rod
+set .@Rod,2764;
+//Fishing Lure
+set .@Lure,2775;
+//Auto-Fish
+set .@Auto,1;
+//Auto-Fish on Fail
+set .@AutoFail,1;
+Fish:
+	if (isequipped(.@Rod)) && (isequipped(.@Lure)){
+		specialeffect EF_BUBBLE,"Fishing Hole";
+		soundeffect "_attack_axe.wav",0;
+		dispbottom "[Fishing] Casting...";
+		set .@fcast,15;
+			if (isequipped(2550)) { //Fisher's Muffler
+				set .@fcast,.@fcast - 2;
+			}
+			if (isequipped(2443)) { //Fisher's Boots
+				set .@fcast,.@fcast - 2;
+			}
+			if (isequipped(2764)) { //Fishing Pole
+				set .@fcast,.@fcast - 3;
+			}
+			if (isequipped(2775)) { //Fishing Lure
+				set .@fcast,.@fcast - 1;
+			}
+		progressbar "ffffff",.@fcast;
+		if (rand(1,20) == 2){
+		getitem 12247,1; //Fish with Blue Back
+		specialeffect2 EF_TEMP_OK;
+		soundeffectall "see_otter_damage.wav",0,strcharinfo(3);
+		mapannounce strcharinfo(3),strcharinfo(0)+" has caught a Halo halo!",bc_map,"0xff77ff";
+		if(.@Auto==1){
+		goto Fish;}else{
+		end;}
+		}
+			if (rand(1,6) == 1) ||(rand(1,6) == 3) || (rand(1,6) == 6){
+			setarray .@Catch[0],579,908,909,963,956,6049,918,960,910,938,624,989,714,619,7720,731,730,732,970,1036,7047,704,719,1054,1053,702,919,7003,720,7210,7169,1068,948,939,925,952,7013,7870,979,1047,957,6035,1055,7220,1011,7043,6096;// List of Junk/Other
+			set .@CatchRand,.@Catch[rand(getarraysize(.@Catch))];
+			getitem .@CatchRand,1;
+			}
+			else {
+			dispbottom "[Fishing] Nothing was caught...";
+			if(.@AutoFail == 1){
+			goto Fish;} else{
+			end;}
+			}
+		if (rand(1,100) == 3){
+		setarray .@Rare[0],12075,12090,12080,12095,12100,12085,12210,12214,30177,7179;
+		set .@RareCatch, .@Rare[rand(getarraysize(.@Rare))];
+		getitem .@RareCatch,1; //Reward
+		mapannounce strcharinfo(3),strcharinfo(0)+" has caught a "+getitemname(.@RareCatch)+"!",bc_map,"0x33CC00";
+		}
+		if(.@Auto == 1){
+		goto Fish;} else{
+		end;}
+		}
+	else {
+	dispbottom "[Fishing] You need a Rod and Lure.";
+	end;
+	}
+}
+
+// Duplicate --------------------------------
+brasilis,256,66,0	duplicate(Fishing Hole)	Fishing Hole1	723
+brasilis,256,61,0	duplicate(Fishing Hole)	Fishing Hole2	723
+brasilis,256,56,0	duplicate(Fishing Hole)	Fishing Hole3	723
+brasilis,269,66,0	duplicate(Fishing Hole)	Fishing Hole4	723
+brasilis,269,61,0	duplicate(Fishing Hole)	Fishing Hole5	723
+brasilis,269,56,0	duplicate(Fishing Hole)	Fishing Hole6	723
+brasilis,262,47,0	duplicate(Fishing Hole)	Fishing Hole7	723
+izlude,143,222,0	duplicate(Fishing Hole)	Fishing Hole8	723
+hugel,150,135,0	duplicate(Fishing Hole)	Fishing Hole9	723
+niflheim,59,232,0	duplicate(Fishing Hole)	Fishing Hole10	723
+hugel,119,182,0	duplicate(Fishing Hole)	Fishing Hole11	723

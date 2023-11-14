@@ -1,0 +1,48 @@
+prontera,150,184,4	script	Freebies	790,{
+OnInit:
+waitingroom "Freebies",0;
+
+	if(#sorry == 1) goto L_1;
+	mes "You will receive Some Present as a reward for joining the server";
+	mes "We're gladly thankful for your support in the future too.";
+	next;
+	if(checkweight(2504,1) == 0 ) goto L_OverWeight;
+	rentitem 2357,259200; //armorvalk
+	rentitem 2421,259200; //shoes valk
+	rentitem 2524,259200; //valkmantue
+	rentitem 2115,259200; //shield valk
+	rentitem 2630,259200; //briss
+	rentitem 4142,259200; //dopelganger
+	rentitem 4302,259200; //tao-gunka
+	rentitem 4047,259200; //ghost-ring
+	rentitem 4198,259200; //maya-p
+	rentitem 4146,259200; //maya
+	rentitem 4131,259200; //moonlight c
+	rentitem 4147,259200; //baphomet
+	getitem2 14533,10,1,0,0,0,0,0,0;	// (Custom Items
+	getitem 4047,1; //ghostring card
+	getitem 4142,1; //dopelganger card
+	getitem 2421,1; //shoes valk card
+	getitem 2357,1; //armor valk card
+	getitem 2115,1; //shield valk card
+	getitem 4147,1; //baphomet card
+	getitem2 12210,4,1,0,0,0,0,0,0;	// (Custom Items
+	getitem2 12214,2,1,0,0,0,0,0,0;	// (Custom Items
+	emotion e_thx;
+	set #sorry,1;
+	close;
+
+
+
+L_OverWeight:
+	mes "Sorry, you are over weight";
+	emotion e_omg;
+	close;
+
+
+
+L_1:
+	mes "You had already received before the gift.";
+	emotion e_bzz;
+	close;
+}

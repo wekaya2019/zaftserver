@@ -1,0 +1,65 @@
+// http://rathena.org/board/topic/83017-pro-lotti-girl-refine-master/
+new_1-2,183,182,6	script	Premium Lotti Girl	714,{
+	mes "[Premium Lotti Girl]";
+	mes "Hello Sir! Are you out";
+	mes "shopping in the city?!";
+	next;
+	mes "[Lotti Girl]";
+	mes "I'm Lotti! I'll exchange cool";
+	mes "random prizes for every";
+	mes "^ff00001 Premium Lotti Ticket^000000.";
+//	next;
+//	mes "[Lotti Girl]";
+//	mes "Our Grand prize is:";
+//	mes "^ff0000Tao Gunka Card^000000";
+//	mes "Special prizes are:";
+//	mes "^ff000020 Proof Of Donation^000000";
+//	mes "^ff0000+9 Weapon Refine Deed^000000";
+//	mes "and ^ff0000Field Manual Box^000000";
+	next;
+	mes "[Lotti Girl]";
+	mes "You can still get random item";
+	mes "if you failed to get the grand";
+	mes "prize and special prizes.";
+	if (countitem(30355) < 1)
+		close;
+	next;
+	if(select("Deal me in!:No way...")==2)
+		close;
+	mes "[Lotti Girl]";
+	mes "Here we go...";
+	delitem 30355,1;
+	set .@Total,8;
+	//<%>,<ItemID>,<Amount>
+	setarray .@P1[0],70,608,100;
+	setarray .@P2[0],0,4302,100;
+	setarray .@P3[0],5,7179,50;
+	setarray .@P4[0],20,12075,1;
+	setarray .@P5[0],90,13517,5;
+	set .@i, rand(1,.@Total);
+	if (rand(1,100) > getd(".@P"+.@i+"[0]"))
+	{
+		for(set .@j,0; .@j<getarraysize(.@Default); set .@j,.@j+2)
+		{
+			getitem .@Default[.@j], .@Default[.@j+1];
+			if(!.@k[0])
+				setarray .@k[0], .@Default[.@j], .@Default[.@j+1];
+		}
+	}
+	else{
+		for(set .@j,1; .@j<getarraysize(getd(".@P"+.@i)); set .@j,.@j+2)
+		{
+			getitem getd(".@P"+.@i+"["+.@j+"]"), getd(".@P"+.@i+"["+(.@j+1)+"]");
+			if (!.@k[0])
+			{
+				set .@gz,.@i;
+				setarray .@k[0], getd(".@P"+.@i+"["+.@j+"]"), getd(".@P"+.@i+"["+(.@j+1)+"]");
+				break;
+			}
+		}
+	}
+	if(1<=.@gz&&.@gz<=4)
+		announce "Congratulations Premium User! "+strcharinfo(0)+" just received "+getitemname(.@k[0])+" x "+.@k[1]+" from Premium Lotti Girl (prontera 139 173)!",0;
+	specialeffect2 248;
+	close;
+}

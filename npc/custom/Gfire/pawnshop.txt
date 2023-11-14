@@ -1,0 +1,421 @@
+/*=========================================================
+Pawn Shop
+by Mumbles
+===========================================================
+Request: http://goo.gl/3M1hph
+===========================================================
+Description:
+Allows players to exchange items in their inventory for a
+percentage of its "fair market value (FMV)".
+
+By default, the formula to determine the FMV is
+approximately one-third of the item's "buy" price (as if 
+you were purchasing it from an NPC), multiplied by its
+refine rate* (if it's equipment).
+
+Items "pawned" through this script are available to be
+reclaimed if the loan (plus interest) are repaid in full 
+within seven days. If a loan expires, the item pawned will 
+be claimed by the NPC and "sold"; the original owner will 
+no longer be able to retrieve it.
+
+Loan rates, interest rates, loan days, and the refine bonus
+trigger can be modified within the configuration settings
+under the 'OnInit' label. Please take care to NOT modify
+the leap year formula under this label.
+
+*The refine multiplier calculates the number of UNSAFE
+refines, then adds it to the loan total. For example, a
+Sword with the refine rate of 10 (which has a safety cap of
+seven) has a multiplier of three; so, if the "Buy" price is
+100z, the default loan would be 33z. Multiply that by
+three, and you get a 99z refine bonus in addition to the 
+original 33z, for a grand total of 132z. Interest is added
+AFTER the final loan price is determined, so at a rate of
+10 percent, it would cost approximately 145z to reclaim the
+Sword.
+===========================================================
+Compatibility:
+Optimised for Hercules emulators.
+===========================================================
+Changelog:
+v1.0 - First version.
+	v1.0.1 - Removed support for backwards compatibility.
+=========================================================*/
+
+aretnorp,187,250,5	script	Sanlaan/pawnshop	748,{
+	
+	// Function declarations
+	function calculateloan;
+	function calculatebonus;
+	function calculateinterest;
+	function getcollateralname;
+	function getdeadline;
+	function clearloaninfo;
+	
+	
+	while (true) {
+		// NPC Dialogue
+		mes .npc_name$;
+			
+		if (!.@pawn_looped) {
+			// Display if menu not looped
+			mes "Hello there!";
+			mes "Is there anything I can help you with?";
+		} else {
+			// Display if menu looped
+			mes "Is there anything else I can help you with?";
+		}
+		
+		next;
+		
+		// Display main menu
+		menu "Check loan status:More information:Nevermind", -;
+		
+		mes .npc_name$;
+		switch (@menu) {
+			case 1:	// Check loan status
+				if (#loan_status) {
+				// Player has an unpaid loan
+					if (getdeadline() < 0) {
+						// Loan payment is past due
+						mes "I'm terribly sorry, but it appears your payment is past due; your "+ getcollateralname() +" belongs to me, now.";
+						next;
+						
+						// Clear loan info
+						clearloaninfo;
+						break;
+					}
+					
+					// Sum of loan plus interest
+					.@loan_total = (#loan_amount + #loan_interest);
+					
+					// Deadline statement
+					mes "You have an unpaid loan of "+ #loan_amount +"z. With interest, a total amount of "+ .@loan_total +"z is due in ^0000FF"+ getdeadline() +"^000000 day(s).";
+					next;
+					
+					/*
+					// Debug message
+					mes .npc_name$;
+					mes "The current year is "+ gettime(7) +", and the current day of the year is "+ gettime(8) +" of "+ .year_days +". Your loan is due on day "+ #loan_deadline_day +" of the year "+ #loan_deadline_year +".";
+					next;
+					*/
+					
+					// Prompt player to pay loan off
+					mes .npc_name$;
+					mes "Your "+ getcollateralname() +" is being held for collateral, and will be resold if payment is not made in full. Would you like to pay it now?";
+					next;
+					
+					// Pay loan or decline
+					if (select("Pay off loan:Decline") == 2) {
+						break;
+					}
+					
+					// Check player's funds
+					if (Zeny < .@loan_total) {
+						// Player does not have enough zeny
+						mes .npc_name$;
+						mes "I'm sorry, but it appears you do not have enough zeny with you to pay off your loan. Please come back when you do.";
+						close;
+					}
+					
+					// Collect zeny
+					Zeny -= .@loan_total;
+					
+					// Reclaim collateral item
+					getitem2 #collateral_id, #collateral_amount, #collateral_identify, #collateral_refine, #collateral_attribute, #collateral_card1, #collateral_card2, #collateral_card3, #collateral_card4;
+					
+					// Clear loan info
+					clearloaninfo;
+					
+					// Confirm transaction
+					mes .npc_name$;
+					mes "Wonderful! It's been a pleasure doing business with you! Come again!";
+					close;
+				}
+				
+				// Player does not have a loan
+				mes "You currently do not have a loan with us. Would you like to take one out?";
+				next;
+				
+				// Offer player a loan
+				menu "Yes, please:No, thanks", -;
+				
+				// Declined loan
+				if (@menu > 1) {
+					break;
+				}
+				
+				.@menu_options$ = "";	// Clear previous options (only matters if menu looped)
+				getinventorylist;		// Load player's inventory data
+				
+				// Check if player has any items
+				if (@inventorylist_count < 1) {
+					mes .npc_name$;
+					mes "I'm sorry, but you appear to have absolutely nothing to exchange for collateral.";
+					next;
+					
+					break;
+				}
+				
+				// Request collateral item
+				mes .npc_name$;
+				mes "Which item would you like to exchange?";
+				next;
+				
+				for (.@i = 1; .@i < @inventorylist_count; .@i++) {
+					// Loop through entire inventory
+					.@menu_options$ = .@menu_options$ +":"+ getitemname(@inventorylist_id[.@i]);
+				}
+				
+				// Select collateral item
+				menu getitemname(@inventorylist_id[0]) + .@menu_options$, -;
+				
+				// Set index location
+				.@index = @menu - 1;
+				
+				// Set collateral item info
+				#collateral_id = @inventorylist_id[.@index]);
+				#collateral_amount = @inventorylist_amount[.@index]);
+				#collateral_refine = @inventorylist_refine[.@index];
+				#collateral_identify = @inventorylist_identify[.@index];
+				#collateral_attribute = @inventorylist_attribute[.@index];
+				#collateral_card1 = @inventorylist_card1[.@index];
+				#collateral_card2 = @inventorylist_card2[.@index];
+				#collateral_card3 = @inventorylist_card3[.@index];
+				#collateral_card4 = @inventorylist_card4[.@index];
+				#collateral_expire = @inventorylist_expire[.@index];
+				
+				// Check if collateral item has an expiry time
+				if (#collateral_expire) {
+					mes .npc_name$;
+					mes "What do you take me for, a fool? I won't accept rentals here. Get lost!";
+					close;
+				}
+				
+				// Confirm collateral item
+				mes .npc_name$;
+				
+				// Check if collateral is equipment
+				if (getiteminfo(#collateral_id, 5) && countitem(#collateral_id) > 1) {
+					// Duplicate equipment warning
+					mes "Please take care to only carry one ^0000FF"+ getitemname(#collateral_id) +"^000000 at a time when making an exchange.";
+					next;
+					
+					mes .npc_name$;
+					mes "Come back when you've put away your other ^0000FF"+ getitemname(#collateral_id) +"^000000.";
+					close;
+				}
+				
+				// Offer loan for collateral item
+				mes "I can loan you "+ calculateloan() +"z for your "+ getcollateralname() +".";
+				next;
+				
+				// Display terms regarding reclaiming collateral item
+				mes .npc_name$;
+				mes "If you would like to reclaim your "+ getcollateralname() +", it will cost you "+ (calculateloan() + calculateinterest()) +"z.";
+				next;
+				
+				mes .npc_name$;
+				mes "You must pay this amount in full within ^0000FF"+ .loan_days +"^000000 days.";
+				next;
+				
+				// Ask if player agrees to terms
+				mes .npc_name$;
+				mes "Do you agree to these terms?";
+				next;
+				
+				// Prompt player to agree or decline
+				if (select("Yes, I agree:No, thanks") == 2) {
+					// No, thanks
+					mes .npc_name$;
+					mes "Okay, then. Let me know if you change your mind!";
+					
+					// Clear loan info
+					clearloaninfo;
+					next;
+					
+					break;
+				}
+				
+				// Delete collateral item
+				delitem #collateral_id, #collateral_amount;
+				
+				// Set loan status
+				#loan_status++;
+				
+				// Set loan deadline
+				#loan_deadline_day = gettime(8) + .loan_days;
+				#loan_deadline_year = gettime(7);
+					
+				// Check if loan deadline extends into next year
+				if (#loan_deadline_day > .year_days) {
+					// Adjust deadline
+					#loan_deadline_day -= .year_days;
+					#loan_deadline_year = gettime(7) + 1;
+				}
+				
+				// Get zeny
+				Zeny += #loan_amount;
+				message strcharinfo(0), "You received "+ #loan_amount +"z.";
+				
+				mes .npc_name$;
+				mes "Alright then, here you go! Be sure to pay it back within ^0000FF"+ .loan_days +"^000000 days if you want to reclaim your "+ getcollateralname() +"!";
+				close;
+				
+			case 2:	// More information
+				mes "If you're in need of a loan, you've come to the right place!";
+				next;
+				
+				mes .npc_name$;
+				mes "Exchange any eligible item for a portion of its fair market value (FMV).";
+				next;
+				
+				mes .npc_name$;
+				mes "My interest rates are ^0000FF"+ .interest_rate +"^000000 percent of the FMV, which must be paid in addition to the loan within ^0000FF"+ .loan_days +"^000000 days to reclaim your item.";
+				next;
+				
+				mes .npc_name$;
+				mes "If you fail to repay your loan, your item becomes mine and will be resold. Due to my insurance policy, your loan must either be repaid or expire before you may take out another one.";
+				next;
+				break;
+				
+			case 3:	// Nevermind
+				mes "Okay, have a nice day!";
+				close;
+		}
+		
+		// Set looped menu identifier
+		.@pawn_looped++;
+	}
+	
+	end;
+	
+	
+	function calculateloan {
+		#loan_amount = getiteminfo(#collateral_id, 0) * .loan_rate / 100;
+		
+		// Check if refine bonus is enabled
+		if(.refine_bonus) {
+			calculatebonus;
+			#loan_amount = #loan_amount + (#loan_amount * @loan_bonus);
+		}
+		
+		return #loan_amount;
+	}
+	
+	function calculatebonus {
+		switch (getiteminfo(#collateral_id, 2)) {
+			case 4:	// Weapon
+				switch (getiteminfo(#collateral_id, 13)) {
+					// Weapon Level
+					case 1:
+						.@safe_refine = 7;
+						break;
+						
+					case 2:
+						.@safe_refine = 6;
+						break;
+						
+					case 3:
+						.@safe_refine = 5;
+						break;
+						
+					case 4:
+						.@safe_refine = 4;
+				}
+				break;
+			
+			case 5:	// Equipment
+				.@safe_refine = 4;
+				break;
+				
+			default:
+				@loan_bonus = 0;
+				return;
+		}
+		
+		if (#collateral_refine > .@safe_refine) {
+			@loan_bonus = #collateral_refine - .@safe_refine;
+			return;
+		}
+		
+		@loan_bonus = 0;
+		return;
+	}
+	
+	function calculateinterest {
+		#loan_interest = calculateloan() * .interest_rate / 100;
+		return #loan_interest;
+	}
+	
+	function getcollateralname {
+		if (#collateral_refine) {
+			return "^0000FF+"+ #collateral_refine +" "+ getitemname(#collateral_id) +"^000000";
+		}
+		
+		return "^0000FF"+ getitemname(#collateral_id) +"^000000";
+	}
+	
+	function getdeadline {
+		// Determine if year overlaps
+		if (gettime(7) < #loan_deadline_year) {
+			// Calculate remaining time
+			@loan_remaining_time = #loan_deadline_day + (.year_days - gettime(8));
+			return @loan_remaining_time;
+		}
+		
+		@loan_remaining_time = #loan_deadline_day - gettime(8);
+		return @loan_remaining_time;
+	}
+	
+	function clearloaninfo {
+		// Clear all existing values
+		#collateral_id = 0;
+		#collateral_amount = 0;
+		#collateral_refine = 0;
+		#collateral_identify = 0;
+		#collateral_attribute = 0;
+		#collateral_card1 = 0;
+		#collateral_card2 = 0;
+		#collateral_card3 = 0;
+		#collateral_card4 = 0;
+		#collateral_expire = 0;
+		#loan_status = 0;
+		#loan_amount = 0;
+		#loan_interest = 0;
+		#loan_deadline_day = 0;
+		#loan_deadline_year = 0;
+		return;
+	}
+	
+
+	OnInit:
+		// Configuration
+		.npc_name$ = "[^008800Pawn Shop^000000]";	// NPC's name
+		.interest_rate = 10;	// Interest rate in percentage
+		.loan_rate = 33;		// Loan rate in percentage
+		.loan_days = 7;			// Days to pay off loan
+		.refine_bonus = 1;		// Refine bonus? 0 = off, 1 = on (default: 1)
+				
+				
+		// Determine leap year [DO NOT MODIFY]
+		// Every 400 years is a leap year
+		if (gettime(7) % 400 == 0)
+			.year_days = 366;
+		
+		// Every 100 years is NOT (necessarily) a leap year
+		else if (gettime(7) % 100 == 0)
+			.year_days = 365;
+		
+		// Every 4 years is a leap year
+		else if (gettime(7) % 4 == 0)
+			.year_days = 366;
+		
+		// All other years are normal years
+		else
+			.year_days = 365;
+			
+		end;
+
+}

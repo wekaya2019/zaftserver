@@ -1,0 +1,474 @@
+//===== eAthena Script ======================================
+//= Unique Card Remover
+//===== By: =================================================
+//= ~AnnieRuru~
+//===== Current Version: ====================================
+//= 1.2a
+//===== Compatible With: ====================================
+//= eAthena 14919 Trunk SQL/TXT
+//===== Description: ========================================
+//= can take individual card
+//===== Topic: ==============================================
+//= http://www.eathena.ws/board/index.php?showtopic=244658
+//===== Additional Comments: ================================
+//= its very lame idea
+//===========================================================
+prontera,164,169,4	script	Card Remover NPC	100,{
+	//	0 - only cards are allow to taken out, 1 - can take out both cards and enchantment item
+	set .@unslot_all, 0;
+	set .@zeny, 0; // require zeny for the service
+//	setarray .@item1, 501,1; // need 1 red potion
+//	setarray .@item2, 502,2; // need 2 orange potions
+//	setarray .@item3, 0,0;
+//	setarray .@item4, 0,0;
+//	setarray .@item5, 0,0;
+
+	mes "[Card Remover]";
+	if ( weight *10 / maxweight >= 9 ) {
+		mes "you're overweight. Spare some inventory space to continue";
+		close;
+	}
+	if ( zeny < .@zeny ) {
+		mes "require "+ .@zeny +" zeny for this service";
+		close;
+	}
+	for ( set .@i, 1; getitemname( getd(".@item"+ .@i ) ) != "null"; set .@i, .@i +1 ) {
+		if ( countitem( getd(".@item"+ .@i ) ) < getd(".@item"+ .@i +"[1]") ) {
+			mes "I require the following items for this service";
+			for ( set .@i, 1; getitemname( getd(".@item"+ .@i ) ) != "null"; set .@i, .@i +1 )
+				mes getd(".@item"+ .@i +"[1]") +"x "+ getitemname( getd(".@item"+ .@i ) );
+			close;
+		}
+	}
+	mes "select an equipment to be removed";
+	next;
+	for ( set .@i, 1; .@i <= 10; set .@i, .@i +1 )
+		set .@menu$, .@menu$ +( ( getequipid(.@i) == -1 )?"":getequipname(.@i) )+":";
+	set .@eq, select(.@menu$);
+	mes "[Card Remover]";
+	set .@card1, getequipcardid( .@eq, 0 );
+	if ( .@card1 == 254 || .@card1 == 255 ) {
+		mes "it is a signed item";
+		close;
+	}
+	mes "select a card to be taken out";
+	next;
+	set .@menu$, "All:";
+	if ( .@unslot_all == 1 ) set .@s, 4;
+	else set .@s, getitemslots( getequipid(.@eq) );
+	for ( set .@i, 0; .@i < .@s; set .@i, .@i +1 )
+		set .@menu$, .@menu$ +( getequipcardid( .@eq, .@i )?getitemname( getequipcardid( .@eq, .@i ) ):"" )+":";
+	set .@card, select(.@menu$) -1;
+	mes "[Card Remover]";
+	if ( .@unslot_all == 1 && .@card == 0 ) set .@card, 5;
+	switch ( callfunc("successremovecards2", .@eq, .@card ) ) {
+		case -4:
+		case 6:
+			mes "there is no card can be taken out";
+			close;
+		case 0:
+			if ( zeny < .@zeny ) {
+				mes "require "+ .@zeny +" zeny for this service";
+				close;
+			}
+			for ( set .@i, 1; getitemname( getd(".@item"+ .@i ) ) != "null"; set .@i, .@i +1 ) {
+				if ( countitem( getd(".@item"+ .@i ) ) < getd(".@item"+ .@i +"[1]") ) {
+					mes "I require the following items for this service";
+					for ( set .@i, 1; getitemname( getd(".@item"+ .@i ) ) != "null"; set .@i, .@i +1 )
+						mes getd(".@item"+ .@i +"[1]") +"x "+ getitemname( getd(".@item"+ .@i ) );
+					close;
+				}
+			}
+			set zeny, zeny - .@zeny;
+			for ( set .@i, 1; getitemname( getd(".@item"+ .@i ) ) != "null"; set .@i, .@i +1 )
+				delitem getd(".@item"+ .@i ), getd(".@item"+ .@i +"[1]");
+			mes "uncard service successful";
+			close;
+		case 7:
+			mes "I'm sorry, I'm unable to uncard a rented item";
+			close;
+		case 8:
+		case 9:
+			mes "you're overweight. Spare some inventory space to continue";
+			close;
+		default:
+			mes "error";
+			close;
+	}
+	close;
+}
+
+/*
+//	callfunc "successremovecards2", <equipment slot> {, <card placement> };
+	getarg(0) == equipment slot
+	getarg(1) == optional parameter, default 0
+		0 or not specify - return all the cards but not enchantment item
+		1 - only return the card in slot#1
+		2 - only return the card in slot#2
+		3 - only return the card in slot#3
+		4 - only return the card in slot#4 { or enchantment item }
+		5 - return all cards and enchantment item
+	the function return :-
+		-4 : that slot has no card or enchantment item
+		-3 : invalid card placement
+		-2 : invalid equipment slot
+		-1 : no item equip on the slot
+		0 : function successful
+		1 : invalid card id at card slot #1
+		2 : invalid card id at card slot #2
+		3 : invalid card id at card slot #3
+		4 : invalid card id at card slot #4
+		5 : it is a signed item
+		6 : the item has no slot
+		7 : the item has expire value
+		8 : player is overweight 90%
+		9 : player carry more than 96 types of items
+*/
+function	script	successremovecards2	{
+	if ( weight *10 / maxweight >= 9 ) return 8;
+	set .@slot, getarg(0);
+	switch ( .@slot ) {
+		case 1: set .@equipped, 256; break;
+		case 2: set .@equipped, 16; break;
+		case 3: set .@equipped, 32; break;
+		case 4: set .@equipped, 2; break;
+		case 5: set .@equipped, 4; break;
+		case 6: set .@equipped, 64; break;
+		case 7: set .@equipped, 8; break;
+		case 8: set .@equipped, 128; break;
+		case 9: set .@equipped, 512; break;
+		case 10: set .@equipped, 1; break;
+		default: return -2;
+	}
+	getinventorylist; // this is the only way to retrieve item with expiration -_-"
+	set .@i, 0;
+	while ( .@i < @inventorylist_count && @inventorylist_equip[.@i] & .@equipped == 0 )
+		set .@i, .@i +1 ;
+	set .@id, @inventorylist_id[.@i];
+	set .@ref, @inventorylist_refine[.@i];
+	set .@card1, @inventorylist_card1[.@i];
+	set .@card2, @inventorylist_card2[.@i];
+	set .@card3, @inventorylist_card3[.@i];
+	set .@card4, @inventorylist_card4[.@i];
+	set .@expire, @inventorylist_expire[.@i];
+	set .@total, @inventorylist_count;
+	deletearray @inventorylist_id, @inventorylist_count;
+	deletearray @inventorylist_amount, @inventorylist_count;
+	deletearray @inventorylist_equip, @inventorylist_count;
+	deletearray @inventorylist_refine, @inventorylist_count;
+	deletearray @inventorylist_identify, @inventorylist_count;
+	deletearray @inventorylist_attribute, @inventorylist_count;
+	deletearray @inventorylist_card1, @inventorylist_count;
+	deletearray @inventorylist_card2, @inventorylist_count;
+	deletearray @inventorylist_card3, @inventorylist_count;
+	deletearray @inventorylist_card4, @inventorylist_count;
+	deletearray @inventorylist_expire, @inventorylist_count;
+	if ( @inventorylist_count > 96 ) return 9;
+	set @inventorylist_count, 0;
+	set .@cardplacement, getarg(1, 0);
+	if ( .@i == .@total ) return -1;
+	else if ( getitemslots(.@id) == 0 && .@cardplacement == 0 ) return 6;
+	else if ( .@expire ) return 7;
+	else if ( .@card1 == 254 || .@card1 == 255 ) return 5;
+	else if ( .@card1 && getitemname(.@card1) == "null" ) return 1;
+	else if ( .@card2 && getitemname(.@card2) == "null" ) return 2;
+	else if ( .@card3 && getitemname(.@card3) == "null" ) return 3;
+	else if ( .@card4 && getitemname(.@card4) == "null" ) return 4;
+	switch ( .@cardplacement ) {
+		case 0:
+			set .@slots, getitemslots(.@id);
+			set .@i, 1;
+			while ( .@i <= .@slots ) {
+				if ( getd(".@card"+ .@i ) ) {
+					getitem getd(".@card"+ .@i ), 1;
+					set .@c, .@c +1 ;
+				}
+				set .@i, .@i +1 ;
+			}
+			if ( .@c == 0 ) return -4;
+			delitem2 .@id,1,1,.@ref,0,.@card1,.@card2,.@card3,.@card4;
+			getitem2 .@id,1,1,.@ref,0,0,( .@slots < 2 )?.@card2:0,( .@slots < 3 )?.@card3:0,( .@slots < 4 )?.@card4:0;
+			break;
+		case 1:
+			if ( .@card1 == 0 ) return -4;
+			getitem .@card1, 1;
+			delitem2 .@id,1,1,.@ref,0,.@card1,.@card2,.@card3,.@card4;
+			switch ( getitemslots(.@id) ) {
+				case 1:
+					getitem2 .@id,1,1,.@ref,0,0,.@card2,.@card3,.@card4;
+					break;
+				case 2:
+					getitem2 .@id,1,1,.@ref,0,.@card2,0,.@card3,.@card4;
+					break;
+				case 3:
+					getitem2 .@id,1,1,.@ref,0,.@card2,.@card3,0,.@card4;
+					break;
+				case 4:
+					getitem2 .@id,1,1,.@ref,0,.@card2,.@card3,.@card4,0;
+					break;
+			}
+			break;
+		case 2:
+			if ( .@card2 == 0 ) return -4;
+			getitem .@card2, 1;
+			delitem2 .@id,1,1,.@ref,0,.@card1,.@card2,.@card3,.@card4;
+			switch ( getitemslots(.@id) ) {
+				case 1:
+				case 2:
+					getitem2 .@id,1,1,.@ref,0,.@card1,0,.@card3,.@card4;
+					break;
+				case 3:
+					getitem2 .@id,1,1,.@ref,0,.@card1,.@card3,0,.@card4;
+					break;
+				case 4:
+					getitem2 .@id,1,1,.@ref,0,.@card1,.@card3,.@card4,0;
+					break;
+			}
+			break;
+		case 3:
+			if ( .@card3 == 0 ) return -4;
+			getitem .@card3, 1;
+			delitem2 .@id,1,1,.@ref,0,.@card1,.@card2,.@card3,.@card4;
+			switch ( getitemslots(.@id) ) {
+				case 1:
+				case 2:
+				case 3:
+					getitem2 .@id,1,1,.@ref,0,.@card1,.@card2,0,.@card4;
+					break;
+				case 4:
+					getitem2 .@id,1,1,.@ref,0,.@card1,.@card2,.@card4,0;
+					break;
+			}
+			break;
+		case 4:
+			if ( .@card4 == 0 ) return -4;
+			getitem .@card4, 1;
+			delitem2 .@id,1,1,.@ref,0,.@card1,.@card2,.@card3,.@card4;
+			getitem2 .@id,1,1,.@ref,0,.@card1,.@card2,.@card3,0;
+			break;
+		case 5:
+			set .@i, 1;
+			while ( .@i <= 4 ) {
+				if ( getd(".@card"+ .@i ) ) {
+					getitem getd(".@card"+ .@i ), 1;
+					set .@c, .@c +1 ;
+				}
+				set .@i, .@i +1 ;
+			}
+			if ( .@c == 0 ) return -4;
+			delitem2 .@id,1,1,.@ref,0,.@card1,.@card2,.@card3,.@card4;
+			getitem2 .@id,1,1,.@ref,0,0,0,0,0;
+			break;
+		default:
+			return -3;
+	}
+	unequip .@slot;
+	return 0;
+}
+
+
+/*
+//	callfunc "failedremovecards2", <equipment slot>, <type> {, <card placement> };
+	getarg(0) == equipment slot
+	getarg(1) :-
+		0 - will destroy all, the equipment, the cards and the item enchantment
+		1 - will keep the equipment, but destroy the cards and item enchantment
+		2 - will keep all the cards, but destroy the equipment and enchantment item
+		3 - will keep all the cards and enchantment item, but destroy the equipment
+		4 - only destroy the card or enchantment item on the card placement, keep everything else
+	getarg(2) == optional parameter, default 0
+		0 or not specify :-
+			if getarg(1) == 4, only destroy the cards, but keep the equipment and item enchantment
+			else, follow like what getarg(1) says
+		1 -> 4 :-
+			if getarg(1) == 4 - only destroy this card and the slot, keep everything else
+			else, follow like what getarg(1) says
+		5 :-
+			follow getarg(1) == 1;
+	the function return :-
+		-5 : invalid type
+		-4 : that slot has no card or enchantment item
+		-3 : invalid card placement
+		-2 : invalid equipment slot
+		-1 : no item equip on the slot
+		0 : function successful
+		1 : invalid card id at card slot #1
+		2 : invalid card id at card slot #2
+		3 : invalid card id at card slot #3
+		4 : invalid card id at card slot #4
+		5 : it is a signed item
+		6 : the item has no slot
+		7 : the item has expire value
+		8 : player is overweight 90%
+		9 : player carry more than 96 types of items
+*/
+function	script	failedremovecards2	{
+	if ( weight *10 / maxweight >= 9 ) return 8;
+	set .@slot, getarg(0);
+	if ( .@slot == 1 ) set .@equipped, 256;
+	switch ( .@slot ) {
+		case 1: set .@equipped, 256; break;
+		case 2: set .@equipped, 16; break;
+		case 3: set .@equipped, 32; break;
+		case 4: set .@equipped, 2; break;
+		case 5: set .@equipped, 4; break;
+		case 6: set .@equipped, 64; break;
+		case 7: set .@equipped, 8; break;
+		case 8: set .@equipped, 128; break;
+		case 9: set .@equipped, 512; break;
+		case 10: set .@equipped, 1; break;
+		default: return -2;
+	}
+	getinventorylist; // this is the only way to retrieve item with expiration -_-"
+	set .@i, 0;
+	while ( .@i < @inventorylist_count && @inventorylist_equip[.@i] & .@equipped == 0 )
+		set .@i, .@i +1 ;
+	set .@id, @inventorylist_id[.@i];
+	set .@ref, @inventorylist_refine[.@i];
+	set .@card1, @inventorylist_card1[.@i];
+	set .@card2, @inventorylist_card2[.@i];
+	set .@card3, @inventorylist_card3[.@i];
+	set .@card4, @inventorylist_card4[.@i];
+	set .@expire, @inventorylist_expire[.@i];
+	set .@total, @inventorylist_count;
+	deletearray @inventorylist_id, @inventorylist_count;
+	deletearray @inventorylist_amount, @inventorylist_count;
+	deletearray @inventorylist_equip, @inventorylist_count;
+	deletearray @inventorylist_refine, @inventorylist_count;
+	deletearray @inventorylist_identify, @inventorylist_count;
+	deletearray @inventorylist_attribute, @inventorylist_count;
+	deletearray @inventorylist_card1, @inventorylist_count;
+	deletearray @inventorylist_card2, @inventorylist_count;
+	deletearray @inventorylist_card3, @inventorylist_count;
+	deletearray @inventorylist_card4, @inventorylist_count;
+	deletearray @inventorylist_expire, @inventorylist_count;
+	if ( @inventorylist_count > 96 ) return 9;
+	set @inventorylist_count, 0;
+	set .@cardplacement, getarg(2, 0);
+	if ( .@i == .@total ) return -1;
+	else if ( getitemslots(.@id) == 0 && .@cardplacement == 0 ) return 6;
+	else if ( .@expire ) return 7;
+	else if ( .@card1 == 254 || .@card1 == 255 ) return 5;
+	else if ( .@card1 && getitemname(.@card1) == "null" ) return 1;
+	else if ( .@card2 && getitemname(.@card2) == "null" ) return 2;
+	else if ( .@card3 && getitemname(.@card3) == "null" ) return 3;
+	else if ( .@card4 && getitemname(.@card4) == "null" ) return 4;
+	set .@type, getarg(1);
+	switch ( .@type ) {
+		case 0:
+			delitem2 .@id,1,1,.@ref,0,.@card1,.@card2,.@card3,.@card4;
+			unequip .@slot;
+			return 0;
+		case 1:
+			delitem2 .@id,1,1,.@ref,0,.@card1,.@card2,.@card3,.@card4;
+			getitem2 .@id,1,1,.@ref,0,0,0,0,0;
+			unequip .@slot;
+			return 0;
+		case 2:
+			if ( .@card1 == 0 ) return -4;
+			delitem2 .@id,1,1,.@ref,0,.@card1,.@card2,.@card3,.@card4;
+			switch ( getitemslots(.@id) ) {
+				case 0: getitem2 .@id,1,1,.@ref,0,.@card1,.@card2,.@card3,.@card4; break;
+				case 1: getitem2 .@id,1,1,.@ref,0,0,.@card2,.@card3,.@card4; break;
+				case 2: getitem2 .@id,1,1,.@ref,0,0,0,.@card3,.@card4; break;
+				case 3: getitem2 .@id,1,1,.@ref,0,0,0,0,.@card4; break;
+				case 4: getitem2 .@id,1,1,.@ref,0,0,0,0,0;
+			}
+			unequip .@slot;
+			return 0;
+		case 3:
+			set .@i, 1;
+			set .@slots, getitemslots(.@id);
+			while ( .@i <= 4 ) {
+				if ( getd(".@card"+ .@i ) ) {
+					getitem getd(".@card"+ .@i ), 1;
+					set .@c, .@c +1 ;
+				}
+				set .@i, .@i +1 ;
+			}
+			if ( .@c == 0 ) return -4;
+			delitem2 .@id,1,1,.@ref,0,.@card1,.@card2,.@card3,.@card4;
+			unequip .@slot;
+			return 0;
+		case 4:
+			break;
+		default:
+			return -5;
+	}
+	switch ( .@cardplacement ) {
+		case 0:
+			set .@slots, getitemslots(.@id);
+			set .@i, 1;
+			while ( .@i <= .@slots ) {
+				if ( getd(".@card"+ .@i ) ) {
+					set .@c, .@c +1 ;
+				}
+				set .@i, .@i +1 ;
+			}
+			if ( .@c == 0 ) return -4;
+			delitem2 .@id,1,1,.@ref,0,.@card1,.@card2,.@card3,.@card4;
+			getitem2 .@id,1,1,.@ref,0,0,( .@slots < 2 )?.@card2:0,( .@slots < 3 )?.@card3:0,( .@slots < 4 )?.@card4:0;
+			break;
+		case 1:
+			if ( .@card1 == 0 ) return -4;
+			delitem2 .@id,1,1,.@ref,0,.@card1,.@card2,.@card3,.@card4;
+			switch ( getitemslots(.@id) ) {
+				case 1:
+					getitem2 .@id,1,1,.@ref,0,0,.@card2,.@card3,.@card4;
+					break;
+				case 2:
+					getitem2 .@id,1,1,.@ref,0,.@card2,0,.@card3,.@card4;
+					break;
+				case 3:
+					getitem2 .@id,1,1,.@ref,0,.@card2,.@card3,0,.@card4;
+					break;
+				case 4:
+					getitem2 .@id,1,1,.@ref,0,.@card2,.@card3,.@card4,0;
+					break;
+			}
+			break;
+		case 2:
+			if ( .@card2 == 0 ) return -4;
+			delitem2 .@id,1,1,.@ref,0,.@card1,.@card2,.@card3,.@card4;
+			switch ( getitemslots(.@id) ) {
+				case 1:
+				case 2:
+					getitem2 .@id,1,1,.@ref,0,.@card1,0,.@card3,.@card4;
+					break;
+				case 3:
+					getitem2 .@id,1,1,.@ref,0,.@card1,.@card3,0,.@card4;
+					break;
+				case 4:
+					getitem2 .@id,1,1,.@ref,0,.@card1,.@card3,.@card4,0;
+					break;
+			}
+			break;
+		case 3:
+			if ( .@card3 == 0 ) return -4;
+			delitem2 .@id,1,1,.@ref,0,.@card1,.@card2,.@card3,.@card4;
+			switch ( getitemslots(.@id) ) {
+				case 1:
+				case 2:
+				case 3:
+					getitem2 .@id,1,1,.@ref,0,.@card1,.@card2,0,.@card4;
+					break;
+				case 4:
+					getitem2 .@id,1,1,.@ref,0,.@card1,.@card2,.@card4,0;
+					break;
+			}
+			break;
+		case 4:
+			if ( .@card4 == 0 ) return -4;
+			delitem2 .@id,1,1,.@ref,0,.@card1,.@card2,.@card3,.@card4;
+			getitem2 .@id,1,1,.@ref,0,.@card1,.@card2,.@card3,0;
+			break;
+		case 5:
+			delitem2 .@id,1,1,.@ref,0,.@card1,.@card2,.@card3,.@card4;
+			getitem2 .@id,1,1,.@ref,0,0,0,0,0;
+			break;
+		default:
+			return -3;
+	}
+	unequip .@slot;
+	return 0;
+}

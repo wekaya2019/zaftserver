@@ -1,0 +1,83 @@
+//=========================================
+//By : louigui
+//Ver : 2.40.99
+//=========================================
+-	shop	dyn_shop1	-1,501:50
+//=========================================
+
+poring_w02,99,101,5	script	Proof of Donation#1	955,{
+	mes "Your["+getitemname(.Cost)+"]["+countitem(.Cost)+"]";
+	mes "^E217171 Proof of Donation = $1 USD";
+close2;
+callshop "dyn_shop"+.a,1;
+npcshopattach "dyn_shop"+.a;
+end;
+OnInit:
+set .a,strnpcinfo(2);
+//=========================================
+set .Cost,7179;
+//=========================================
+setarray .buy_id[0],607;
+setarray .buy_co[0],10;
+//=========================================
+
+npcshopitem "dyn_shop1",.buy_id[0],.buy_co[0];
+for(set .ik,1;.ik<getarraysize(.buy_id);set .ik,.ik+1){
+	npcshopadditem "dyn_shop"+.a,.buy_id[.ik],.buy_co[.ik];
+}
+end;
+
+OnBuyItem:
+	getinventorylist;
+	if(@bought_quantity[@i] <= 0){
+		goto OnEnrd;
+		end;
+	}
+	for(set @i,0;@i<getarraysize(@bought_nameid);set @i,@i+1){
+//KeyWorld
+		set .@type, getiteminfo( @bought_nameid[.@i], 2 );
+		if (  .@type == 4 || .@type == 5 || .@type == 7 || .@type == 8 ) 
+			set .@count, .@count + 1;
+		else {
+			for( set .@j,0; .@j<@inventorylist_count; set .@j, .@j+1 )
+				if ( @inventorylist_id[.@i] == @bought_nameid[.@i] )
+					break;
+			if ( .@j == @inventorylist_count )
+				set .@count, .@count+1 ;
+		}
+		for(set @i2,0;@i2<getarraysize(.buy_id);set @i2,@i2+1){
+			if(@bought_nameid[@i]==.buy_id[@i2]){
+				set @gh,@gh+.buy_co[@i2]*@bought_quantity[@i];
+				set @wh,@wh+getiteminfo(@bought_nameid[@i],6)*@bought_quantity[@i];
+			}
+		}
+	}
+	if ( .@count + @inventorylist_count > 100 ) {
+		announce "[D-Shop]: Can't hold more than 100 items.",bc_self;
+		goto OnEnrd;
+	}
+	if(countitem(.Cost)<@gh){
+		announce "[D-Shop]:["+getitemname(.Cost)+"] isn't enough",bc_self;
+		goto OnEnrd;
+		end;
+	}else{
+		if(@wh>(MaxWeight-Weight)){
+			announce "[D-Shop]:Too heavy",bc_self;
+			goto OnEnrd;
+			end;
+		}else{
+			delitem .Cost,@gh;
+			for(set @i,0;@i<getarraysize(@bought_nameid);set @i,@i+1){
+				getitem @bought_nameid[@i],@bought_quantity[@i];
+			}			
+		}
+	}
+OnEnrd:
+	set @gh,0;
+	set @wh,0;
+	set @i,0;
+	set @i2,0;
+	deletearray @bought_quantity,getarraysize(@bought_quantity);
+	deletearray @bought_nameid,getarraysize(@bought_nameid);
+end;
+}

@@ -1,0 +1,108 @@
+//Jam "Merme"
+//=======================================================================================
+//=======================================================================================
+//=======================================================================================
+//Annoucer/broadcaster   (in color)
+//=======================================================================================
+//=======================================================================================
+//=======================================================================================
+prontera,164,173,5	script	Broadcaster	901,{
+
+set @payitem,671;
+set @payamt,1;
+
+mes "[ ^FE021BMerme^000000 ]";
+mes "Hello, ^F509DE"+strcharinfo(0)+"^000000";
+mes "Do you want to broadcast something? Payment is^FAEB60 1 Gold Coins^000000.";
+menu "Yes please.",yes,"No",no;
+
+yes:
+if((countitem(@payitem)<@payamt)) goto exit2;
+next;
+mes "[ ^FE021BMerme^000000 ]";
+mes "We Have Color Please choose!";
+next;
+menu "red",red, "black",black, "blue",blue, "green",green, "purple",purple, "pink",pink, "gray",gray, "orange",orange, "Cancel",-; 
+mes "im Sorry if u want to say something just let me know.";
+close;
+
+red:
+mes "[ ^FE021BMerme^000000 ]";
+mes "Type your message and it will be heard miles away";
+input @mensagem$;
+delitem @payitem,@payamt;
+announce ""+strcharinfo(0)+": "+@mensagem$+" ",bc,0xD20000;
+close;
+
+black:
+mes "[ ^FE021BMerme^000000 ]";
+mes "Type your message and it will be heard miles away";
+input @mensagem1$;
+delitem @payitem,@payamt;
+announce ""+strcharinfo(O)+": "+@mensagem1$+" ",bc,0x000000;
+close;
+
+
+blue:
+mes "[ ^FE021BMerme^000000 ]";
+mes "Type your message and it will be heard miles away";
+input @mensagem3$;
+delitem @payitem,@payamt;
+announce ""+strcharinfo(0)+": "+@mensagem3$+" ",bc_blue;
+close;
+
+green:
+mes "[ ^FE021BMerme^000000 ]";
+mes "Type your message and it will be heard miles away";
+input @mensagem4$;
+delitem @payitem,@payamt;
+announce ""+strcharinfo(O)+": "+@mensagem4$+" ",bc,0x33FF33;
+close;
+
+purple:
+mes "[ ^FE021BMerme^000000 ]";
+mes "Type your message and it will be heard miles away";
+input @mensagem5$;
+delitem @payitem,@payamt;
+announce ""+strcharinfo(O)+": "+@mensagem5$+" ",bc,0xCC00FF;
+close;
+
+pink:
+mes "[ ^FE021BMerme^000000 ]";
+mes "Type your message and it will be heard miles away";
+input @mensagem5$;
+delitem @payitem,@payamt;
+announce ""+strcharinfo(O)+": "+@mensagem5$+" ",bc,0xFF33CC;
+close;
+
+gray:
+mes "[ ^FE021BMerme^000000 ]";
+mes "Type your message and it will be heard miles away";
+input @mensagem6$;
+delitem @payitem,@payamt;
+announce ""+strcharinfo(O)+": "+@mensagem6$+" ",bc,0xBAB9B9;
+close;
+
+orange:
+mes "[ ^FE021BMerme^000000 ]";
+mes "Type your message and it will be heard miles away";
+input @mensagem5$;
+delitem @payitem,@payamt;
+announce ""+strcharinfo(O)+": "+@mensagem5$+" ",bc,0xFF9900;
+close;
+
+no:
+next;
+mes "[ ^FE021BMerme^000000 ]";
+mes "Oh that's a bummmer.";
+mes "Come back when you need me. ^_^";
+close;
+
+exit2:
+mes "[ ^FE021BMerme^000000 ]";
+mes "Sorry you don't have enough coins to make the broadcast.";
+mes "Please come again.";
+close;
+
+end;
+}

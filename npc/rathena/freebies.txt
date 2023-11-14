@@ -1,0 +1,21 @@
+//Freebies with gepard unique id checking
+//Vy Low
+
+
+-	script	Freebees	-1,{
+OnPCLoginEvent:
+
+if(getd("$FR_" + get_unique_id()) > 0 || #Freebees > 0)
+end;
+
+for (.@i = 0; .@i < getarraysize(.ItemRewards); .@i += 2)
+	getitem .ItemRewards[.@i],.ItemRewards[.@i+1];
+	setd "$FR_" + get_unique_id(),1;
+	#Freebees = 1;
+	dispbottom "Welcome to our Server! Here are your Freebees.";
+end;
+	
+OnInit:
+	setarray .ItemRewards, 510,1,511,1;
+	end;
+}

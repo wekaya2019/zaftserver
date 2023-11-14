@@ -1,0 +1,13 @@
+prontera,259,165,3	script	effectg1	111,{
+	end;
+OnInit:
+	while(true) {
+		misceffect 794;
+		sleep 5000;
+	}
+	end; // shouldn't reach
+}
+aretnorp,230,240,3	duplicate(effectg1)	 #h1-4	111
+aretnorp,209,240,5	duplicate(effectg1)	  #h1-1	111
+aretnorp,208,222,7	duplicate(effectg1)	   #h1-2	111
+aretnorp,230,223,1	duplicate(effectg1)	    #h1-3	111

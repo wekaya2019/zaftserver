@@ -1,0 +1,31 @@
+//===== Athena Script ========================================
+//= Skull Exchanger NPC
+//===== Credits to ===========================================
+//= Created by : --
+//= Re-Edit  : Deviant
+//===== Current Version: =====================================
+//= 1.0
+//===== Compatible With: =====================================
+//= Any Athena Version
+//===== Description: =========================================
+//= Trade Skulls for Poring Coins
+//= Easily Edittable to edit another item
+//===== Additional Comments: =================================
+
+new_1-2,95,113,7	script	Magical Skull Trader	70,{
+mes "[Magical Skull Trader]";
+mes "I can turn skulls into Poring Coins.";
+if(select("Trade Skulls for Poring Coins:Get more skulls")==2) close;
+next;
+mes "How many coins would you like?";
+input @coin_amount;
+next;
+if(countitem(7420)<@coin_amount) {
+mes "You do not have enough skulls.";
+close;
+}
+delitem 7420,@coin_amount;
+getitem 7539,@coin_amount;
+mes "Here's your Poring Coins.";
+close;
+}

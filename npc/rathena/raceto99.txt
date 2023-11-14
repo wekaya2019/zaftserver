@@ -1,0 +1,89 @@
+/* Make sure you implement this table on your database
+   If you do not implement this, this will not function
+
+CREATE TABLE IF NOT EXISTS `race_to_99` (
+  `aid` INT(11) UNSIGNED NOT NULL,
+  `name` VARCHAR(30) NOT NULL,
+  `class` INT(11) UNSIGNED NOT NULL,
+  `time` VARCHAR(30) NOT NULL,
+  PRIMARY KEY (`aid`)
+) ENGINE=MyISAM;
+
+*/
+
+//===========================================================================================================================//
+// 	_  ____  _____ _  __ ____  _    ____  ____  _____ _      ____  ____  ____  _  __   ____  _      _     _  _      _____	 //
+//	/ \/ ___\/  __// |/ //  _ \/ \  /  __\/  _ \/  __// \  /|/  _ \/  __\/  _ \/ |/ /  /  _ \/ \  /|/ \   / \/ \  /|/  __/	 //
+//	| ||    \|  \  |   / | / \|| |  |  \/|| / \|| |  _| |\ ||| / \||  \/|| / \||   /   | / \|| |\ ||| |   | || |\ |||  \	 //  
+//	| |\___ ||  /_ |   \ | |-||| |  |    /| |-||| |_//| | \||| |-|||    /| \_/||   \   | \_/|| | \||| |_/\| || | \|||  /_	 // 
+//	\_/\____/\____\\_|\_\\_/ \|\_/  \_/\_\\_/ \|\____\\_/  \|\_/ \|\_/\_\\____/\_|\_\  \____/\_/  \|\____/\_/\_/  \|\____\	 //
+//																															 //
+//===========================================================================================================================//
+/*
+	Author: Cyan Hijirikawa
+	Version 1.0
+	
+	Changelogs
+	v1.0 - Initial Release
+	v1.1 - Added dynamic settings for easier configuration
+	v1.2 - Slightly improved stylistic look for npc dialogue
+	v1.3 - Added dynamic reward list
+	v1.4 - Added support for time stamp
+*/
+
+prontera,151,124,5	script	Level Up Race	90,{
+	switch(select("~ Check Race:~ Submit Result")){
+		case 1:
+			mes "[ ^9d3ad3Race to 99 Event^000000 ]";
+			query_sql( "SELECT `name`,`class`,`time` FROM `race_to_99` WHERE 1 = 1 ORDER BY `class` DESC LIMIT 25",.@name$,.@class,.@date$);
+			for(.@i = 0; .@i < getarraysize(.@name$); .@i++){
+				mes "[ ^0000ff"+jobname(.@class[.@i])+"^000000 ] ~ "+.@name$[.@i]+" "+.@date$;
+				mes "-----";
+			}
+			close;
+		case 2:
+			if(BaseLevel < .base_level || JobLevel < .job_level){
+				mes "[ ^9d3ad3Race to 99 Event^000000 ]";
+				mes "Unforunately, you are not max level yet.";
+				close;
+			}
+			if(Class < 4008){
+				mes "[ ^9d3ad3Race to 99 Event^000000 ]";
+				mes "I'm sorry but I can only entertain transcendent classes.";
+				close;
+			}
+			query_sql( "SELECT `class`,`aid` FROM `race_to_99` WHERE `aid` = "+getcharid(3),.@class,.@aid);
+			if(.@aid != 0){
+				mes "[ ^9d3ad3Race to 99 Event^000000 ]";
+				mes "It seems your account already claimed the reward once. Give chance to other players.";
+				close;
+			}
+			if(getd("$"+jobname(Class)) >= .class_limit){
+				mes "[ ^9d3ad3Race to 99 Event^000000 ]";
+				mes "I'm sorry but it seems like ";
+				mes "^0000ff[ "+jobname(Class)+" ]^000000 already has a winner.";
+				close;
+			}
+			query_sql( "INSERT INTO `race_to_99` ( `aid`,`name`,`class`,`time`) VALUES ( "+getcharid(3)+",'"+escape_sql( strcharinfo(0))+"',"+Class+", '"+gettimestr("%m/%d %H:%M:%S",21)+"' )" );
+			sleep2 100;
+			announce "Congratulations to [ "+strcharinfo(0)+" ] for being the first [ "+jobname(Class)+" ] to reach max level!",1;
+			setd "$"+jobname(Class), getd("$"+jobname(Class)) + 1;
+			//rewards here...
+			for(.@i = 0; .@i < getarraysize(.rewards); .@i = .@i + 2)
+				if(.bound)
+					getitembound .rewards[.@i],.rewards[.@i+1],.bound;
+				else
+					getitem .rewards[.@i],.rewards[.@i+1];
+		break;
+	}
+	end;
+OnInit:
+	.class_limit = 2; //how many players can claim for that particular class
+	.base_level = 99; //max base level
+	.job_level = 70; //max job level
+	.bound = 0; //1 = account, 2 = guild, 3 = party, 4 = character, 0 = not bound
+	//reward id,quantity,reward id,quantity
+	setarray .rewards, 501,1,502,2,503,3,504,4,505,5;
+	while(1){ sleep 1000; showscript "Race to 99"; }
+end;
+}

@@ -1,0 +1,11 @@
+prontera,0,0,0	script	Punching Bag	-1,{
+
+OnInit:
+    monster "prontera",140,170,"Punching Bag",1905,1,"Punching Bag::OnDummyKill";
+    end;
+
+OnDummyKill:
+    monster "prontera",140,170,"Punching Bag",1905,1,"Punching Bag::OnDummyKill";
+    end;
+
+}

@@ -1,0 +1,217 @@
+//script for eAthena
+//Hero NPC
+//idea by Tapdawq
+//scripted by Joggy & ~AnnieRuru~
+//eathena.ws/board/index.php?showtopic=157102
+//current version - 1.5
+//changelog:
+//1.0 - first version, only for adding +50 stat
+//1.0.1 - optimizaed by ~AnnieRuru~
+//1.1 - added hall of fame for 128 people
+//1.2 - added warning if stats will reach stat limit
+//1.3 - added unlimited hall of fame
+//1.3.1 - little code optimization
+//1.4 - now you can choose what to give - base stat points or bonus stat points
+//1.5 - Hall of Fame reset option available for gm and little fix for Hall of Fame
+
+prontera,164,162,6	script	Hero NPC	932,{
+
+////////////////////Change these values to the same as you need
+	set @maxstat, 130; //change value to max stat on your server
+	set @quest, 0; //set 1 if you want to add basepoints; or 0 if you want to give stats as bonus points
+////////////////////
+
+	mes "[Hero NPC]";
+	mes "Hello, would you like to see the hero hall of fame?";
+	next;
+	menu "Yes",m_hall,"No",-;
+
+	if (heroquest>0){
+		mes "[Hero NPC]";
+		mes "Nice to see you again, you are a real hero! ^_^";
+		close;
+	}
+
+	mes "[Hero NPC]";
+	mes "Hello, prove me that you are a hero and i will give +50 for your decided stat!";
+	mes "Recruirenments:";
+	mes "- Base level 175, not more, not less";
+	if (@quest){
+		mes "- Your decided stat should be not more than " + (@maxstat-50) + ", or you can loose some useful bonus points";
+	}
+	mes "- Some loot. I will tell you about this later...";
+	next;
+
+	if (BaseLevel < 175){
+		mes "[Hero NPC]";
+		mes "Aren't you to little to be a hero? Go kill some monsters.";
+		close;
+	}
+	else if (BaseLevel > 175){
+		mes "[Hero NPC]";
+		mes "Big " + ((sex)?"boy":"girl") + ", huh? You don't need my help anymore.";
+		close;
+	}
+
+	mes "[Hero NPC]";
+	mes "Nice! Now you can become a real hero.";
+	next;
+
+	mes "[Hero NPC]";
+	mes "Bring me this items, and I will transform you into a hero:";
+	mes "- 300 Heroic Emblems";
+	mes "- 5 Orc Hero Cards";
+	mes "- 2 Detale Cards";
+	mes "- 2 Thanatos Cards";
+	mes "- 250 Immortal Hearts";
+	next;
+
+	if (countitem(968)<300 || countitem(4143)<5 || countitem(4386)<2 || countitem(4399)<2 || countitem(929)<250){
+		mes "Hero NPC";
+		mes "See you soon...";
+	close;
+	}
+
+		mes "[Hero NPC]";
+		mes "So, you have collected them!";
+		mes "Now, choose your decided stat";
+		next;
+
+m_choseagain:
+	switch(select("+50 str:+50 agi:+50 vit:+50 int:+50 dex:+50 luk")){
+		case 1:	set @stattoadd$,"Str"; break;
+		case 2:	set @stattoadd$,"Agi"; break;
+		case 3:	set @stattoadd$,"Vit"; break;
+		case 4:	set @stattoadd$,"Int"; break;
+		case 5:	set @stattoadd$,"Dex"; break;
+		case 6:	set @stattoadd$,"Luk"; break;
+	}
+
+	mes "[Hero NPC]";
+	mes "So, you have chosen " + @stattoadd$ + ", are you sure? I can give you this great stat-bonus only once. Think carefully! ARE YOU SURE?";
+	next;
+	if(select("NO!!!:Yes")==1) goto m_choseagain;
+	mes "[Hero NPC]";
+	mes "OK, I will collect your items and will give you +50 " + @stattoadd$;
+	next;
+
+	if (@stattoadd$=="Str") set @stattoadd, readparam(bStr);
+	if (@stattoadd$=="Agi") set @stattoadd, readparam(bAgi);
+	if (@stattoadd$=="Vit") set @stattoadd, readparam(bVit);
+	if (@stattoadd$=="Int") set @stattoadd, readparam(bInt);
+	if (@stattoadd$=="Dex") set @stattoadd, readparam(bDex);
+	if (@stattoadd$=="Luk") set @stattoadd, readparam(bLuk);
+
+
+	delitem 968, 300;
+	delitem 4143, 5;
+	delitem 4386, 2;
+	delitem 4399, 2;
+	delitem 929, 250;
+
+	if (@quest==1){
+		if ((@stattoadd+50)>@maxstat){
+			mes "[Hero NPC]";
+			mes "WARNING! This stat will be maxed to the limit and you will loose some part of all available bonus!!!";
+			mes "I can give you last chance to avoid this and choose another stat!";
+			mes "Or you will loose " + ((@stattoadd+50) - @maxstat) + " " + @stattoadd$ + " points";
+			next;
+			switch(select("Ok, give me another chance:No, I am sure that I want this")){
+				case 1:	goto m_choseagain;
+				case 2:	break;
+			}
+		}
+		if (@stattoadd$=="Str") statusup2 bStr,50;
+		if (@stattoadd$=="Agi") statusup2 bAgi,50;
+		if (@stattoadd$=="Vit") statusup2 bVit,50;
+		if (@stattoadd$=="Int") statusup2 bInt,50;
+		if (@stattoadd$=="Dex") statusup2 bDex,50;
+		if (@stattoadd$=="Luk") statusup2 bLuk,50;
+		set heroquest,7;
+		mes "[Hero NPC]";
+	}
+	else {
+		if (@stattoadd$=="Str") { sc_start sc_strfood,1000*60*60*7,50; set heroquest,1; }
+		if (@stattoadd$=="Agi")	{ sc_start sc_agifood,1000*60*60*7,50; set heroquest,2; }
+		if (@stattoadd$=="Vit")	{ sc_start sc_vitfood,1000*60*60*7,50; set heroquest,3; }
+		if (@stattoadd$=="Int")	{ sc_start sc_intfood,1000*60*60*7,50; set heroquest,4; }
+		if (@stattoadd$=="Dex")	{ sc_start sc_dexfood,1000*60*60*7,50; set heroquest,5; }
+		if (@stattoadd$=="Luk")	{ sc_start sc_lukfood,1000*60*60*7,50; set heroquest,6; }
+		mes "[Hero NPC]";
+		mes "If you don't want to loose this bonus:";
+		mes "1) Don't eat food to increase this stat";
+		mes "2) If bonus sudenly disaper - just relog or go to Prontera";
+	}
+	announce strcharinfo(0)+" has completed Hero quest, congratulations! ^_^",0;
+	set $totalheroes, $totalheroes + 1;
+
+	if ($totalheroes==0){
+		set @heropage, 0;
+		set @heronumber, 0;
+	}
+	else{
+		set @heropage, ($totalheroes - 1) / 128;
+		set @heronumber, $totalheroes - (@heropage * 128);
+		setd "$heroes" + @heropage + "$[" + (@heronumber - 1) + "]", strcharinfo(0);
+	}
+
+	mes "Now you are a real hero!";
+	close;
+
+m_hall:
+	set @heropage, 0;
+	set @heronumberminusone, 0;
+	set @counter, 0;
+	mes "[Hero NPC]";
+	mes "Total we have " + $totalheroes + " heroes:";
+
+	if (getgmlevel()==99){
+		next;
+		mes "[Hero NPC]";
+		mes "Would you like to reset Hall of Fame?";
+		next;
+		
+		if(select("No:Yes")==1) goto m_hall2;
+		set @pages, ($totalheroes / 128);
+		
+		for( set @i,0; @i<=@pages ; set @i,@i+1 ){
+			cleararray getd("$heroes" + @i + "$[0]"),"",128;
+			set $totalheroes, 0;
+		}
+
+		mes "[Hero NPC]";
+		mes "Done";
+		close;
+	}
+
+m_hall2:
+	if (getd ("$heroes" + @heropage + "$[" + @heronumberminusone + "]")=="") close;
+	if (@counter % 20==0) {next; mes "[Hero NPC]";}
+
+	mes (@counter + 1) + " " + getd ("$heroes" + @heropage + "$[" + @heronumberminusone + "]");
+	set @counter, @counter + 1;
+	set @heronumberminusone, @heronumberminusone + 1;
+
+	if (@heronumberminusone==127){
+		set @heronumberminusone, 0;
+		set @heropage, @heropage + 1;
+		goto m_hall2;
+	}
+
+	goto m_hall2;
+
+
+
+OnPCLoginEvent:
+OnPCLoadMapEvent:
+	switch(heroquest) {
+		case 1: sc_start sc_strfood,1000*60*60*7,50; break;
+		case 2: sc_start sc_agifood,1000*60*60*7,50; break;
+		case 3: sc_start sc_vitfood,1000*60*60*7,50; break;
+		case 4: sc_start sc_intfood,1000*60*60*7,50; break;
+		case 5: sc_start sc_dexfood,1000*60*60*7,50; break;
+		case 6: sc_start sc_lukfood,1000*60*60*7,50; break; }
+
+}
+
+prontera	mapflag	loadevent

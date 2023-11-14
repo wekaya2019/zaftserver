@@ -1,0 +1,138 @@
+//===== eAthena Script =======================================================
+//= Donation Refine ( TXT & SQL )
+//===== By: ==================================================================
+//= Credit goes to whoever made this xD
+//===== Current Version: =====================================================
+//= 1.10a
+//===== Compatible With: =====================================================
+//= Any eAthena Version
+//===== Description: =========================================================
+//= Donation Refine Script
+//============================================================================
+new_1-2,28,185,4	script	+10 Refiner	821,{
+mes "[+10 Refiner]";
+mes "Good day "+strcharinfo(0);
+mes "If you want to refine your items to +10, please give me 1 ^3355FFProof of Donation^000000 so I can refine it without failing.";
+next;
+mes "[+10 Refiner]";
+mes "Now, what do you want to refine?";
+next;  
+function Refine;
+
+set @itemid, 7179; //Proof of Donation
+set @itemquantity, 100; // item quantity
+set @maxrefine, 10; // Max Refine
+
+menu "Refine equipment",REFIN,"Nothing at all",QUIT;
+
+REFIN:
+next;
+mes "[+10 Refiner]";
+mes "To refine a item you need:";
+mes "^FF0000 "+@itemquantity+" "+getitemname(@itemid)+"^000000";
+
+set @headtop$, getequipname(1);
+set @armor$, getequipname(2);
+set @handl$, getequipname(3);
+set @handr$, getequipname(4);
+set @garment$, getequipname(5);
+set @shoes$, getequipname(6);
+set @headmid$, getequipname(9);
+set @headlow$, getequipname(10);
+
+menu
+"[Head - Top] "+@headtop$,HEADTOP,
+"[Head - Mid] "+@headmid$,HEADMID,
+"[Head - Low] "+@headlow$,HEADLOW,
+"[Armor] "+@armor$,ARMOR,
+"[Garment] "+@garment$,GARMENT,
+"[Left Hand] "+@handl$,HANDL,
+"[Right Hand] "+@handr$,HANDR,
+"[Shoes] "+@shoes$,SHOES,
+"Cancel",QUIT;
+
+HEADTOP:
+set @slot, 1;
+callfunc Refine;
+
+HEADMID:
+set @slot, 9;
+callfunc Refine;
+
+HEADLOW:
+set @slot, 10;
+callfunc Refine;
+
+ARMOR:
+set @slot, 2;
+callfunc Refine;
+
+GARMENT:
+set @slot, 5;
+callfunc Refine;
+
+HANDL:
+set @slot, 3;
+callfunc Refine;
+
+HANDR:
+set @slot, 4;
+callfunc Refine;
+
+SHOES:
+set @slot, 6;
+callfunc Refine;
+
+QUIT:
+next;
+mes "[+10 Refiner]";
+mes "Okay, see you.";
+close;
+
+LATER:
+next;
+mes "[+10 Refiner]";
+mes "Thanks, have a nice day.";
+close;
+
+CANCEL:
+next;
+mes "[+10 Refiner]";
+mes "Okay, come back another time.";
+close;
+
+MAX:
+next;
+mes "[+10 Refiner]";
+mes "Sorry, but I can't refine this anymore.";
+close;
+
+NOWAY:
+next;
+mes "[+10 Refiner]";
+mes "Oh my, I can't refine this item!!!";
+close;
+
+NOREQ:
+next;
+mes "[+10 Refiner]";
+mes "Sorry, but you don't have the items I need";
+close;
+
+// ---------------Refine Equipment
+function	Refine	{
+if (getequiprefinerycnt(@slot) >= @maxrefine) goto MAX;
+menu "Do it!",-,"Cancel",CANCEL;
+
+if (countitem(@itemid) < @itemquantity) goto NOREQ;
+delitem @itemid, @itemquantity;
+
+set @repeat, (@maxrefine - getequiprefinerycnt(@slot));
+
+while (@repeat > 0) {
+successrefitem(@slot);
+set @repeat, @repeat - 1;
+}
+goto LATER;
+}
+}

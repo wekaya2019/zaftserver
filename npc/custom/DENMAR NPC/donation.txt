@@ -1,0 +1,63 @@
+
+/***
+  ** Script Request (Cash Trader NPC)
+  ** Link: http://rathena.org/board/topic/57101-request-cash-trader/
+  ** By Slim
+  ***/
+
+prt_in,129,167,5	script	Donation Manager	871,{
+
+//,677
+set .@coinid,7179;
+mes "[^0000FFDonation Manager^000000]";
+mes "Hi ^ff8800"+strcharinfo(0)+"^000000,";
+mes "Donation Item(s) are in the Cash Shop";
+mes "~ PODS into Cash Points";
+mes "Cash Points: [^ff0000"+#CASHPOINTS+"^000000]";
+switch(select("^ff0000>^000000 Cancel:^0000ff>^000000 Exchange to Cash Points:^0000ff>^000000 Exchange to PODS"))
+{
+
+case 1: break;
+case 2:
+next;
+mes "[^0000FFDonation Manager^000000]";
+mes "Please input the amount of coins that you want to exchange.";
+mes "Note: Put ^0000ff0^000000 to exit.";
+
+L_inpcoin:
+input @hcoins;
+set @hhcoins,@hcoins;
+if(@hhcoins == 0) { break; }
+if(countitem(.@coinid) < @hhcoins) { mes "* ^ff0000Please input a valid amount^000000"; mes "(Put ^0000ff0^000000 to exit)."; goto L_inpcoin; }
+next;
+delitem .@coinid,@hhcoins;
+set #CASHPOINTS,#CASHPOINTS+@hhcoins;
+mes "[^0000FFDonation Manager^000000]";
+mes "You've exchanged (^ff0000"+@hhcoins+"^000000) "+getitemname(.@coinid)+"(s). Total Cash Points: [^0000ff"+#CASHPOINTS+"^000000]";
+dispbottom "[Cash Trader] You've exchanged ("+@hhcoins+") "+getitemname(.@coinid)+"(s). Total Cash Points: ["+#CASHPOINTS+"]";
+break;
+case 3:
+next;
+mes "[^0000FFDonation Manager^000000]";
+mes "Please input the amount of cash that you want to exchange.";
+mes "Note: Put ^0000ff0^000000 to exit.";
+
+L_inpcash:
+input @hcash;
+set @hhcash,@hcash;
+if(@hhcash == 0) { break; }
+if(#CASHPOINTS < @hhcash) { mes "* ^ff0000Please input a valid amount^000000"; mes "(Put ^0000ff0^000000 to exit)."; goto L_inpcash; }
+
+//I know they weight 0 but just in case you change its weight
+if (!checkweight(.@coinid,@hhcash)) { mes "* ^ff0000You're overweight please store some items.^000000"; dispbottom "[Cash Trader] You're overweight please store some items."; break; }
+next;
+set #CASHPOINTS,#CASHPOINTS - @hhcash;
+getitem .@coinid,@hhcash;
+mes "[^0000FFDonation Manager^000000]";
+mes "You've exchanged (^ff0000"+@hhcash+"^000000) Cash Points to "+getitemname(.@coinid)+"(s). Total Cash Points: [^0000ff"+#CASHPOINTS+"^000000]";
+dispbottom "[Cash Trader] You've exchanged ("+@hhcash+") Cash Points to "+getitemname(.@coinid)+"(s). Total Cash Points: ["+#CASHPOINTS+"]";
+break;
+}
+
+close;
+}

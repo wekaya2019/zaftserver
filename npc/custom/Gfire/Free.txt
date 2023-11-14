@@ -1,0 +1,13 @@
+-	script	NoobieItem	-1,{
+
+OnPCLoginEvent:
+	if (Class==Job_Novice && BaseExp==0 && BaseLevel==1) {
+		getitem 2375,1; // Starting item for new characters
+		getitem 2433,1; // Starting item for new characters
+		getitem 2537,1; // Starting item for new characters
+		getitem 2729,2; // Starting item for new characters
+		getitem 607,100; // Starting item for new characters
+		set BaseExp,1;
+	}
+	end;
+}

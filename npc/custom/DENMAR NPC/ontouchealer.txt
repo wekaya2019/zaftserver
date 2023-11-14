@@ -1,0 +1,191 @@
+aretnorp,219,209,5	script	Recovery Zone	139,5,5,{
+end;
+OnTouch:
+atcommand "@repairall";
+atcommand "@iall";
+
+    specialeffect2 EF_HEAL2; percentheal 100,100; // heal 100% hp and sp.
+        specialeffect2 EF_INCAGILITY; sc_start SC_INC_AGI,240000,10;
+        specialeffect2 EF_BLESSING; sc_start SC_BLESSING,240000,10;
+    if ( countitem( 7608 ) ) {
+		specialeffect2 EF_ANGELUS; sc_start SC_ANGELUS, 360000, 10;
+		specialeffect2 EF_GLORIA; sc_start SC_GLORIA, 360000, 5;
+		specialeffect2 EF_MAGNIFICAT; sc_start SC_MAGNIFICAT, 360000, 5;
+		specialeffect2 EF_ASSUMPTIO; sc_start SC_ASSUMPTIO, 360000, 5;
+		specialeffect2 EF_IMPOSITIO; sc_start SC_IMPOSITIO, 360000, 5;
+		specialeffect2 EF_SUFFRAGIUM; sc_start SC_SUFFRAGIUM, 360000, 3;
+
+		 //Archer Class Buffs
+		specialeffect2 EF_TRUESIGHT; sc_start SC_TRUESIGHT, 360000, 5;
+		specialeffect2 EF_PORTAL4; sc_start SC_WINDWALK, 360000, 5;
+		specialeffect2 EF_CONCENTRATION; sc_start SC_CONCENTRATION, 360000, 5;
+
+
+		// Swordman Class Buffs
+		specialeffect2 EF_ENDURE; sc_start SC_ENDURE, 360000, 10;
+
+		sc_start SC_MINOR_BBQ,300000,20;
+		sc_start SC_SAVAGE_STEAK,300000,20;	
+		sc_start SC_COCKTAIL_WARG_BLOOD,300000,20;
+		sc_start SC_SIROMA_ICE_TEA,300000,20;
+		sc_start SC_DROCERA_HERB_STEAMED,300000,20;
+		sc_start SC_PUTTI_TAILS_NOODLES,300000,20;
+
+    }
+
+    end;
+}
+
+aretnorp,198,248,5	script	Main Recovery Zone	139,5,5,{
+end;
+OnTouch:
+atcommand "@repairall";
+atcommand "@iall";
+
+    specialeffect2 EF_HEAL2; percentheal 100,100; // heal 100% hp and sp.
+        specialeffect2 EF_INCAGILITY; sc_start SC_INC_AGI,240000,10;
+        specialeffect2 EF_BLESSING; sc_start SC_BLESSING,240000,10;
+    if ( countitem( 7608 ) ) {
+		specialeffect2 EF_ANGELUS; sc_start SC_ANGELUS, 360000, 10;
+		specialeffect2 EF_GLORIA; sc_start SC_GLORIA, 360000, 5;
+		specialeffect2 EF_MAGNIFICAT; sc_start SC_MAGNIFICAT, 360000, 5;
+		specialeffect2 EF_ASSUMPTIO; sc_start SC_ASSUMPTIO, 360000, 5;
+		specialeffect2 EF_IMPOSITIO; sc_start SC_IMPOSITIO, 360000, 5;
+		specialeffect2 EF_SUFFRAGIUM; sc_start SC_SUFFRAGIUM, 360000, 3;
+
+		 //Archer Class Buffs
+		specialeffect2 EF_TRUESIGHT; sc_start SC_TRUESIGHT, 360000, 5;
+		specialeffect2 EF_PORTAL4; sc_start SC_WINDWALK, 360000, 5;
+		specialeffect2 EF_CONCENTRATION; sc_start SC_CONCENTRATION, 360000, 5;
+
+
+		// Swordman Class Buffs
+		specialeffect2 EF_ENDURE; sc_start SC_ENDURE, 360000, 10;
+
+		sc_start SC_MINOR_BBQ,300000,20;
+		sc_start SC_SAVAGE_STEAK,300000,20;	
+		sc_start SC_COCKTAIL_WARG_BLOOD,300000,20;
+		sc_start SC_SIROMA_ICE_TEA,300000,20;
+		sc_start SC_DROCERA_HERB_STEAMED,300000,20;
+		sc_start SC_PUTTI_TAILS_NOODLES,300000,20;
+
+    }
+
+    end;
+}
+
+aretnorp,184,54,5	script	Bossnia Recovery Zone	139,5,5,{
+end;
+OnTouch:
+atcommand "@repairall";
+atcommand "@iall";
+
+    specialeffect2 EF_HEAL2; percentheal 100,100; // heal 100% hp and sp.
+        specialeffect2 EF_INCAGILITY; sc_start SC_INC_AGI,240000,10;
+        specialeffect2 EF_BLESSING; sc_start SC_BLESSING,240000,10;
+    if ( countitem( 7608 ) ) {
+		specialeffect2 EF_ANGELUS; sc_start SC_ANGELUS, 360000, 10;
+		specialeffect2 EF_GLORIA; sc_start SC_GLORIA, 360000, 5;
+		specialeffect2 EF_MAGNIFICAT; sc_start SC_MAGNIFICAT, 360000, 5;
+		specialeffect2 EF_ASSUMPTIO; sc_start SC_ASSUMPTIO, 360000, 5;
+		specialeffect2 EF_IMPOSITIO; sc_start SC_IMPOSITIO, 360000, 5;
+		specialeffect2 EF_SUFFRAGIUM; sc_start SC_SUFFRAGIUM, 360000, 3;
+
+		 //Archer Class Buffs
+		specialeffect2 EF_TRUESIGHT; sc_start SC_TRUESIGHT, 360000, 5;
+		specialeffect2 EF_PORTAL4; sc_start SC_WINDWALK, 360000, 5;
+		specialeffect2 EF_CONCENTRATION; sc_start SC_CONCENTRATION, 360000, 5;
+
+
+		// Swordman Class Buffs
+		specialeffect2 EF_ENDURE; sc_start SC_ENDURE, 360000, 10;
+
+		sc_start SC_MINOR_BBQ,300000,20;
+		sc_start SC_SAVAGE_STEAK,300000,20;	
+		sc_start SC_COCKTAIL_WARG_BLOOD,300000,20;
+		sc_start SC_SIROMA_ICE_TEA,300000,20;
+		sc_start SC_DROCERA_HERB_STEAMED,300000,20;
+		sc_start SC_PUTTI_TAILS_NOODLES,300000,20;
+
+    }
+
+    end;
+}
+
+alberta,191,146,5	script	Alberta Recovery Zone	139,5,5,{
+end;
+OnTouch:
+atcommand "@repairall";
+atcommand "@iall";
+
+    specialeffect2 EF_HEAL2; percentheal 100,100; // heal 100% hp and sp.
+        specialeffect2 EF_INCAGILITY; sc_start SC_INC_AGI,240000,10;
+        specialeffect2 EF_BLESSING; sc_start SC_BLESSING,240000,10;
+    if ( countitem( 7608 ) ) {
+		specialeffect2 EF_ANGELUS; sc_start SC_ANGELUS, 360000, 10;
+		specialeffect2 EF_GLORIA; sc_start SC_GLORIA, 360000, 5;
+		specialeffect2 EF_MAGNIFICAT; sc_start SC_MAGNIFICAT, 360000, 5;
+		specialeffect2 EF_ASSUMPTIO; sc_start SC_ASSUMPTIO, 360000, 5;
+		specialeffect2 EF_IMPOSITIO; sc_start SC_IMPOSITIO, 360000, 5;
+		specialeffect2 EF_SUFFRAGIUM; sc_start SC_SUFFRAGIUM, 360000, 3;
+
+		 //Archer Class Buffs
+		specialeffect2 EF_TRUESIGHT; sc_start SC_TRUESIGHT, 360000, 5;
+		specialeffect2 EF_PORTAL4; sc_start SC_WINDWALK, 360000, 5;
+		specialeffect2 EF_CONCENTRATION; sc_start SC_CONCENTRATION, 360000, 5;
+
+
+		// Swordman Class Buffs
+		specialeffect2 EF_ENDURE; sc_start SC_ENDURE, 360000, 10;
+
+		sc_start SC_MINOR_BBQ,300000,20;
+		sc_start SC_SAVAGE_STEAK,300000,20;	
+		sc_start SC_COCKTAIL_WARG_BLOOD,300000,20;
+		sc_start SC_SIROMA_ICE_TEA,300000,20;
+		sc_start SC_DROCERA_HERB_STEAMED,300000,20;
+		sc_start SC_PUTTI_TAILS_NOODLES,300000,20;
+
+    }
+
+    end;
+}
+
+aretnorp,184,351,5	script	BG Recovery Zone	139,5,5,{
+end;
+OnTouch:
+atcommand "@repairall";
+atcommand "@iall";
+
+    specialeffect2 EF_HEAL2; percentheal 100,100; // heal 100% hp and sp.
+        specialeffect2 EF_INCAGILITY; sc_start SC_INC_AGI,240000,10;
+        specialeffect2 EF_BLESSING; sc_start SC_BLESSING,240000,10;
+    if ( countitem( 7608 ) ) {
+		specialeffect2 EF_ANGELUS; sc_start SC_ANGELUS, 360000, 10;
+		specialeffect2 EF_GLORIA; sc_start SC_GLORIA, 360000, 5;
+		specialeffect2 EF_MAGNIFICAT; sc_start SC_MAGNIFICAT, 360000, 5;
+		specialeffect2 EF_ASSUMPTIO; sc_start SC_ASSUMPTIO, 360000, 5;
+		specialeffect2 EF_IMPOSITIO; sc_start SC_IMPOSITIO, 360000, 5;
+		specialeffect2 EF_SUFFRAGIUM; sc_start SC_SUFFRAGIUM, 360000, 3;
+
+		 //Archer Class Buffs
+		specialeffect2 EF_TRUESIGHT; sc_start SC_TRUESIGHT, 360000, 5;
+		specialeffect2 EF_PORTAL4; sc_start SC_WINDWALK, 360000, 5;
+		specialeffect2 EF_CONCENTRATION; sc_start SC_CONCENTRATION, 360000, 5;
+
+
+		// Swordman Class Buffs
+		specialeffect2 EF_ENDURE; sc_start SC_ENDURE, 360000, 10;
+
+		sc_start SC_MINOR_BBQ,300000,20;
+		sc_start SC_SAVAGE_STEAK,300000,20;	
+		sc_start SC_COCKTAIL_WARG_BLOOD,300000,20;
+		sc_start SC_SIROMA_ICE_TEA,300000,20;
+		sc_start SC_DROCERA_HERB_STEAMED,300000,20;
+		sc_start SC_PUTTI_TAILS_NOODLES,300000,20;
+
+    }
+
+    end;
+}
+
+

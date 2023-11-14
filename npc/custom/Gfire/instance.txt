@@ -1,0 +1,152 @@
+aretnorp,228,217,4	script	Raid	686,{
+	mes "[This is Raid Dungeon]";
+	mes "you need to make a party of EXACTLY "+ .register_min +" members ... so i can allow you to dive inside.";
+	mes "Inside this raid dungeon, there would be 6 Levels of Mob.";
+	mes "Lever 1, Lever 2, Lever 3, and so on and so forth";
+	mes "as the Lvl increases the more the mobs gets stronger. so better be carefull";
+	mes "the next lever will appear after you finish the mobs  of ( e.g. Lever 1 )";
+	mes "after Lever 1-6 which is normal mobs";
+	mes "the Lever for boss of this raid dungeon will appear";
+	mes "NOTE: this is a custom mob Boss Monster so u better be prepare what ever it happens";
+	mes "and oh i forgot (your party has only 15 lives)";
+	mes "you can resurrect them by using Yggdrasil leaf or Skill of priest";
+	mes "but remember just 15 Lives. if ur party exceed this limit your party will be automatically warped out";
+	mes "so are you ready?";
+	mes "here we go";
+	next;
+	if ( !getcharid(1) ) {
+		mes "You have to form a party to play.";
+		close;
+	}
+	if ( getpartyleader( getcharid(1), 2 ) != getcharid(0) ) {
+		mes "Only the party leader can register.";
+		close;
+	}
+	if ( !countitem( .register_item ) ) {
+		mes "you don't have "+ getitemname( .register_item );
+		close;
+	}
+	.@origin = getcharid(3);
+	getpartymember getcharid(1), 1;
+	getpartymember getcharid(1), 2;
+	for ( .@i = 0; .@i < $@partymembercount; .@i++ ) {
+		if ( isloggedin( $@partymemberaid[.@i], $@partymembercid[.@i] ) ) {
+			attachrid $@partymemberaid[.@i];
+			if ( strcharinfo(3) == strnpcinfo(4) ) {
+				.@online++;
+				if ( #raid_ins_deny + .deny_enter > gettimetick(2) ) {
+					.@denyname$[.@denycount] = strcharinfo(0);
+					.@denytime[.@denycount] = #raid_ins_deny + .deny_enter;
+					.@denycount++;
+				}
+			}
+		}
+	}
+	attachrid .@origin;
+	if ( $@partymembercount != .register_min ) {
+		mes "[MvP Ladder Warper]";
+		mes "You have to form a party with exactly "+ .register_min +" members to play.";
+		close;
+	}
+	else if ( .@online != .register_min )  {
+		mes "[MvP Ladder Warper]";
+		mes "Your party must have "+ .register_min +" members online on map '"+ strnpcinfo(4) +"'.";
+		close;
+	}
+	else if ( .@denycount ) {
+		mes "[MvP Ladder Warper]";
+		mes "There are a few party members that just enter this dungeon recently";
+		for ( .@i = 0; .@i < .@denycount; .@i++ )
+			mes ( .@i +1 ) +". "+ .@denyname$[.@i] +" has to come back in "+ callfunc( "Time2Str", .@denytime );
+		close;
+	}
+	if ( ( .@ins = instance_create( "Raid Dungeon", getcharid(1), 2 ) ) < 0 ) {
+		mes "error : "+ .@ins;
+		close;
+	}
+	if ( instance_attachmap( "kh_kiehl02", .@ins, 1, getcharid(1)+"RAID" ) == "" ) {
+		mes "error : 5";
+		instance_destroy .@ins;
+		close;
+	}
+	instance_set_timeout 0, 60, .@ins;
+	instance_init .@ins;
+	instance_attach .@ins;
+	delitem .register_item, 1;
+	for ( .@i = 0; .@i < $@partymembercount; .@i++ ) {
+		if ( isloggedin( $@partymemberaid[.@i], $@partymembercid[.@i] ) ) {
+			attachrid $@partymemberaid[.@i];
+			if ( strcharinfo(3) == strnpcinfo(4) ) {
+				#raid_ins_deny = gettimetick(2);
+				warp has_instance("kh_kiehl02"), 50,8;
+			}
+		}
+	}
+	'lives = .party_lives;
+	end;
+OnInit:
+	.register_min = 6; // the exact amount of party members to have in the party to start
+	.register_item = 20167; // this item is require to start the event
+	.party_lives = 15; // number of lives for the party members to lose their life, otherwise they'll fail at this event
+	.deny_enter = 30; // how many seconds to deny them from keep entering this instanced dungeon
+
+	setarray .round1[0], 3231,2,3232,2,3233,2,3234,2,3235,2,3236,2,3237,2,3238,2,3239,2,3240,2;
+	setarray .round2[0], 3241,2,3242,2,3243,2,3244,2,3245,2,3246,2,3247,2,3248,2,3249,2,3250,2;
+	setarray .round3[0], 3251,2,3252,2,3253,2,3254,2,3255,2,3256,2,3257,2,3258,2,3259,2,3260,2;
+	setarray .round4[0], 3261,2,3262,2,3263,2,3264,2,3265,2,3266,2,3267,2,3268,2,3269,2,3270,2;
+	setarray .round5[0], 3271,2,3272,2,3273,2,3274,2,3275,2,3276,2,3277,2,3278,2,3279,2,3280,2;
+	setarray .round6[0], 3281,2,3282,2,3283,2,3284,2,3285,2,3286,2,3287,2,3288,2,3289,2,3290,2,3291,2,3292,2,3293,2,3294,2;
+	setarray .round7[0], 3295,1;
+	.totalround = 7;
+
+	getmapxy .Map$, .x, .y, 1;
+	end;
+OnPCDieEvent:
+	if ( strcharinfo(3) == has_instance("kh_kiehl02") ) {
+		instance_attach has_instance2( "kh_kiehl02" );
+		'lives--;
+		if ( !'lives ) {
+			instance_announce -1, "Your party has used up all the lives", bc_map;
+			.@map$ = strcharinfo(3);
+			killmonsterall .@map$;
+			sleep 10000;
+			mapwarp .@map$, .Map$, .x, .y;
+		}
+		else {
+			instance_announce -1, "Your party still has "+ 'lives +" lives left", bc_map;
+		}
+	}
+	end;
+}
+kh_kiehl02,0,0,0	script	Raid_ins	-1,{
+OnInstanceInit:
+	sleep 10000; // delay abit
+Ondead:
+	if ( 'round ) 'killed++;
+	if ( 'killed < 'total ) end;
+	.@main$ = "Raid"; // main npc name
+	'round++;
+	'killed = 0;
+	if ( 'round == getvariableofnpc( .totalround, .@main$ ) +1 ) {
+		instance_announce -1, "Congratulations !", bc_all;
+		sleep 10000;
+		instance_warpall getvariableofnpc( .Map$, .@main$ ), getvariableofnpc( .x, .@main$ ), getvariableofnpc( .y, .@main$ );
+		end;
+	}
+	instance_announce -1, "Prepare for Level "+ 'round +" Mobs...", bc_all;
+	sleep 10000;
+	.@size = getarraysize( getvariableofnpc( getd( ".round"+ 'round ), .@main$ ) );
+	'total = 0;
+	for ( .@j = 0; .@j < .@size; .@j += 2 ) {
+		monster has_instance( "kh_kiehl02" ), 0,0, "--ja--", getvariableofnpc( getelementofarray( getd( ".round"+ 'round ), .@j ), .@main$ ), getvariableofnpc( getelementofarray( getd( ".round"+ 'round ), .@j +1 ), .@main$ ), instance_npcname( strnpcinfo(0) )+"::Ondead";
+		'total = 'total + getvariableofnpc( getelementofarray( getd( ".round"+ 'round ), .@j +1 ), .@main$ );
+	}
+	end;
+}
+
+kh_kiehl02	mapflag	nowarp
+kh_kiehl02	mapflag	nowarpto
+kh_kiehl02	mapflag	nomemo
+kh_kiehl02	mapflag	nosave
+kh_kiehl02	mapflag	partylock
+kh_kiehl02	mapflag	src4instance

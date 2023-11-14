@@ -1,0 +1,10 @@
+//The Warper to Quest Room
+
+prontera,133,186,5	script	• Bullet •	837,{
+	
+
+OnInit:
+waitingroom "•  Vote for points enter here >>>>  •",0,0;
+end;
+
+}

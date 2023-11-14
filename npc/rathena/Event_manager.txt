@@ -1,0 +1,8 @@
+prontera,171,176,4	script	Event Warper	903,{
+	warp "poring_w02" ,99,196;
+
+OnInit:
+waitingroom "Event Manager",0;
+close;
+end;
+}	

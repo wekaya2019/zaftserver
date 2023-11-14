@@ -1,0 +1,7 @@
+- script PCETrigger -1,{
+ 
+OnMinute00:
+if(gettime(3) == 0 || gettime(3) == 3 || gettime(3) == 6 || gettime(3) == 9 || gettime(3) == 12 || gettime(3) == 15)  donpcevent "pcetrigger::OnCatcherTrigger";
+end;
+ 
+}

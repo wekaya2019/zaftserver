@@ -1,0 +1,16 @@
+-	script	Sample	-1,{
+OnInit:
+if( gettime(3) < 18 ){
+day;
+}else{
+night;
+}
+end;
+OnClock0600:
+day;
+end;
+
+OnClock1800:
+night;
+end;
+}

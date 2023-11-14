@@ -1,0 +1,46 @@
+aretnorp,166,201,4    scriptSafe Refiner    714,{ 
+mes "Hello i am ^ff0000[100% Sure Refiner]^000000";
+mes "I can refine your equipments to its maximum limit.";
+mes "But be careful on what you are choosing for. i cant de-refine it.";
+next;
+mes "Are you sure?";
+next;
+mes "OK but first u must know this";
+next;
+mes "i will required you to have ^ff0000[eRO Refine Ticket[10PCS]^000000";
+next;
+mes "Ok choose what item you want to be refined";
+next;
+set @refine,.equip_part[select(getequipname(.equip_part[0]),
+                getequipname(.equip_part[1]),
+                getequipname(.equip_part[2]),
+                getequipname(.equip_part[3]),
+                getequipname(.equip_part[4]),
+                getequipname(.equip_part[5]),
+                getequipname(.equip_part[6]),
+                getequipname(.equip_part[7]),
+                getequipname(.equip_part[8]),
+                getequipname(.equip_part[9]))-1];
+ 
+if(countitem(25107) < 10) {
+mes "I told you to have:";
+mes ""+((countitem(25107) < 10)?"^ff0000[eRO Refine Tickets^000000":"")+"";
+close;
+}
+if(getequiprefinerycnt(@refine) >= 10) {
+mes "+10 Item cannot be refined anymore.";
+close;
+}
+else {
+delitem 25107,10;
+successrefitem @refine;
+mes "Clang Clang! Success!";
+next;
+mes "Here yah go enjoy ur stay";
+close;
+}
+ 
+OnInit:
+    setarray .equip_part[0],1,2,3,4,5,6,7,8,9,10;
+}
+ 

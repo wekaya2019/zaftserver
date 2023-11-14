@@ -1,0 +1,30 @@
+aretnorp,218,255,4	script	Freebies	112,{
+	delwaitingroom;
+	waitingroom "Free Item Here!",0;   // Look on the configuration!
+if( !Freebies ){
+set Freebies,1;
+mes "Welcome...this is your gift...";
+getitem  2357,1; //armorvalk
+	getitem  2421,1; //shoes valk
+	getitem  2524,1; //valkmantue
+	getitem  2115,1; //shield valk
+//	getitem  2626,2; //briss
+	getitem  4142,1; //dopelganger
+	getitem  4302,1; //tao-gunka
+	getitem  4047,1; //ghost-ring
+	getitem  4198,1; //maya-p
+	getitem  4146,1; //maya
+	getitem  4131,1; //moonlight c
+	getitem  4147,1; //baphomet
+	getitem 4047,1; //ghostring card
+	getitem 4142,1; //dopelganger card
+	getitem 2421,1; //shoes valk card
+	getitem 2357,1; //armor valk card
+	getitem 2115,1; //shield valk card
+	getitem 4147,1; //baphomet card
+	getitem 4305,4; //turtle general
+}else{
+mes "You have claim the Reward already.";
+}
+close;
+}

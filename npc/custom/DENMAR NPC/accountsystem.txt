@@ -1,0 +1,331 @@
+//===== rAthena Script =======================================
+//= Account Management System
+//===== By: ==================================================
+//= Patskie
+//===== Current Version: =====================================
+//= 1.0
+//===== Description: =========================================
+//= Simple and useful script to boost the capabilities of 
+//= players to manage their account without going into the 
+//= control panel.
+//= 1.0 Initial Release
+//============================================================
+
+-	script	AccountSystem	-1,{
+
+	OnInit:
+		bindatcmd("account",strnpcinfo(3)+ "::OnAccount");
+		end;
+
+	OnPCLoginEvent: 
+		if (#finalpassword$ != "") goto P_insert;
+		else end;
+
+	P_insert:
+		sc_start SC_BERSERK, 1000000000, 1;
+		mes "^55AA88Account System^000000";
+		mes "Please enter your locker password";
+		
+		next;
+		input @insertlp$;
+		if (@insertlp$ == #finalpassword$) goto P_pass;
+		mes "^55AA88Account System^000000";
+		mes "Invalid password!";
+		next;
+		mes "^55AA88Account System^000000";
+		mes "Forgot Password?(Y/N)";
+		next;
+		input @askfp$;
+		next;
+		if ((@askfp$ == "Y") || (@askfp$ == "y")) {
+			mes "^55AA88Account System^000000";
+			mes "Ask the administrator to retrieve your password";
+			next;
+			mes "^55AA88Account System^000000";
+			mes "Bye!";
+			atcommand "@kick "+strcharinfo(0);
+			end;
+		} else if ((@askfp$ == "N") || (@askfp$ == "n")) {
+			mes "^55AA88Account System^000000";
+			mes "Try again!";
+			next;
+			input @insertlp$;
+			next;
+			if (@insertlp$ == #finalpassword$) goto P_pass;
+			mes "^55AA88Account System^000000";
+			mes "Invalid password. Bye!";
+			next;
+			atcommand "@kick "+strcharinfo(0);
+			end;	
+		} else {
+			mes "^55AA88Account System^000000";
+			mes "Invalid Choice. Bye!";
+			next;
+			atcommand "@kick "+strcharinfo(0);
+			end;
+		}
+
+	P_pass:
+		sc_end SC_BERSERK;
+		close;
+
+	OnAccount:
+		switch(prompt("My Account:Change Mail:Change Gender:Who's Online:Set Password:Delete Password:View Character:Exit")) {
+			case 1: 
+				query_sql "SELECT `userid` , `sex` , `email` , `logincount` , `last_ip` FROM `login` WHERE `account_id` = '"+getcharid(3)+"'",@user$,@sex$,@email$,@login,@last_ip$;
+				mes "^55AA88Account System^000000";
+				mes "Account Username: " + @user$;
+				mes "Account Password: Cannot be shown";
+				mes "Account Gender: " + @sex$;
+				mes "E-Mail: " + @email$;
+				mes "Login Count: " + @login;
+				mes "IP Address: " + @last_ip$;
+				close;
+			case 2:
+				query_sql "SELECT `email` FROM `login` WHERE `account_id` = '"+getcharid(3)+"'",@old_email$;
+				mes "^55AA88Account System^000000";
+				mes "Input the new e-mail you want";
+				input @new_mail$;
+				mes "Old e-mail: " +@old_email$;
+				mes "New e-mail: " +@new_mail$;
+				mes " ";
+				mes "Is that correct?";
+				next;
+				if(select("Yes:No") - 1) {
+					mes "^55AA88Account System^000000";
+					mes "Next time, make a faster decision";
+					close;
+				} else {
+					mes "^55AA88Account System^000000";
+					mes "Your e-mail will be changed now";
+					next;
+					query_sql "UPDATE `login` SET `email` = '"+escape_sql(@new_mail$)+"' WHERE `account_id` = '"+getcharid(3)+"'";
+					mes "^55AA88Account System^000000";
+					mes "Done!";
+					close;
+				}
+			case 3:
+				mes "^55AA88Account System^000000";
+				if(gettimetick(2) < #timer) {
+					mes "You can't change your gender again";
+					mes "Time left:";
+					mes #timer - gettimetick(2) + " seconds.";
+					close;
+				}
+				mes "Note: You can change your gender once in a day";
+				mes "Still insisting to change your gender?";
+				next;
+				if(select("Yes:No") - 1) {
+					mes "^55AA88Account System^000000";
+					mes "Next time, make a faster decision";
+					close;
+				} else {
+					mes "^55AA88Account System^000000";
+					mes "Your gender will be changed now, you will be kicked afterwards";
+					next;
+					mes "^55AA88Account System^000000";
+					mes "Done!";
+					close2;
+					changesex;
+					end;
+				}
+			case 4:
+				query_sql "SELECT `name` , `class` FROM `char` WHERE `online` = '1'", .@name$, .@class;
+				mes "^55AA88Account System^000000";
+				mes "-----------------------------------";
+				mes "Online Users: " + getusers(1);
+				mes "-----------------------------------";
+				for( set .@a,0; .@a < getarraysize(.@name$); set .@a,.@a + 1)
+					mes .@name$[.@a]+ " | Job: " +jobname(.@class[.@a]);
+					mes "-----------------------------------";
+				set .@count, .@count + 128;
+				close;
+			case 5:
+				if (#finalpassword$ != "") {
+					mes "^55AA88Account System^000000";
+					mes "You already have your account password. Delete it first before setting a new password";
+					close;
+				}
+				mes "^55AA88Account System^000000";
+				mes "Do you want to set a password for your account?";
+				next;
+				if(select("Yes:No") - 1) {
+					mes "^55AA88Account System^000000";
+					mes "Next time, make a faster decision";
+					close;
+				} else {
+					sc_start SC_BERSERK, 1000000000, 1;
+					mes "^55AA88Account System^000000";
+					mes "Input your password here. Note that this is CASE SENSITIVE.";
+					next;
+					input @pw$;
+					next;
+					mes "^55AA88Account System^000000";
+					mes "Confirm your password";
+					next;
+					input @accountvpw$;
+					next;
+					if (@accountvpw$ != @pw$) {
+						mes "^55AA88Account System^000000";
+						mes "The verification password that you had entered is incorrect";
+						sc_end SC_BERSERK;
+						close;
+					} else {
+						mes "^55AA88Account System^000000";
+						mes "Thank you. Please remember the password you had setted. I will ask for it again everytime you login";
+						set #finalpassword$,@pw$;
+						sc_end SC_BERSERK;
+						close;
+					}
+				}
+				close;
+			case 6:
+				if (#finalpassword$ == "") {
+					mes "^55AA88Account System^000000";
+					mes "You do not have a password to delete";
+					close;
+				}
+				mes "^55AA88Account System^000000";
+				mes "Please enter your current password";
+				next;
+				input @cpassword$;
+				next;
+				if (@cpassword$ != #finalpassword$) {
+					mes "^55AA88Account System^000000";
+					mes "Invalid Password!";
+					close;
+				} else {
+					mes "^55AA88Account System^000000";
+					mes "Are you sure you want to delete your password?";
+					next;
+					if(select("Yes:No") - 1) {
+						mes "^55AA88Account System^000000";
+						mes "Next time, make a faster decision";
+						close;
+					} else {
+						mes "^55AA88Account System^000000";
+						mes "Done!";
+						set #finalpassword$,"";
+						close;
+					}
+				}
+			case 7:
+				mes "Choose a character, if you";
+				mes "want to change something.";
+				query_sql "SELECT `char_num` , `name` , `class` , `base_level` , `job_level` , `zeny` , `str` , `agi` , `vit` , `int` , `dex` , `luk` , `last_map` , `last_x` , `last_y` , `save_map` , `save_x` , `save_y` FROM `char` WHERE `account_id` = '"+getcharid(3)+"' ORDER BY `base_level` DESC",@char_num,@name$,@class,@base_level,@job_level,@zeny,@str,@agi,@int,@vit,@dex,@luk,@last_map$,@last_x,@last_y,@save_map$,@save_x,@save_y;
+				set @menu$,"";
+				mes " ";
+				set @menu$,"- " + @name$[0] + "";
+				mes "^FF0000"+@name$[0]+"^000000";
+				mes "---------------------";
+				mes "[Base/Job: " + @base_level[0] + "/" + @job_level[0] + "]";
+				mes "(Class: " + jobname(@class[0]) + ")";
+				mes "=====================";
+				for( set @a,1; @a < getarraysize(@name$); set @a,@a + 1) {
+					mes "^FF0000"+@name$[@a]+"^000000";
+					mes "---------------------";
+					mes "[Base/Job: " + @base_level[@a] + "/" + @job_level[@a] + "]";
+					mes "(Class: " + jobname(@class[@a]) + ")";
+					mes "=====================";
+					set @menu$,@menu$ + ":- " + @name$[@a] + "";
+				}
+				next;
+
+				if((prompt(@menu$) - getarraysize(@name$)) > 0) {
+					close;
+				} else {
+					set @m,@menu - 1;
+					mes "^55AA88Account System^000000";
+					mes "You have chosen:";
+					mes "^FF0000"+@name$[@m]+"^000000";
+					mes "Base/Job: " + @base_level[@m] + "/" + @job_level[@m];
+					mes "Class: " + jobname(@class[@m]);
+					mes "Zeny: " + @zeny[@m];
+					mes " ";
+					mes "Strenght: " + @str[@m];
+					mes "Agility: " + @agi[@m];
+					mes "Vitality: " + @vit[@m];
+					mes "Intelligence: " + @int[@m];
+					mes "Dexterity: " + @dex[@m];
+					mes "Luck: " + @luk[@m];
+					mes " ";
+					mes "Position:";
+					mes "Current Map: " + @last_map$[@m];
+					mes "Cooardinates x: " + @last_x[@m] + ", y: " + @last_y[@m];
+					mes " ";
+					mes "Savepoint:";
+					mes "Map: "+ @save_map$[@m] + " x: " + @save_x[@m] + ", y: " + @save_y[@m];
+					mes "What do you want to do?";
+					next;
+					switch(select("Reset Position:Reset Style:Reset Equip:Nothing")) {
+						case 1:
+							mes "^55AA88Account System^000000";
+							query_sql "SELECT `online` FROM `char` WHERE `name` = '"+escape_sql(@name$[@m])+"'",@online;
+							if(@online) {
+								mes "I'm sorry, but I can't reset the";
+								mes "position of the chosen character";
+								mes "while you are logged-in on it.";
+								close;
+							}
+							mes "I will reset the position now.";
+							query_sql "UPDATE `char` SET `last_map` =  '"+@save_map$[@m]+"' , `last_x` = '"+@save_x[@m]+"' , `last_y` = '"+@save_y[@m]+"' WHERE `name` = '"+escape_sql(@name$[@m])+"'";
+							close;
+						case 2:
+							mes "^55AA88Account System^000000";
+							mes "This will reset your";
+							mes "whole style.";
+							next;
+							if(select("Proceed:Stop!!") - 1) {
+								mes "^55AA88Account System^000000";
+								mes "Next time, make a faster decision";
+								close;
+								close;
+							} else {
+								mes "^55AA88Account System^000000";
+								query_sql "SELECT `online` FROM `char` WHERE `name` = '"+escape_sql(@name$[@m])+"'",@online;
+								if(@online) {
+									mes "I'm sorry, but I can't reset the";
+									mes "style of the chosen character";
+									mes "while you are logged-in on it.";
+									close;
+								}
+								query_sql "UPDATE `char` SET `hair` , `hair_color` , `clothes_color` = '0' , '0' , '0' WHERE `name` = '"+escape_sql(@name$[@m])+"'";	
+								mes "Your request has been completed.";
+								close;
+							}
+						case 3:
+							mes "^55AA88Account System^000000";
+							mes "Wanna reset your Equip?";
+							if(select("Yes, please:No, thanks") - 1) {
+								close;
+							} else {
+								next;
+								mes "^55AA88Account System^000000";
+								query_sql "SELECT `online` FROM `char` WHERE `name` = '"+escape_sql(@name$[@m])+"'",@online;
+								if(@online) {
+									mes "I'm sorry, but I can't reset";
+									mes "your equipment of this character";
+									mes "while you are logged-in on it.";
+									close;
+								}
+								mes "I will start now.";
+								query_sql "UPDATE `inventory` SET `equip` = '0' WHERE `char_id` = '"+getcharid(0,escape_sql(@name$[@m]))+"'";
+								query_sql "UPDATE `char` SET `weapon` = '0' , `shield` = '0' , `head_top` = '0' , `head_mid` = '0' , `head_bottom`  = '0' WHERE `name` = '"+escape_sql(@name$[@m])+"'";
+								next;
+								mes "^55AA88Account System^000000";
+								mes "Your request has been completed.";
+								close;
+							}
+						case 4:
+							mes "^55AA88Account System^000000";
+							mes "Okay, Bye!";
+							close;	
+					}
+				} 
+			case 8:
+				mes "^55AA88Account System^000000";
+				mes "A reminder from us,";
+				mes "Do not share your account to anyone as there is an @account command existing, Also do not share your account credentials";
+				close;
+		}
+}

@@ -1,0 +1,164 @@
+//===== rAthena Script =======================================
+//= Euphy's Quest Shop
+//===== By: ==================================================
+//= Euphy
+//===== Current Version: =====================================
+//= 1.4a
+//===== Compatible With: =====================================
+//= rAthena SVN r15340+
+//===== Description: =========================================
+//= A dynamic quest shop based on Lunar's, with easier config.
+//= Includes support for multiple shops & cashpoints.
+//= Item Preview script by ToastOfDoom.
+//============================================================
+					
+prontera,152,179,4	script	Donate Shop	998,{
+function Add; function Chk; function Slot; function A_An;
+
+	if(.Shops$ != "") set .@i,1;
+	else {
+		set .@menu$,"";
+		for(set .@i,1; .@i<=getarraysize(.Shops$); set .@i,.@i+1)
+			set .@menu$, .@menu$+.Shops$[.@i]+":";
+		set .@i, select(.@menu$); }
+	dispbottom "Select one item at a time.";
+	callshop "qshopDonate"+.@i,1;
+	npcshopattach "qshopDonate"+.@i;
+	end;
+
+function Add {
+	if (getitemname(getarg(1))=="null") {
+		debugmes "Quest reward #"+getarg(1)+" invalid (skipped)."; return; }
+	for(set .@n,5; .@n<127; set .@n,.@n+2) {
+		if (!getarg(.@n,0)) break;
+		if (getitemname(getarg(.@n))=="null") {
+			debugmes "Quest requirement #"+getarg(.@n)+" invalid (skipped)."; return; } }
+	for(set .@i,2; .@i<.@n; set .@i,.@i+1)
+		set getd(".q_"+getarg(1)+"["+(.@i-2)+"]"), getarg(.@i);
+	npcshopadditem "qshopDonate"+getarg(0),getarg(1),((.ShowZeny)?getarg(3):0);
+	return; }
+function Chk {
+	if (getarg(0)<getarg(1)) { set @qe0,1; return "^FF0000"; }
+	else return "^00FF00"; }
+function Slot {
+	set .@s$,getitemname(getarg(0));
+	switch(.ShowSlot){
+		case 1: if (!getitemslots(getarg(0))) return .@s$;
+		case 2: if (getiteminfo(getarg(0),11)>0) return .@s$+" ["+getitemslots(getarg(0))+"]";
+		default: return .@s$; } }
+function A_An {
+	setarray .@A$[0],"a","e","i","o","u";
+	set .@B$, "_"+getarg(0);
+	for(set .@i,0; .@i<5; set .@i,.@i+1)
+		if (compare(.@B$,"_"+.@A$[.@i])) return "an "+getarg(0);
+	return "a "+getarg(0); }
+
+OnBuyItem:
+	set .@q[0],@bought_nameid;
+	copyarray .@q[1],getd(".q_"+@bought_nameid+"[0]"),getarraysize(getd(".q_"+@bought_nameid+"[0]"));
+	if (!.@q[1]) { message strcharinfo(0),"An error has occurred."; end; }
+	mes "[Quest Shop]";
+	mes "Reward: ^0055FF"+((.@q[1]>1)?.@q[1]+"x ":"")+Slot(.@q[0])+"^000000";
+	mes "Requirements:";
+	if (.@q[2]) mes " > "+Chk(Zeny,.@q[2])+.@q[2]+" Zeny^000000";
+	if (.@q[3]) mes " > "+Chk(getd(.Points$[0]),.@q[3])+.@q[3]+" "+.Points$[1]+" ("+getd(.Points$[0])+"/"+.@q[3]+")^000000";
+	if (.@q[4]) for(set .@i,4; .@i<getarraysize(.@q); set .@i,.@i+2)
+		mes " > "+Chk(countitem(.@q[.@i]),.@q[.@i+1])+((.DisplayID)?"{"+.@q[.@i]+"} ":"")+Slot(.@q[.@i])+" ("+countitem(.@q[.@i])+"/"+.@q[.@i+1]+")^000000";
+	next;
+	set @qe1, getiteminfo(.@q[0],5); set @qe2, getiteminfo(.@q[0],11);
+	addtimer 1000, strnpcinfo(1)+"::OnEnd";
+	while(1){
+		switch(select(" ~ Purchase ^0055FF"+getitemname(.@q[0])+"^000000:"+((((@qe1&1) || (@qe1&256) || (@qe1&512)) && @qe2>0 && !@qe6)?" ~ Preview...":"")+": ~ ^777777Cancel^000000")) {
+			case 1:
+				if (@qe0) { 
+					mes "[Quest Shop]";
+					mes "You're missing one or more quest requirements.";
+					close; }
+				if (!checkweight(.@q[0],.@q[1])) {
+					mes "[Quest Shop]";
+					mes "^FF0000You need "+(((.@q[1]*getiteminfo(.@q[0],6))+Weight-MaxWeight)/10)+" additional weight capacity to complete this trade.^000000";
+					close; }
+				if (.@q[2]) set Zeny, Zeny-.@q[2];
+				if (.@q[3]) setd .Points$[0], getd(.Points$[0])-.@q[3];
+				if (.@q[4]) for(set .@i,4; .@i<getarraysize(.@q); set .@i,.@i+2)
+					delitem .@q[.@i],.@q[.@i+1];
+				getitem .@q[0],.@q[1];
+				if (.Announce) announce strcharinfo(0)+" has created "+A_An(getitemname(.@q[0]))+"!",0;
+				specialeffect2 699;
+				close;
+			case 2:
+				set @qe3, getlook(3); set @qe4, getlook(4); set @qe5, getlook(5);
+				if (@qe1&1) atcommand "@changelook 3 "+@qe2;
+				if (@qe1&256) atcommand "@changelook 1 "+@qe2;
+				if (@qe1&512) atcommand "@changelook 2 "+@qe2;
+				set @qe6,1;
+				break;
+			case 3:
+				close; } }
+OnEnd:
+	if (@qe6) { atcommand "@changelook 3 "+@qe3; atcommand "@changelook 1 "+@qe4; atcommand "@changelook 2 "+@qe5; }
+	for(set .@i,0; .@i<7; set .@i,.@i+1) setd "@qe"+.@i,0;
+	end;
+OnInit:
+	freeloop(1);
+// --------------------- Config ---------------------
+// Custom points, if needed: "<variable>","<name to display>"
+	setarray .Points$[0],"#CASHPOINTS","Cash Points";
+
+	set .Announce,1;	// Announce quest completion? (1: yes / 0: no)
+	set .ShowSlot,1;	// Show item slots? (2: all equipment / 1: if slots > 0 / 0: never)
+	set .DisplayID,0;	// Show item IDs? (1: yes / 0: no)
+	set .ShowZeny,0;	// Show Zeny cost, if any? (1: yes / 0: no)
+
+// Shop categories, if needed: "<Shop 1>","<Shop 2>"{,...};
+// Duplicate dummy data for any additional shops (bottom of script).
+// If no categories, use the second line instead (remove //).
+
+	setarray .Shops$[1],"UpperHeadgears","LowerHeadgears","MidHeadgears";
+	// set .Shops$,"n/a";
+
+// Add(<shop number>,<reward ID>,<reward amount>,<Zeny cost>,<point cost>,
+//     <required item ID>,<required item amount>{,...});
+// Shop number corresponds with order above (default is 1).
+// Note: Do NOT use a reward item more than once!
+
+	Add(1,20036,1,0,0,1060,250,1019,250,1020,250,7063,1000,969,1000,674,150);
+	Add(1,20137,1,0,0,1062,250,1058,250,7063,1000,969,1000,674,150,1059,250);
+	Add(1,20146,1,0,0,1021,250,1022,250,7063,1000,1023,250,969,1000,674,150);
+	Add(1,20061,1,0,0,1024,250,1029,250,7063,1000,1031,250,969,1000,674,200);
+	Add(1,20091,1,0,0,1034,250,1035,250,7063,1000,7063,1000,1036,250,969,1000,674,200);
+	Add(1,20136,1,0,0,1037,250,1038,250,7063,1000,924,250,969,1000,674,200);
+	Add(1,20053,1,0,0,1095,250,7122,250,7063,1000,934,250,969,1000,674,200);
+
+	Add(2,20000,1,0,0,7106,800,1021,800,7265,800,7169,20,7293,20,7450,5,7211,15,674,200);
+	Add(2,20001,1,0,0,7067,5,7300,100,728,300,7211,15,7563,500,7511,200,7440,300,674,200);
+	Add(2,20002,1,0,0,7070,50,7211,5,1049,500,909,500,7563,300,7511,300,674,100,4133,20);
+	Add(2,20116,1,0,0,1068,500,7106,600,1021,500,7563,500,7186,1000,7222,200,7315,100,7450,3,7293,5,674,100);
+	Add(2,20004,1,0,0,1068,500,7106,500,7563,500,7265,500,7186,1000,7222,200,7315,100,7450,3,7293,5,674,100);
+	Add(2,20006,1,0,0,7317,500,7169,20,7319,500,7293,20,7265,500,7186,500,7450,20,674,200);
+	Add(2,20007,1,0,0,7345,200,7070,50,722,200,7211,15,7563,500,7511,500,7440,1000,674,100);
+	Add(2,20008,1,0,0,7115,800,7292,20,7321,400,1068,500,7186,500,7222,200,7450,8,731,400,674,200);
+
+
+	Add(3,20174,1,0,0,7440,250,7097,250,7063,1000,999,250,969,1000,674,200);
+	Add(3,20081,1,0,0,7448,250,641,250,7063,1000,637,250,969,1000,674,200);
+	Add(3,20079,1,0,0,1003,250,7299,250,7063,1000,7157,250,969,1000,674,200);
+	Add(3,20057,1,0,0,1021,250,1040,250,7063,1000,912,250,674,200);
+	Add(3,20068,1,0,0,945,250,7752,250,7063,1000,7098,250,969,1000,674,200);
+	Add(3,20070,1,0,0,1009,250,7009,250,7063,1000,1013,250,969,1000,674,200);
+//	Add(3,20187,1,0,0,7122,250,1038,250,7063,1000,924,250,969,1000,674,200);
+
+
+
+
+// --------------------------------------------------
+	freeloop(0);
+	for(set .@i,1; .@i<=getarraysize(.Shops$); set .@i,.@i+1)
+		npcshopdelitem "qshopDonate"+.@i,909;
+	end;
+}
+
+// -------- Dummy data (duplicate as needed) --------
+-	shop	qshopDonate1	-1,909:-1
+-	shop	qshopDonate2	-1,909:-1
+-	shop	qshopDonate3	-1,909:-1

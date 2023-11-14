@@ -1,0 +1,5 @@
+//prontera,154,155,5	script	ZaftRO	828,{
+OnInit:
+	waitingroom "WELCOME 2 ZaftRO",0;
+end;
+}

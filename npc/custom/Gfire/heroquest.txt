@@ -1,0 +1,468 @@
+//===== rAthena Script ============================================
+//= Hero Quest
+//===== By: =======================================================
+//= Vanquiser
+//===== Current Version: ==========================================
+//= 1.0 - Initial Release
+//===== Compatible With: ==========================================
+//= rAthena SVN
+//===== Additional Notes: =========================================
+//= 1. A private work for JudgementRO
+//= 2. Added @heropoints command to check hero points
+//= 3. Configurable item requirements to all NPC
+//= 4. Push notification if promoted to higher rank
+//= 5. Push notification if gain hero points
+//= 6. Configurable map, points and monster for monster arena
+//= 7. Hero arena map with config, Spam Delay, Points, Map etc....
+//===== Credits to: ===============================================
+//= Vanquiser
+//=================================================================
+
+prontera,164,159,3	script	Sigmund	100,{
+
+	if ( sigmund_done && sigmund_hero_done ) {
+		mes .npc$;
+		mes "You are done with me oh mighty hero of midgard";
+		close;
+	}
+
+	if ( sigmund_done ) {
+		mes .npc$;
+		mes "I can refer you to Blacksmith Regin. Do you want to go and meet him?";
+		next;
+		
+		if ( select("Yes:No") - 1 ) end;
+		
+		mes .npc$;
+		mes "Goodluck! ~";
+		sigmund_hero_done = 1;
+		query_sql "INSERT INTO `hero` (`char_id`, `char_name`, `rank`, `points`, `kills`, `death`) VALUES ('"+getcharid(0)+"', '"+escape_sql(strcharinfo(0))+"', 'D', 0, 0, 0)";
+		warp .regin_map$, .regin_x, .regin_y;
+		close;
+	}
+	
+	if ( first_requirements ) goto OnSecond;
+	if ( second_requirements ) goto OnThird;
+	if ( third_requirements ) goto OnHero;
+
+	if ( BaseLevel < 175 || JobLevel < 60 ) {
+		mes .npc$;
+		mes strcharinfo(0)+ " you must be max level in order to be a hero";
+		close;
+	} 
+	
+	mes .npc$;
+	mes "Your first requirements is to obtain " +getitemname(.first_requirement_id);
+	mes "Will you go for it?";
+	next;
+	
+	if ( select("Yes:No") - 1 ) end;
+	
+	if ( !countitem(.first_requirement_id) ) {
+		mes .npc$;
+		mes strcharinfo(0)+ ", You don't have " +getitemname(.first_requirement_id);
+		close;
+	}
+	
+	mes .npc$;
+	mes "And you are done with the first requirement " +strcharinfo(0);
+	delitem .first_requirement_id, 1;
+	first_requirements = 1;
+	close;
+	
+	OnSecond:
+			mes .npc$;
+			mes "Let me check if you have 100x " +getitemname(.second_requirement_id);
+			next;
+			
+			if ( countitem(.second_requirement_id) < 100 ) {
+				mes .npc$;
+				mes "You must have 100x " +getitemname(.second_requirement_id)+ " to finish the second requirement.";
+				close;
+			}
+			
+			mes .npc$;
+			mes "And you are done with the second requirement " +strcharinfo(0);
+			delitem .second_requirement_id, 100;
+			second_requirements = 1;
+			first_requirements = 0;
+			end;
+	
+	OnThird:
+			mes .npc$;
+			mes "The quest of doom requires the following items : ";
+			for ( set .@i, 0; .@i < getarraysize(.third_requirements_id); set .@i, .@i + 2 )
+				mes "- " +.third_requirements_id[.@i + 1]+ "x " +getitemname(.third_requirements_id[.@i]);
+			next;
+			mes .npc$;
+			mes "So do you have this requirements?";
+			next;
+			
+			if ( select("Yes:No") - 1 ) end;
+			
+			for ( set .@i, 0; .@i < getarraysize(.third_requirements_id); set .@i, .@i + 2 ) {
+				if ( countitem(.third_requirements_id[.@i]) < .third_requirements_id[.@i + 1] ) {
+						mes .npc$;
+						mes "You don't meet my requirements " +strcharinfo(0);
+						break;
+				}
+				
+				mes .npc$;
+				mes "So i guess you deserve to be a hero " +strcharinfo(0);
+				delitem .third_requirements_id[.@i], .third_requirements_id[.@i + 1];
+			}
+			third_requirements = 1;
+			second_requirements = 0;
+			end;
+			
+	OnHero:
+			mes .npc$;
+			mes "Do you want to be a hero now " +strcharinfo(0)+ "?";
+			next;
+			
+			if ( select("Yes:No") - 1 ) end;
+			
+			mes .npc$;
+			mes "Well then goodluck on your career! You will be kicked afterwards.";
+			sigmund_done = 1;
+			BaseLevel = 1;
+			JobLevel = 1;
+			ResetStatus = 1;
+			ResetSkill = 1;
+			StatusPoint += 300;
+			SkillPoint += 88;
+			close2;
+			atcommand "@kick " +strcharinfo(0);
+			end;
+
+	OnInit:
+		//=================================================================
+		//= Configuration =================================================
+		//=================================================================
+
+		query_sql "CREATE TABLE IF NOT EXISTS `hero` (`char_id` INT(11) NOT NULL, `char_name` VARCHAR(23) NOT NULL DEFAULT '', `rank` VARCHAR(1) NOT NULL DEFAULT '', `points` INT NOT NULL DEFAULT '0', `kills` INT NOT NULL DEFAULT '0', `death` INT NOT NULL DEFAULT '0') ENGINE=MyISAM";
+		.npc$ = "[ " +strnpcinfo(1)+ " ]";
+		.first_requirement_id = 7227; // Draconus Scale Requirement
+		.second_requirement_id = 7179; // Human Skull Requirement
+		setarray .third_requirements_id[0],7227,5,7179,5; // Quest of Doom ( Syntax : <Item ID>,<Amount> )
+		.regin_map$ = "ein_in01"; // Blacksmith Regin Map Location
+		.regin_x = 28; // Blacksmith Regin Map X Location
+		.regin_y = 85; // Blacksmith Regin Map Y Location
+		end;
+		
+		//=================================================================
+		//= End Of Configuration ==========================================
+		//=================================================================
+}
+
+ein_in01,28,85,0	script	Blacksmith Regin	100,{
+	
+	query_sql "SELECT `char_id` FROM `hero` WHERE `char_id` = '" +getcharid(0)+ "'",.@hero;
+	
+	if ( done ) {
+		mes .npc$;
+		mes "Hello, you are done with me.";
+		close;
+	}
+	
+	if ( done_regin && ( gettimetick(2) < timer ) ) {
+		mes .npc$;
+		mes "Wait for " +.waiting_time+ " hours";
+		close;
+	}
+	
+	if ( done_regin && ( gettimetick(2) > timer ) ) {
+		mes .npc$;
+		mes "Good job! Goodluck on your hero career " +strcharinfo(0);
+		for ( set .@i,0; .@i < getarraysize(.prize); set .@i,.@i + 1 )
+			getitem .prize[.@i], 1;
+		done = 1;
+		close;
+	}
+	
+	if ( .@hero == 0 ) {
+		mes .npc$;
+		mes "Hello " +strcharinfo(0)+ " you are not a hero.";
+		close;
+	}
+	
+	mes .npc$;
+	mes "You need to bring me the following items : ";
+	mes "===================================";
+	for ( set .@i, 0; .@i < .size; set .@i, .@i + 2 )
+		mes .requirements[.@i + 1]+ "x " +getitemname(.requirements[.@i]);
+	mes "===================================";
+	
+	next;
+	
+	mes .npc$;
+	mes "So what now?";
+	
+	next;
+	
+	if ( select("I have the requirements now:I'll get them first") - 1 ) end;
+		for ( set .@i, 0; .@i < .size; set .@i, .@i + 2 ) {
+			if ( countitem(.requirements[.@i]) < .requirements[.@i + 1] ) {
+				mes .npc$;
+				mes "You don't meet my requirements.";
+				close;
+			}
+			break;
+	}
+	
+	mes .npc$;
+	mes "Hello " +strcharinfo(0)+ " you need to wait for " +.waiting_time+ " hours before you can get the items";
+	mes "Are you sure you want to get the items now?";
+	next;
+	
+	if ( select("Yes:No") - 1 ) end;
+	
+	for ( set .@i, 0; .@i < .size; set .@i, .@i + 2 )
+		delitem .requirements[.@i], .requirements[.@i + 1];
+		
+	timer = gettimetick(2) + .converter;
+	done_regin = 1;
+	mes .npc$;
+	mes "Done! come back after " +.waiting_time+ " hours";
+	close;
+	
+	OnInit:
+		//=================================================================
+		//= Configuration =================================================
+		//=================================================================
+		
+		.npc$ = "[ " +strnpcinfo(1)+ " ]";
+		setarray .requirements[0],999,1,674,1; // <Item ID>,<Amount>
+		setarray .prize[0],674,999; // prize to get when requirements is done
+		.size = getarraysize(.requirements); // size of array
+		.waiting_time = 2; // 2 hours
+		.converter = .waiting_time*60*60; // converted hours to seconds
+		end;
+	
+		//=================================================================
+		//= End Of Configuration ==========================================
+		//=================================================================
+}
+
+lighthalzen,256,122,0	script	Hildebrand	100,{
+	
+	query_sql "SELECT `char_id`, `rank`, `kills`, `death` FROM `hero` WHERE `char_id` = '" +getcharid(0)+ "'",.@hero, .@rank$, .@kills, .@deaths;
+
+	if ( done_hildebrand ) end;
+	
+	if ( .@hero == 0 ) {
+		mes .npc$;
+		mes "I do not talk with people who are not considered as hero";
+		close;
+	}
+	
+	if ( .@rank$ != "C" ) {
+		mes .npc$;
+		mes "You must be Rank C before you can talk to me";
+		close;
+	}
+	
+	mes .npc$;
+	mes "My requirements are : ";
+	for ( set .@i, 0; .@i < .size; set .@i, .@i + 2 ) 
+		mes .requirements[.@i + 1]+ "x " +getitemname(.requirements[.@i]);
+	mes "And you should have twice the amount of wins compared to your losses in the hero arena + have at least 60 hero kills";
+	
+	next; 
+	
+	if ( select("Yes, i have those requirements:Nah, I will come back later") - 1 ) end;
+	
+	for ( set .@i, 0; .@i < .size; set .@i, .@i + 2 ) {
+		if ( countitem(.requirements[.@i]) < .requirements[.@i+1] || .@kills < 60 || ( .@kills * 2 ) < .@deaths ) {
+			mes .npc$;
+			mes "You don't meet my requirements";
+			close;
+		}
+		break;
+	}
+	
+	mes .npc$;
+	mes "Nice one " +strcharinfo(0);
+	
+	done_hildebrand = 1;
+	
+	for ( set .@i, 0; .@i < .size; set .@i, .@i + 2 )
+		delitem .requirements[.@i], .@requirements[.@i + 1];
+	
+	for ( .@i = 0; .@i < getarraysize(.prize); .@i++ )
+		getitem .prize[.@i], 1;
+	
+	close;
+	
+	//=================================================================
+	//= Configuration =================================================
+	//=================================================================
+	
+	OnInit:
+		.npc$ = "[ " +strnpcinfo(1)+ " ]";
+		setarray .requirements[0],999,100,7179,5,7227,5; // <Item ID>,<Amount>
+		setarray .prize[0], 7179,7227; // Glorious items
+		.size = getarraysize(.requirements);
+		end;
+		
+	//=================================================================
+	//= End Of Configuration ==========================================
+	//=================================================================
+}
+
+lighthalzen,40,240,0	script	Heimir	100,{
+
+	query_sql "SELECT `char_id`, `points` FROM `hero` WHERE `char_id` = '" +getcharid(0)+ "'",.@hero, .@points;
+	
+	if ( done_heimir ) warp .waiting_room_map$, .waiting_room_x, .waiting_room_y;
+	
+	if ( .@hero == 0 ) {
+		mes .npc$;
+		mes "I do not talk with people who are not considered as hero";
+		close;
+	}
+	
+	if ( .@points < 200 ) {
+		mes .npc$;
+		mes "You must have at least 200 honor points in order to go to waiting room of heroes";
+		close;
+	}
+	
+	mes .npc$;
+	mes "You must have at least 1x " +getitemname(.item_requirement)+ " and 200 honor points in order to go to waiting room of heroes.";
+	next;
+	if ( select("I have those requirements:I go back later") - 1 ) end;
+	
+	if ( !countitem(.item_requirement) || .@points < 200 ) {
+		mes .npc$;
+		mes "You don't meet my requirements";
+		close;
+	}
+	
+	mes .npc$;
+	mes "Goodluck on your career!";
+	
+	done_heimir = 1;
+	delitem .item_requirement, 1;
+	warp .waiting_room_map$, .waiting_room_x, .waiting_room_y;
+	
+	close;
+	
+	OnInit:
+		//=================================================================
+		//= Configuration =================================================
+		//=================================================================
+			
+		.npc$ = "[ " +strnpcinfo(1)+ " ]";
+		.item_requirement = 7179; // Heaven Flower
+		.waiting_room_map$ = "prontera"; // Heroes waiting room map
+		.waiting_room_x = 150; // Heroes waiting room map x
+		.waiting_room_y = 150; // Heroes waiting room map y
+		end;
+		
+		//=================================================================
+		//= End Of Configuration ==========================================
+		//=================================================================
+}
+
+-	script	hero_arena	-1,{
+function AddHeroPoints;
+
+query_sql "SELECT `char_id` FROM `hero` WHERE `char_id` = '" +getcharid(0)+ "'",.@hero;
+
+if ( .@hero == 0 ) end;
+
+OnPCKillEvent:
+	// AddHeroPoints ( <Map>,<Points> );
+	if ( killedrid == getcharid(0) ) end; // No points gained if killed himself
+	AddHeroPoints( "prontera",5 );
+	end;
+	
+OnPCDieEvent:
+	if ( strcharinfo(3) == "<Your Map>" ) // If you want multiple map, then use "|| <Your Map>"
+		query_sql "UPDATE `hero` SET `death` = death + 1 WHERE `char_id` = '" +getcharid(0)+ "'";
+	end;
+
+	function	AddHeroPoints	{
+		.@delay = 3; // In minutes, To prevent spam, points gained from killing players have delay time.
+		.@converter = .@delay * 60; 
+		getmapxy(.@map$,.@x,.@y,0);
+		if ( .@map$ == getarg(0) ) {
+			if ( gettimetick(2) > Delay ) {
+				query_sql "UPDATE `hero` SET `points` = points + '" +getarg(1)+ "' WHERE `char_id` = '" +getcharid(0)+ "'";
+				query_sql "SELECT `points` FROM `hero` WHERE `char_id` = '" +getcharid(0)+ "'",.@points;
+				query_sql "UPDATE `hero` SET `kills` = kills + 1 WHERE `char_id` = '" +getcharid(0)+ "'";
+				if ( .@points >= 6553600 && !ranked_promoted_c ) {
+					query_sql "UPDATE `hero` SET `rank` = 'C' WHERE `char_id` = '" +getcharid(0)+ "'";
+					dispbottom "You are now promoted to rank C";
+					ranked_promoted_c = 1;
+				}
+
+				if ( .@points >= 24567000 && !ranked_promoted_b ) {
+					query_sql "UPDATE `hero` SET `rank` = 'B' WHERE `char_id` = '" +getcharid(0)+ "'";	
+					dispbottom "You are now promoted to rank B";
+					ranked_promoted_b = 1;
+				}
+
+				dispbottom "Your current hero points is " +.@points+ " hero points";
+				Delay = gettimetick(2) + .@converter;
+			}
+		}
+		return;
+	}
+
+}
+
+-	script	monster_arena	-1,{
+function AddHeroPoints;
+
+query_sql "SELECT `char_id` FROM `hero` WHERE `char_id` = '" +getcharid(0)+ "'",.@hero;
+
+if ( .@hero == 0 ) end;
+
+OnNPCKillEvent:
+	// AddHeroPoints ( <MobID>,<Points>,<Map> );
+	AddHeroPoints( 1002,1000000,"prontera" );
+	end;
+
+	function	AddHeroPoints	{
+		getmapxy(.@map$,.@x,.@y,0);
+		if ( killedrid == getarg(0) && .@map$ == getarg(2) ) {
+		
+			query_sql "UPDATE `hero` SET `points` = points + '" +getarg(1)+ "' WHERE `char_id` = '" +getcharid(0)+ "'";
+			query_sql "SELECT `points` FROM `hero` WHERE `char_id` = '" +getcharid(0)+ "'",.@points;
+
+			if ( .@points >= 6553600 && !ranked_promoted_c ) {
+				query_sql "UPDATE `hero` SET `rank` = 'C' WHERE `char_id` = '" +getcharid(0)+ "'";
+				dispbottom "You are now promoted to rank C";
+				ranked_promoted_c = 1;
+			}
+
+			if ( .@points >= 24567000 && !ranked_promoted_b ) {
+				query_sql "UPDATE `hero` SET `rank` = 'B' WHERE `char_id` = '" +getcharid(0)+ "'";
+				dispbottom "You are now promoted to rank B";
+				ranked_promoted_b = 1;
+			}
+
+			dispbottom "Your current hero points is " +.@points+ " hero points";
+
+		}
+		return;
+	}
+
+}
+
+-	script	Checker	-1,{
+	OnInit:
+		bindatcmd("heropoints",strnpcinfo(3)+ "::OnCheck");
+		end;
+		
+	OnCheck:
+		query_sql "SELECT `char_id` FROM `hero` WHERE `char_id` = '" +getcharid(0)+ "'",.@hero;
+		query_sql "SELECT `points` FROM `hero` WHERE `char_id` = '" +getcharid(0)+ "'",.@points;
+		if ( .@hero == 0 )
+			dispbottom "Sorry, you are not considered a hero " +strcharinfo(0);
+		else 
+			dispbottom "Your current hero points is " +.@points;
+		end;
+}

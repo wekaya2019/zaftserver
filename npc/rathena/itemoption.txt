@@ -1,0 +1,113 @@
+//===== rAthena Script =======================================
+//= @itemoption Command
+//===== By: ==================================================
+//= Keitenai
+//===== Current Version: =====================================
+//= 1.1
+//===== Compatible With: =====================================
+//= rAthena Project
+//===== Description: =========================================
+//= Allows you to apply an item option to any equipped items
+//===== Changelog: ===========================================
+//= 1.0 First version [Keitenai]
+//= 1.1 Cleanup [Secret]
+//============================================================
+
+-	script	OptCmd	-1,{
+OnInit:
+	.allowed = 90; // sets the allowed GM group to use this command
+	bindatcmd("itemoption",strnpcinfo(0)+"::OnOptCmd");
+end;
+
+OnOptCmd:
+	if(getgmlevel() >= .allowed) {
+		disable_items;
+		setarray .@eq[1], EQI_HEAD_TOP,EQI_ARMOR,EQI_HAND_L,EQI_HAND_R,EQI_GARMENT,EQI_SHOES,EQI_ACC_L,EQI_ACC_R,EQI_HEAD_MID,EQI_HEAD_LOW;
+		.@sz = getarraysize(.@eq); // Reduce getarraysize calls [Secret]
+		for(.@i = 1; .@i < .@sz; ++.@i){
+			if(getequipisequiped(.@eq[.@i])){
+				.@menu$ = .@menu$ + F_getpositionname(.@eq[.@i]) + " ~ [ " + getequipname(.@eq[.@i]) + " ]";
+				.@equipped = 1;
+			}
+			.@menu$ = .@menu$ + ":";
+		}
+		.@part = .@eq[select(.@menu$)];
+
+		mes "[ System ]"," ";
+		mes "Please indicate the option","that you want to apply.";
+		mes "Here's a short list","of the options :";
+		mes "^888888-------------------------^000000";
+		mes "#1  : bMaxHP";
+		mes "#2  : bMaxSP";
+		mes "#3  : bStr";
+		mes "#4  : bAgi";
+		mes "#5  : bVit";
+		mes "#6  : bInt";
+		mes "#7  : bDex";
+		mes "#8  : bLuk";
+		mes "#9  : bMaxHPrate";
+		mes "#10 : bMaxSPrate";
+		mes "#11 : bHPrecovRate";
+		mes "#12 : bSPrecovRate";
+		mes "#13 : bAtkRate";
+		mes "#14 : bMatkRate";
+		mes "#15 : bAspd";
+		mes "#16 : bAspdRate";
+		mes "#17 : bAtk";
+		mes "#18 : bHit";
+		mes "#19 : bMatk";
+		mes "#20 : bDef";
+		next;
+		mes "#21 : bMdef";
+		mes "#22 : bFlee";
+		mes "#23 : bFlee2";
+		mes "#24 : bCritical";
+		mes "#25 : bSub Neutral";
+		mes "#26 : bSub Water";
+		mes "#27 : bSub Earth";
+		mes "#28 : bSub Fire";
+		mes "#29 : bSub Wind";
+		mes "#30 : bSub Poison";
+		mes "#31 : bSub Holy";
+		mes "#32 : bSub Dark";
+		mes "#33 : bSub Ghost";
+		mes "#34 : bSub Undead";
+		mes "#35 : bSub Ele_All";
+		mes "#36 : bSub Water";
+		mes "#37 : bSub Earth";
+		mes "#38 : bSub Fire";
+		mes "#39 : bSub Wind";
+		mes "#40 : bSub Poison";
+		next;
+		mes "#94 : bSubRace Player";
+		mes "#171: bDelayrate -%";
+		mes "#185: bUnbreakableWeapon";
+		mes "#186: bUnbreakableArmor";
+		next;
+		input .@opt;
+		mes "[ System ]"," ";
+		mes "Option Type : " + .@opt;
+		mes " ";
+		mes "Please indicate the Value that you want to apply.";
+		mes "This will be the effect rate or value of your selected option type.";
+		next;
+		input .@val;
+		while(getequiprandomoption(.@part, .@idx, ROA_ID, getcharid(0))){
+			++.@idx;
+			if(.@idx > 4) {
+				mes "[ System ]";
+				mes "No free option slot";
+				close;
+			}
+		}
+		mes "[ System ]"," ";
+		mes "Now applying :";
+		mes "^6A01A1"+.@opt+"^000000 Type";
+		mes "^B91E1E"+.@val+"^000000 Value";
+		mes "^0C9610"+.@idx+"^000000 Index";
+		close2;
+		setrandomoption(.@part,.@idx,.@opt,.@val,.@idx,getcharid(0));
+	}
+	end;
+}
+

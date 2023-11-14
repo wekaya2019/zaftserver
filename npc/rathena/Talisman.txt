@@ -1,0 +1,6 @@
+prontera,104,111,5	script	Talisman	890,{
+	OnPCLoginEvent:
+		if( countitem(30381) ) bonus_script "{ bonus bCastrate,-2; }",86400,8,1;
+		if( countitem(30388) ) bonus_script "{ bonus bAllstats,+10; }",86400,8,1;
+		end;
+}

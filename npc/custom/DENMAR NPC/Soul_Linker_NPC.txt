@@ -1,0 +1,33 @@
+Prontera,190,254,5	script	Soul Linker	775,{
+	mes "^0000FF[ "+strnpcinfo(1)+" ]^000000";
+	mes "Hello "+strcharinfo(0)+"";
+	mes "Do you want me to Soul Link you?";
+	next;
+	switch(select("Yes:No")) {
+	case 1:
+		if(countitem(.itemid[0]) < .itemid[1]) || (Class < 7)  {	
+			mes "^0000FF[ "+strnpcinfo(1)+" ]^000000";
+			mes "First jobs aren't allowed to use my service. or";
+			mes "You need "+.itemid[1]+"x ^0000ff"+ getitemname(.itemid[0]) +"^000000 for a Soul Link.";
+			close;
+		}
+		set .@basejob$,strtoupper(jobname(BaseJob));
+		if (jobname(BaseJob) == "Super Novice") set .@basejob$,"SUPERNOVICE";
+		if (jobname(BaseJob) == "Star Gladiator") set .@basejob$,"STAR";
+		if (jobname(BaseJob) == "Soul Linker") set .@basejob$,"SOULLINKER";
+		if (jobname(BaseJob) == "Assassin") set .@basejob$,"ASSASIN";
+		if (jobname(BaseJob) == "Bard" || jobname(BaseJob) == "Dancer" ) set .@basejob$,"BARDDANCER";
+		npcskill "SL_"+.@basejob$+"",5,99,99;
+		delitem .itemid[0], .itemid[1]; // delete required item.	
+		close;
+
+	case 2:
+		mes "^0000FF[ "+strnpcinfo(1)+" ]^000000";
+		mes "Okay,goodbye!";
+		close;
+	}
+
+OnInit:
+	setarray .itemid[0],7179,1; // replace with TCG Item id. Format Item id,Item quantity
+	end;
+} 

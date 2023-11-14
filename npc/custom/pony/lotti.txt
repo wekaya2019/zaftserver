@@ -1,0 +1,37 @@
+prontera,143,282,6	script	Lotti Girl	714,{
+mes "[Lotti Girl]";
+mes "It costs "+.Cost[1]+"x "+getitemname(.Cost[0])+" to play.";
+if (countitem(.Cost[0]) < .Cost[1]) close;
+next;
+if(select("Deal me in!:No way...")==2) close;
+mes "[Lotti Girl]";
+mes "Here we go...";
+progressbar "",2;
+delitem .Cost[0], .Cost[1];
+set .@i, rand(1,.Total);
+if (rand(1,100) > getd(".P"+.@i+"[0]")) {
+  for(set .@j,0; .@j<getarraysize(.Default); set .@j,.@j+2) {
+   getitem .Default[.@j], .Default[.@j+1];
+   if (!.@k[0]) setarray .@k[0], .Default[.@j], .Default[.@j+1]; } }
+else {
+  for(set .@j,1; .@j<getarraysize(getd(".P"+.@i)); set .@j,.@j+2) {
+   getitem getd(".P"+.@i+"["+.@j+"]"), getd(".P"+.@i+"["+(.@j+1)+"]");
+   if (!.@k[0]) setarray .@k[0], getd(".P"+.@i+"["+.@j+"]"), getd(".P"+.@i+"["+(.@j+1)+"]"); } }
+announce "Congratulations to "+strcharinfo(0)+" for getting "+.@k[1]+"x "+getitemname(.@k[0])+"!",0;
+specialeffect2 248;
+close;
+OnInit:
+// Format: <%>,<item ID>,<count>{,...};
+setarray .P1[0],60,12214,5; //convex mirror 10pcs 60%
+setarray .P2[0],50,674,5;  //Mithril Coin 10pcs 70% 
+setarray .P3[0],40,20251,20; //Hourly coin 20pcs 30%
+setarray .P4[0],5,13413,1,13412,1; //Naght Seiger(Red) 2% 1pc
+setarray .P5[0],60,7608,5; //TCG 10pcs 70%
+setarray .P6[0],40,2387,1,2440,1,2744,1; //sprint set 40%
+//setarray .P7[0],1,4403,1; //Kiel Card 5% 1pc
+//setarray .P8[0],1,4399,1; // Thanatos Card 2% 1pc
+setarray .Default[0],7720,1; //convex mirror default 1pcs
+setarray .Cost[0],7608,15; // 15pcs tcg required para makalaro sa lotti
+set .Total,8;
+end;
+}

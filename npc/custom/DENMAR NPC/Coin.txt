@@ -1,0 +1,210 @@
+/*=========================================================
+Coin Trader
+by Mumbles
+===========================================================
+Request: http://goo.gl/9cJWAf
+===========================================================
+Description:
+Allows players to purchase coins with zeny, exchange coins
+for zeny, and convert coins to more valuable or lesser
+coins. See configuration to customise coin values.
+===========================================================
+Compatibility:
+Optimised for Hercules emulators.
+===========================================================
+Changelog:
+v1.0 - First version.
+=========================================================*/
+
+aretnorp,246,259,3	script	Coin Trader::cointrader	4_M_04,{
+
+	/*-----------------------------------------------------
+	Script
+	-----------------------------------------------------*/
+	mes .npc_name$;
+	mes "Good "+ (isday() ? "day" : "evening") +", "+ strcharinfo(0) +"! "+
+		"What can I help you with?";
+	cutin "valen_arle01", 2;
+	next;
+
+	switch (select(implode(.main_menu$, ":"))) {
+		// Build coin menu options
+		for (.@i = 0; .@i < getarraysize(.coin_id); .@i += 2) {
+			.@options$[.@i / 2] = getitemname(.coin_id[.@i]);
+		}
+		
+		mes .npc_name$;
+		
+		case 1:
+			mes "Which coin would you like to purchase?";
+			next;
+			
+			menu implode(.@options$, ":"), -;
+			.@index = (@menu - 1) * 2;
+			
+			mes .npc_name$;
+			mes "How many "+ getitemname(.coin_id[.@index]) +" do you want to buy?";
+			next;
+			
+			input .@amount;
+			.@total = .coin_id[.@index + 1] * .@amount;
+			
+			mes .npc_name$;
+			
+			// Verify zeny
+			if (Zeny < .@total) {
+				mes "Sorry, but you need "+ .@total +"z to purchase "+ .@amount +" "+ getitemname(.coin_id[.@index]) +".";
+				cutin "valen_arle04", 2;
+				break;
+			}
+			
+			mes "Okay, here you are! You've received "+ .@amount +" "+ getitemname(.coin_id[.@index]) +" "+
+				"in exchange for "+ .@total +"z.";
+			cutin "valen_arle02", 2;
+				
+			Zeny -= .@total;
+			getitem .coin_id[.@index], .@amount;
+			
+			break;
+			
+		case 2:
+			mes "Which coin would you like to exchange?";
+			next;
+			
+			menu implode(.@options$, ":"), -;
+			.@index = (@menu - 1) * 2;
+			
+			mes .npc_name$;
+			mes "How many "+ getitemname(.coin_id[.@index]) +" do you want trade in?";
+			next;
+			
+			input .@amount;
+			.@total = .coin_id[.@index + 1] * .@amount;
+			
+			mes .npc_name$;
+			
+			// Verify coins
+			if (countitem(.coin_id[.@index]) < .@amount) {
+				mes "Sorry, but you don't have "+ .@amount +" "+ getitemname(.coin_id[.@index]) +". "+
+					"Come back when you do!";
+				cutin "valen_arle04", 2;
+				break;
+			}
+			
+			mes "Okay, here you are! You've received "+ .@total +"z in exchange for "+ .@amount +" "+
+				getitemname(.coin_id[.@index]) +".";
+			cutin "valen_arle02", 2;
+				
+			delitem .coin_id[.@index], .@amount;
+			Zeny += .@total;
+			break;
+			
+		case 3:
+			mes "Please select the type of coin you are trading in.";
+			next;
+			
+			menu implode(.@options$, ":"), -;
+			.@in = (@menu - 1) * 2;
+			
+			mes .npc_name$;
+			mes "How many "+ getitemname(.coin_id[.@in]) +" will be converted?";
+			next;
+			
+			input .@amount;
+			
+			mes .npc_name$;
+			
+			// Negate divison by zero
+			if (!.@amount) {
+				mes "Sorry, but you cannot convert nothing.";
+				cutin "valen_arle04", 2;
+				break;
+			}
+			
+			// Verify coins
+			if (countitem(.coin_id[.@in]) < .@amount) {
+				mes "Sorry, but you do not have "+ .@amount +" "+ getitemname(.coin_id[.@in]) +". "+
+					"Come back when you do!";
+				cutin "valen_arle04", 2;
+				break;
+			}
+			
+			mes "Which type of coin do you want in exchange?";
+			next;
+			
+			menu implode(.@options$, ":"), -;
+			.@out = (@menu - 1) * 2;
+			
+			// Calculate values
+			.@in_value = .coin_id[.@in + 1];
+			.@out_value = .coin_id[.@out + 1];
+			.@total = .@amount * .@in_value / .@out_value;
+			.@remainder = .@amount * .@in_value % .@out_value;
+			.@rate = .@out_value / .@in_value;
+			
+			mes .npc_name$;
+			
+			// Verify conversion
+			if (.@amount * .@in_value < .@out_value) {
+				mes "Sorry, but you need at least "+ .@rate +" "+ getitemname(.coin_id[.@in]) +" to complete this conversion.";
+				cutin "valen_arle04", 2;
+				break;
+			}
+			
+			// Negate surplus coin loss
+			if (.@remainder) {
+				mes "Sorry, but conversion of "+ getitemname(.coin_id[.@in]) +" into "+ getitemname(.coin_id[.@out]) +" "+
+				"can only be done in multiples of "+ .@rate +".";
+				cutin "valen_arle04", 2;
+				break;
+			}
+			
+			mes "Okay, here you are! You've received "+ .@total +" "+ getitemname(.coin_id[.@out]) +" in exchange for "+
+				.@amount +" "+ getitemname(.coin_id[.@in]) +".";
+			cutin "valen_arle02", 2;
+			
+			delitem .coin_id[.@in], .@amount;
+			getitem .coin_id[.@out], .@total;
+			break;
+		
+		case 4:
+			// Build exchange rates
+			for (.@i = 0; .@i < getarraysize(.coin_id); .@i += 2) {
+				mes getitemname(.coin_id[.@i]) +": "+ .coin_id[.@i + 1] +"z";
+			}
+			
+			break;
+	}
+	
+	close2;
+	cutin "", 255;
+	end;
+
+	
+	/*-----------------------------------------------------
+	Configuration
+	-----------------------------------------------------*/
+	OnInit:
+		.npc_name$ = "[Coin Trader]";
+	
+		// Coin item constant/ID, value in zeny
+		setarray .coin_id[0],				Silver_Coin, 10000,
+								Gold_Coin, 1000000,
+								Mithril_Coin, 100000000,
+								White_Gold_Coin, 1000000000;
+				
+		setarray .main_menu$[0],	"Purchase coins",
+									"Exchange coins",
+									"Convert coins",
+									"Rates";
+								
+		end;
+
+
+}
+
+
+
+
+aretnorp,168,198,3	duplicate(cointrader)	Coin Trader#h1-1	4_M_04
+aretnorp,35,308,3	duplicate(cointrader)	Coin Trader#h1-2	4_M_04

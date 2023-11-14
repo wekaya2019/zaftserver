@@ -1,0 +1,8 @@
+prontera,219,239,3	script	effectg1	111,{
+	end;
+OnInit:
+	while(true) {
+		misceffect 794;
+		sleep 5000;
+	}
+	end; // shouldn't reach

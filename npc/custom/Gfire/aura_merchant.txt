@@ -1,0 +1,390 @@
+prontera,179,249,4	script	Aura Merchant	794,{
+	A_Start:
+	
+	mes "[Aura Merchant]";
+	mes "Welcome to my humble store " + strcharinfo(0) + "!";
+	mes "Please feel free to browse and try my auras.";
+	mes "^666666All prices are in '^0000FFAdmission for Duel^666666.'^000000";
+	
+	next;
+	
+	switch(select("Starter Auras (10-30)","Nice Auras (30-50)","Mad Auras (50-90)","Godly Auras (90-infinity)","No thanks")) {
+		case 1:
+			mes "[Aura Merchant]";
+			mes "These are my shitty auras. Only losers and hobos use these.";
+			next;
+			switch(select("Retarded Blue Glow (10)","Retarded Green Glow (10)","ZZZZ (12)","Chinese Water Torture (12)","Arab (15)","Money Bag (25)","Sandstorm (25)","Raincloud (25)")) {
+				case 1:
+					set @effect,449;
+					set @delay,750;
+					set @cost,10;
+					set @name$,"Blue Glow";
+					goto A_Selected;
+				case 2:
+					set @effect,656;
+					set @delay,750;
+					set @cost,10;
+					set @name$,"Green Glow";
+					goto A_Selected;
+				case 3:
+					set @effect,579;
+					set @delay,500;
+					set @cost,12;
+					set @name$,"Zzzz";
+					goto A_Selected;
+				case 4:
+					set @effect,665;
+					set @delay,100;
+					set @cost,12;
+					set @name$,"Water Torture";
+					goto A_Selected;
+				case 5:
+					set @effect,251;
+					set @delay,750;
+					set @cost,15;
+					set @name$,"Arab";
+					goto A_Selected;
+				case 6:
+					set @effect,268;
+					set @delay,600;
+					set @cost,25;
+					set @name$,"Money Bag";
+					goto A_Selected;
+				case 7:
+					set @effect,46;
+					set @delay,1000;
+					set @cost,25;
+					set @name$,"Sandstorm";
+					goto A_Selected;
+				case 8:
+					set @effect,580;
+					set @delay,1000;
+					set @cost,25;
+					set @name$,"Raincloud";
+					goto A_Selected;
+			}
+		case 2:
+			mes "[Aura Merchant]";
+			mes "These are my nice auras. Not too extravagant and not too hobo.";
+			next;
+			switch(select("Bubbles (30)","Flicker Red (40)","Flicker Blue (40)","Ass-on-Fire (30)","Crosshairs (35)","Fire Puff (30)","Ball Lightning (45)","X Lightning (50)","Retarded White Circle (30)","Small White Bubbles (40)","Flicker Yellow (40)","Flicker Green (40)","Fireflies (50)")){
+				case 1:
+					set @effect,109;
+					set @delay,800;
+					set @cost,30;
+					set @name$,"Bubbles";
+					goto A_Selected;
+				case 2:
+					set @effect,521;
+					set @delay,600;
+					set @cost,40;
+					set @name$,"Flicker Red";
+					goto A_Selected;
+				case 3:
+					set @effect,500;
+					set @delay,600;
+					set @cost,40;
+					set @name$,"Flicker Blue";
+					goto A_Selected;
+				case 4:
+					set @effect,634;
+					set @delay,250;
+					set @cost,30;
+					set @name$,"Ass-on-Fire";
+					goto A_Selected;
+				case 5:
+					set @effect,646;
+					set @delay,600;
+					set @cost,35;
+					set @name$,"Crosshairs";
+					goto A_Selected;
+				case 6:
+					set @effect,588;
+					set @delay,400;
+					set @cost,30;
+					set @name$,"Firepuff";
+					goto A_Selected;
+				case 7:
+					set @effect,146;
+					set @delay,400;
+					set @cost,45;
+					set @name$,"Ball Lightning";
+					goto A_Selected;
+				case 8:
+					set @effect,182;
+					set @delay,200;
+					set @cost,50;
+					set @name$,"X Lightning";
+					goto A_Selected;
+				case 9:
+					set @effect,570;
+					set @delay,100;
+					set @cost,30;
+					set @name$,"Retarded White Circle";
+					goto A_Selected;
+				case 10:
+					set @effect,310;
+					set @delay,250;
+					set @cost,40;
+					set @name$,"Small White Bubbles";
+					goto A_Selected;
+				case 11:
+					set @effect,505;
+					set @delay,300;
+					set @cost,40;
+					set @name$,"Flicker Yellow";
+					goto A_Selected;
+				case 12:
+					set @effect,538;
+					set @delay,600;
+					set @cost,40;
+					set @name$,"Flicker Green";
+					goto A_Selected;
+				case 13:
+					set @effect,45;
+					set @delay,100;
+					set @cost,50;
+					set @name$,"Fireflies";
+					goto A_Selected;
+					
+			}
+		case 3:
+			mes "[Aura Merchant]";
+			mes "These auras can make a grown man cry.";
+			next;
+			switch(select("Dark Swirl (50)","Wobble (50)","Land Protector (90)","Volcano (90)",
+					"Deluge (90)","Wind Gale (90)","Hot and Steamy (70)","Self Destruct (80)",
+					"White Shield (70)","Windwalk (80)","Blue Sprinkles (50)","Chill Puff (70)",
+					"Spinning Lights (80)","Black Ripple (50)","Ruwach (80)","Sight (70)",
+					"Blue Scraggly Trail (70)")) {
+				case 17:
+					set @effect,6;
+					set @delay,100;
+					set @cost,70;
+					set @name$,"Blue Scraggly Trail";
+					goto A_Selected;
+				case 15:
+					set @effect,33;
+					set @delay,470;
+					set @cost,80;
+					set @name$,"Triple Ruwach";
+					goto A_Selected;
+				case 16:
+					set @effect,22;
+					set @delay,550;
+					set @cost,70;
+					set @name$,"Double Sight";
+					goto A_Selected;
+				case 1:
+					set @effect,589;
+					set @delay,600;
+					set @cost,50;
+					set @name$,"Dark Swirl";
+					goto A_Selected;
+				case 2:
+					set @effect,426;
+					set @delay,100;
+					set @cost,50;
+					set @name$,"Wobble";
+					goto A_Selected;
+				case 3:
+					set @effect,238;
+					set @delay,800;
+					set @cost,90;
+					set @name$,"Land Protector";
+					goto A_Selected;
+				case 4:
+					set @effect,225;
+					set @delay,800;
+					set @cost,90;
+					set @name$,"Volcano";
+					goto A_Selected;
+				case 5:
+					set @effect,236;
+					set @delay,800;
+					set @cost,90;
+					set @name$,"Deluge";
+					goto A_Selected;
+				case 6:
+					set @effect,237;
+					set @delay,800;
+					set @cost,90;
+					set @name$,"Wind Gale";
+					goto A_Selected;
+				case 7:
+					set @effect,373;
+					set @delay,250;
+					set @cost,70;
+					set @name$,"Hot and Steamy";
+					goto A_Selected;
+				case 8:
+					set @effect,585;
+					set @delay,1000;
+					set @cost,80;
+					set @name$,"Self Destruct";
+					goto A_Selected;
+				case 9:
+					set @effect,436;
+					set @delay,3000;
+					set @cost,70;
+					set @name$,"White Shield";
+					goto A_Selected;
+				case 10:
+					set @effect,402;
+					set @delay,600;
+					set @cost,80;
+					set @name$,"Windwalk";
+					goto A_Selected;
+				case 11:
+					set @effect,546;
+					set @delay,250;
+					set @cost,50;
+					set @name$,"Blue Sprinkles";
+					goto A_Selected;
+				case 12:
+					set @effect,554;
+					set @delay,100;
+					set @cost,70;
+					set @name$,"Chill Puff";
+					goto A_Selected;
+				case 13:
+					set @effect,72;
+					set @delay,750;
+					set @cost,80;
+					set @name$,"Spinning Lights";
+					goto A_Selected;
+				case 14:
+					set @effect,487;
+					set @delay,700;
+					set @cost,50;
+					set @name$,"Black Ripple";
+					goto A_Selected;
+			}
+		
+		case 4:
+			mes "[Aura Merchant]";
+			mes "zOMG!!!!! WTF!!!!!!";
+			next;
+			switch(select("Messenger of God (200)","Thundertruck (300)","World Peace (500)","Eruption (300)",
+					"Homosexual Wrath (300)","Alchemist Wet Dream (300)","Eternal Poison (200)",
+					"Cartwheels (150)","Faster Cartwheels (250)","Dust Cyclone (200)","Rainbow (120)",
+					"Flamethrower (1500)")) {
+				case 12:
+					set @effect,62;
+					set @delay,100;
+					set @cost,1500;
+					set @name$,"Flamethrower";
+					goto A_Selected;
+				case 1:
+					set @effect,381;
+					set @delay,7500;
+					set @cost,200;
+					set @name$,"Messenger of God";
+					goto A_Selected;
+				case 2:
+					set @effect,622;
+					set @delay,3200;
+					set @cost,300;
+					set @name$,"Thunderstruck";
+					goto A_Selected;
+				case 3:
+					set @effect,573;
+					set @delay,4550;
+					set @cost,500;
+					set @name$,"World Peace";
+					goto A_Selected;
+				case 4:
+					set @effect,635;
+					set @delay,400;
+					set @cost,300;
+					set @name$,"Eruption";
+					goto A_Selected;
+				case 5:
+					set @effect,514;
+					set @delay,1400;
+					set @cost,300;
+					set @name$,"Homosexual Wrath";
+					goto A_Selected;
+				case 6:
+					set @effect,575;
+					set @delay,4550;
+					set @cost,300;
+					set @name$,"Alchemist Wet Dream";
+					goto A_Selected;
+				case 7:
+					set @effect,493;
+					set @delay,1000;
+					set @cost,200;
+					set @name$,"Eternal Poison";
+					goto A_Selected;
+				case 8:
+					set @effect,466;
+					set @delay,500;
+					set @cost,150;
+					set @name$,"Cartwheels";
+					goto A_Selected;
+				case 9:
+					set @effect,414;
+					set @delay,225;
+					set @cost,250;
+					set @name$,"Faster Cartwheels";
+					goto A_Selected;
+				case 10:
+					set @effect,459;
+					set @delay,800;
+					set @cost,200;
+					set @name$,"Dust Cyclone";
+					goto A_Selected;
+				case 11:
+					set @effect,410;
+					set @delay,2100;
+					set @cost,120;
+					set @name$,"Rainbow";
+					goto A_Selected;
+			}
+		
+		case 5:
+			mes "[Aura Merchant]";
+			mes "Only the unfashionable can turn down auras like these! Come back when you get a sense of style.";
+			close;
+	}
+	
+	A_Selected:
+	
+	mes "[Aura Merchant]";
+	mes "Aaah the ^FF0000" + @name$ + "^000000. A fine choice.";
+	mes "This aura costs ^0000FF" + @cost + ".";
+	
+	A_Selected_Menu:
+	next;
+	
+	switch(select("Preview","Purchase","Continue Browsing")) {
+		case 1:
+			mes "[Aura Merchant]";
+			if ($@am_cooldown == 1) {
+				mes "An aura has been recently tested. Please wait a few moments before previewing.";
+			} else {
+				mes "This is what the aura looks like... Please wait while I demonstrate.";
+				specialeffect @effect;
+				set $@am_cooldown,1;
+				sleep2 @delay;
+				set $@am_cooldown,0;
+			}
+			goto A_Selected_Menu;
+		case 2:
+			mes "[Aura Merchant]";
+			if (countitem(7029) < @cost) {
+				mes "You do not have enough to pay for this, unfortunately.";
+				close;
+			}
+			mes "A fine selection!";
+			
+			delitem 7029,@cost;
+			
+			query_sql "INSERT INTO `aura` (`account_id`,`effect`,`delay`,`name`) VALUES (" + getcharid(3) + "," + @effect + "," + @delay + ",'" + @name$ + "')", @blank;
+			mes "Enjoy your new aura! ^FF0000If you do not know how to use your aura, PM the name 'NPC:aura' and say 'help'^000000.";
+			close;
+		case 3:
+			goto A_Start;
+	}
+}

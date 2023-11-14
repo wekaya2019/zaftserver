@@ -1,0 +1,46 @@
+//===== eAthena Script =======================================
+//= Conquest Utility NPC
+//===== By: ==================================================
+//= Convolution
+//==============================================================
+// Healer & Repairs Weapons & Armor
+// Easy Single Click Interaction
+//==============================================================
+new_pront,159,191,4	script	Healer	932,{
+Part1:
+atcommand "@repairall";
+dispbottom "Repaired all broken equipment.";
+percentheal 100,100;
+skilleffect 28,32676;
+//specialeffect2 238,1; skilleffect 34,0; sc_start SC_BLESSING,7200000,10;
+//specialeffect2 238,1 ;skilleffect 29,0; sc_start SC_INCREASEAGI,7200000,10;	
+//specialeffect2 238,1 ;skilleffect 45,0; sc_start SC_CONCENTRATE,7200000,10;
+//specialeffect2 238,1 ;skilleffect 66,0; sc_start SC_IMPOSITIO,7200000,5;
+//specialeffect2 238,1 ;skilleffect 33,0; sc_start SC_ANGELUS,7200000,10;
+//specialeffect2 238,1 ;skilleffect 74,0; sc_start SC_MAGNIFICAT,7200000,5;
+//specialeffect2 238,1 ;skilleffect 75,0; sc_start SC_GLORIA,7200000,5;
+dispbottom "You have been healed.";
+end;
+
+Part2:
+sc_start SC_SPIRIT ,7200000,5;
+skilleffect 34,0; sc_start SC_BLESSING,7200000,10;
+skilleffect 29,0; sc_start SC_INCREASEAGI,7200000,10;
+dispbottom "Thank for for using Buff Services";
+end;
+
+Part3:
+	if (getbrokenid(1) == 0 ){
+	dispbottom "You have nothing to be repaired now.";
+	end;
+	}	
+	atcommand "@repairall";
+	end;
+
+OnInit:
+	defpattern 1, "heal me", "Part1";
+	defpattern 1, "buff me", "Part2";
+	defpattern 1, "repair me", "Part3";
+	activatepset 1;
+	end;
+}

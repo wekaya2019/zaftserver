@@ -1,0 +1,22 @@
+aretnorp,188,221,6	script	Gender Change	919,{
+	mes "[Gender Change]";
+	mes "You can change you gender here";
+	next;
+	switch(select("Yes","No")){
+		case 1:
+			mes "Are you sure?";
+			mes "You will be disconnected after pressing OK";
+			switch(select("Yes","No")){
+				case 1:
+					atcommand "@changesex";
+					end;
+				case 2:
+					close;
+			}
+		case 2:
+			mes "[Gender Change]";
+			mes "Remind me again if you changed your mind";
+			close;
+	}
+	end;
+	}

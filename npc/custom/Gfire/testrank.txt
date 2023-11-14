@@ -1,0 +1,145 @@
+ayo_in02,97,169,5	script	test3	73,{
+//ayo_in02,99,169,5	script	test3	73,{
+	if(!.init) donpcevent strnpcinfo(3)+"::OnInit";
+OnStart:
+
+if(Ranka == .MaxRanka) {
+
+	mes "[Reputation]";
+//	mes "^777777ultra Rank " +Ranks+": "+RankEXPs+"/"+.EXPs[Ranks]+"^000000";
+	mes "^777777ultra Rank " +Ranks+": "+RankEXPs+"/524288000^000000";
+	}
+else if(Rankb == .MaxRankb) {
+
+	mes "[Reputation]";
+	mes "^777777super Rank " +Ranka+": "+RankEXPa+"/"+.EXPa[Ranka]+"^000000";
+	}
+else if(Rankc == .MaxRankc) {
+
+	mes "[Reputation]";
+	mes "^777777Master Rank " +Rankb+": "+RankEXPb+"/"+.EXPb[Rankb]+"^000000";
+	}
+else if(Rankd == .MaxRankd) {
+	mes "[Reputation]";
+	mes "^777777Adept Rank " +Rankc+": "+RankEXPc+"/"+.EXPc[Rankc]+"^000000";
+	}
+else {
+mes "[Reputation]";
+mes "^777777Beginner Rank " +Rankd+": "+RankEXPd+"/"+.EXPd[Rankd]+"^000000";
+	}
+
+close;
+
+OnInit:
+	//How much exp needed per lvl (make sure each number is bigger than the next)
+	setArray .EXPd[1],
+//		100, 1000, 3700, 10100, 22600, 44200, 78500, 129700, 202600, 302600; //Beginner Rank EXP
+		12553600; //Beginner Rank EXP
+
+	setArray .EXPc[1],
+//		346000, 395500, 469500, 557000, 670000; //Adept Rank EXP
+		48576000; //Adept Rank EXP
+
+	setArray .EXPb[1],
+//		800000, 935000, 1070000, 1220000, 1380000; //Master Rank EXP
+		131072000; //Master Rank EXP
+	setArray .EXPa[1],
+//		346000, 395500, 469500, 557000, 670000; //Adept Rank EXP
+		131072000; //Master Rank EXP
+	setArray .EXPs[1],
+//		346000, 395500, 469500, 557000, 670000; //Adept Rank EXP
+		524288000; //Master Rank EXP
+
+	setarray .exp1[0],12553600;
+	setarray .exp2[0],12553600;
+	setarray .exp3[0],12553600;
+	setarray .exp4[0],12553600;
+	setarray .exp5[0],12553600;
+
+//	set .ExpPerQuest, .exp1[rand(getarraysize(.exp1))];
+	set .ExpPerQuest, .exp1;
+	set .ExpPerQuest2, .exp2;
+	set .ExpPerQuest3, .exp3;
+	set .ExpPerQuest4, .exp2;
+	set .ExpPerQuest5, .exp3;
+	set .MaxRankd, getarraysize(.EXPd);
+	set .MaxRankc, getarraysize(.EXPc);
+	set .MaxRankb, getarraysize(.EXPb);
+	set .MaxRanka, getarraysize(.EXPa);
+	set .MaxRanks, getarraysize(.EXPs);
+	set .int, 1;
+	end;
+OnNPCKillEvent:
+if(Ranka == .MaxRanka) {
+	if(Ranks == .MaxRanks)end;
+		set RankEXPs, RankEXPs + .ExpPerQuest5;
+		if(.EXPs[Ranks] <= RankEXPs && Ranks < .MaxRanks)
+		{
+			set Ranks, Ranks + 1;
+			dispbottom "Rank Up! Rank: " + Ranks;
+			if(Ranks == .MaxRanks) {
+				dispbottom "You have reached Rank 5 Adept!";
+	set RankEXPs, RankEXPs + RankEXPa;
+//	set RankEXPs, 0;
+		}
+	}
+}
+else if(Rankb == .MaxRankb) {
+	if(Ranka == .MaxRanka)end;
+		set RankEXPa, RankEXPa + .ExpPerQuest4;
+		if(.EXPa[Ranka] <= RankEXPa && Ranka < .MaxRanka)
+		{
+			set Ranka, Ranka + 1;
+			dispbottom "Rank Up! Rank: " + Ranka;
+			if(Ranka == .MaxRanka) {
+				dispbottom "You have reached Rank 5 Adept!";
+				dispbottom "You are now Master Rank "+Ranks+"!";
+	set RankEXPs, RankEXPs + RankEXPa;
+		}
+	}
+}
+else if(Rankc == .MaxRankc) {
+	if(Rankb == .MaxRankb)end;
+		set RankEXPb, RankEXPb + .ExpPerQuest3;
+	if(.EXPb[Rankb] <= RankEXPb && Rankb < .MaxRankb)
+	{
+		set Rankb, Rankb + 1;
+	dispbottom "Rank Up! Rank: " + Rankb;
+	if(Rankb == .MaxRankb) {
+			dispbottom "You have reached Rank 5 Master!";
+			dispbottom "You are now Master Rank "+Ranka+"!";
+	set RankEXPa, RankEXPa + RankEXPb;
+//	set RankEXPb, 0;
+			}
+		}
+	}
+else if(Rankd == .MaxRankd) {
+	if(Rankc == .MaxRankc)end;
+		set RankEXPc, RankEXPc + .ExpPerQuest2;
+		if(.EXPc[Rankc] <= RankEXPc && Rankc < .MaxRankc)
+		{
+			set Rankc, Rankc + 1;
+			dispbottom "Rank Up! Rank: " + Rankc;
+			if(Rankc == .MaxRankc) {
+				dispbottom "You have reached Rank 5 Adept!";
+				dispbottom "You are now Master Rank "+Rankb+"!";
+	set RankEXPb, RankEXPb + RankEXPc;
+		}
+	}
+}
+else {
+if(Rankd == .MaxRankd)end;
+set RankEXPd, RankEXPd + .ExpPerQuest;
+if(.EXPd[Rankd] <= RankEXPd && Rankd < .MaxRankd)
+{
+set Rankd, Rankd + 1;
+dispbottom "Rank Up! Rank: " + Rankb;
+if(Rankd == .MaxRankd) {
+dispbottom "You have reached Rank 10 Beginner!";
+dispbottom "You are now Adept Rank "+Rankc+"!";
+set RankEXPc, RankEXPc + RankEXPd;
+}
+}
+}
+end;
+}

@@ -1,0 +1,62 @@
+//===== eAthena Script =======================================
+//= Quest Maker v3.0 Script
+//===== By: ==================================================
+//= Esnero [QM]
+//===== Current Version: =====================================
+//= 1.0
+//===== Compatible With: =====================================
+//= eA SVN 5000+
+//===== Additional Comments: =================================
+//= v1.0 thanks to Euphy
+//============================================================
+
+prontera,146,165,4	script	PODS Exchanger	85,{
+	mes "[^000000PODS Exchanger^000000]";
+	mes "Hi !";
+	mes "You're here for the Proof Of Donation, aren't you ?";
+	mes "It's an Proof Of Donation !";
+	next;
+	menu "Item needed ?",L_required,"I have your items !",L_check,"Leave",L_partir;
+
+	L_required:
+		mes "[^000000PODS Exchanger^000000]";
+		mes "^FF0000100^000000 Extreme Coins"; //7711
+		mes "^FF0000100^000000 Woe Badge"; //7227
+		mes "^FF0000100^000000 Poring Coins"; //7539
+		mes "^FF0000100^000000 Gold coins"; //7720
+		mes "^0000FF10000^000000 zeny";
+		close;
+
+	L_check:
+		if(countitem(7711) < 100) goto L_manque;
+		if(countitem(7227) < 100) goto L_manque;
+		if(countitem(7539) < 100) goto L_manque;
+		if(countitem(7720) < 100) goto L_manque;
+		if(Zeny < 10000) goto L_manque;
+		mes "[^000000PODS Exchanger^000000]";
+		mes "(Exemple)";
+		mes "Oh, so you did it !";
+		mes "Here, take your Proof Of Donation !";
+		delitem 7711,100;
+		delitem 7227,100;
+		delitem 7539,100;
+		delitem 7720,100;
+		set Zeny, Zeny - 10000;
+		getitem 7179,10;
+		close;
+
+	L_manque:
+		mes "[^000000PODS Exchanger^000000]";
+		mes "You miss...";
+		if(countitem(7711) < 100) mes "^FF0000"+(100 - countitem(7711)) +"^000000 Extreme Coins";
+		if(countitem(7227) < 100) mes "^FF0000"+(100 - countitem(7227)) +"^000000 Woe Badge";
+		if(countitem(7539) < 100) mes "^FF0000"+(100 - countitem(7539)) +"^000000 Poring Coins";
+		if(countitem(7720) < 100) mes "^FF0000"+(100 - countitem(7720)) +"^000000 Gold coins";
+		if(Zeny < 10000) mes "^0000FF"+(10000 - Zeny)+"^000000 Zeny";
+		close;
+
+	L_partir:
+		mes "[^000000PODS Exchanger^000000]";
+		mes "Have a nice day.";
+		close;
+}

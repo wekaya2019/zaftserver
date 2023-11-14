@@ -1,0 +1,10 @@
+mal_in02,176,51,7	script	Gift Shop::PremiumShopGift	803,{
+	mes "[^FFA500Donator Shop^000000]";
+	mes "Una sección buena para comprar regalos para toda ocación.";
+	mes "Cierra esta ventana para accesar la tienda, Suerte!!";
+	close2;
+	callshop "CashShop_GiftBox",0;
+	end;
+}
+
+-	cashshop	CashShop_Accesory	-1,30517:200,30518:300,30519:500
