@@ -1,5 +1,5 @@
-﻿Build started 11/14/2023 5:15:38 PM.
-     1>Project "C:\Users\Dennis Gaming\Desktop\eAmod Nov 11, 2023 working\eAmod 2011-12-28\vcproj-12\map-server_sql.vcxproj" on node 5 (Rebuild target(s)).
+﻿Build started 11/15/2023 5:44:10 PM.
+     1>Project "C:\Users\Dennis Gaming\Desktop\eAmod Nov 11, 2023 working\eAmod 2011-12-28\vcproj-12\map-server_sql.vcxproj" on node 5 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I..\src\common /I..\3rdparty\msinttypes\include /I..\3rdparty\pcre\old\include /ZI /nologo /W3 /WX- /MP /Od /Oy- /D WIN32 /D _DEBUG /D PCRE_SUPPORT /D _MBCS /Gm- /EHsc /RTC1 /MTd /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"map-server_sql\Debug\\" /Fd"map-server_sql\Debug\vc120.pdb" /Gd /TC /wd4018 /wd4100 /wd4800 /wd4996 /FIconfig.vc.h /analyze- /errorReport:prompt ..\src\map\achievement.c ..\src\map\atcommand.c ..\src\map\battle.c ..\src\map\battleground.c ..\src\map\buyingstore.c ..\src\map\channel.c ..\src\map\chat.c ..\src\map\chrif.c ..\src\map\clif.c ..\src\map\date.c ..\src\map\duel.c ..\src\map\faction.c ..\src\map\guild.c ..\src\map\guild_castle.c ..\src\map\guild_expcache.c ..\src\map\homunculus.c ..\src\map\instance.c ..\src\map\intif.c ..\src\map\itemdb.c ..\src\map\log.c ..\src\map\mail.c ..\src\map\map.c ..\src\map\mapreg_sql.c ..\src\map\mercenary.c ..\src\map\mob.c ..\src\map\npc.c ..\src\map\npc_chat.c ..\src\map\party.c ..\src\map\path.c ..\src\map\pc.c ..\src\map\pet.c ..\src\map\quest.c ..\src\map\region.c ..\src\map\script.c ..\src\map\searchstore.c ..\src\map\skill.c ..\src\map\status.c ..\src\map\storage.c ..\src\map\trade.c ..\src\map\unit.c ..\src\map\vending.c
          achievement.c
@@ -89,8 +89,8 @@
          "C:\Users\Dennis Gaming\Desktop\eAmod Nov 11, 2023 working\eAmod 2011-12-28\vcproj-12\common_sql\Debug\common_sql.lib"
      1>achievement.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
          map-server_sql.vcxproj -> C:\Users\Dennis Gaming\Desktop\eAmod Nov 11, 2023 working\eAmod 2011-12-28\vcproj-12\..\map-server_sql.exe
-     1>Done Building Project "C:\Users\Dennis Gaming\Desktop\eAmod Nov 11, 2023 working\eAmod 2011-12-28\vcproj-12\map-server_sql.vcxproj" (Rebuild target(s)).
+     1>Done Building Project "C:\Users\Dennis Gaming\Desktop\eAmod Nov 11, 2023 working\eAmod 2011-12-28\vcproj-12\map-server_sql.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:16.60
+Time Elapsed 00:00:12.37

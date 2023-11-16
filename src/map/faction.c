@@ -380,6 +380,17 @@ void faction_db_load(bool clear)
 	ShowStatus("Done reading '"CL_WHITE"%d"CL_RESET"' entries in '"CL_WHITE"%s"CL_RESET"'.\n",count,path);
 }
 
+void faction_reload (void)
+{
+	faction_db_load(true);
+}
+
+void lang_reload (void)
+{
+	lang_db->clear(lang_db,lang_db_clear);
+	sv_readdb(db_path, "lang_db.txt", ',', 3, 2 + (LANG_MAX_WORDS * LANG_MAX_CHARS), LANG_MAX, faction_parse_row_lang);
+}
+
 void do_init_faction(void)
 {
 	make_crc_table();

@@ -1,0 +1,52 @@
+﻿Build started 11/15/2023 5:54:12 PM.
+     1>Project "C:\Users\Dennis Gaming\Desktop\eAmod Nov 11, 2023 working\eAmod 2011-12-28\vcproj-10\common.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "common\Debug\common.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\src\common /I..\3rdparty\msinttypes\include /I..\3rdparty\mt19937ar /I..\3rdparty\zlib\old\include /Zi /nologo /W3 /WX- /MP /Od /Oy- /D WIN32 /D _DEBUG /D _LIB /D FD_SETSIZE=4096 /D _MBCS /Gm- /EHsc /RTC1 /MTd /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"common\Debug\\" /Fd"common\Debug\vc100.pdb" /Gd /TC /wd4996 /FIconfig.vc.h /analyze- /errorReport:prompt ..\3rdparty\mt19937ar\mt19937ar.c ..\src\common\core.c ..\src\common\db.c ..\src\common\des.c ..\src\common\ers.c ..\src\common\grfio.c ..\src\common\lock.c ..\src\common\malloc.c ..\src\common\mapindex.c ..\src\common\md5calc.c ..\src\common\nullpo.c ..\src\common\plugins.c ..\src\common\random.c ..\src\common\showmsg.c ..\src\common\socket.c ..\src\common\strlib.c ..\src\common\timer.c ..\src\common\utils.c
+         mt19937ar.c
+         core.c
+         db.c
+         des.c
+         ers.c
+         grfio.c
+         lock.c
+         malloc.c
+         mapindex.c
+         md5calc.c
+         nullpo.c
+         plugins.c
+         random.c
+         showmsg.c
+         socket.c
+         strlib.c
+         timer.c
+         utils.c
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\Lib.exe /OUT:"common\Debug\common.lib" ws2_32.lib zdll.lib /LIBPATH:..\3rdparty\zlib\old\lib /NOLOGO /NODEFAULTLIB common\Debug\mt19937ar.obj
+         common\Debug\core.obj
+         common\Debug\db.obj
+         common\Debug\des.obj
+         common\Debug\ers.obj
+         common\Debug\grfio.obj
+         common\Debug\lock.obj
+         common\Debug\malloc.obj
+         common\Debug\mapindex.obj
+         common\Debug\md5calc.obj
+         common\Debug\nullpo.obj
+         common\Debug\plugins.obj
+         common\Debug\random.obj
+         common\Debug\showmsg.obj
+         common\Debug\socket.obj
+         common\Debug\strlib.obj
+         common\Debug\timer.obj
+         common\Debug\utils.obj /ignore:4006 /ignore:4221 
+         common.vcxproj -> C:\Users\Dennis Gaming\Desktop\eAmod Nov 11, 2023 working\eAmod 2011-12-28\vcproj-10\common\Debug\common.lib
+       FinalizeBuildStatus:
+         Deleting file "common\Debug\common.unsuccessfulbuild".
+         Touching "common\Debug\common.lastbuildstate".
+     1>Done Building Project "C:\Users\Dennis Gaming\Desktop\eAmod Nov 11, 2023 working\eAmod 2011-12-28\vcproj-10\common.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:03.66

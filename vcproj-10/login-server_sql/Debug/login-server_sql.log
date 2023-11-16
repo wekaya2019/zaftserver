@@ -1,0 +1,40 @@
+﻿Build started 11/15/2023 5:54:22 PM.
+     1>Project "C:\Users\Dennis Gaming\Desktop\eAmod Nov 11, 2023 working\eAmod 2011-12-28\vcproj-10\login-server_sql.vcxproj" on node 4 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "login-server_sql\Debug\login-server_sql.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\src\common /I..\3rdparty\msinttypes\include /ZI /nologo /W3 /WX- /MP /Od /Oy- /D WIN32 /D _DEBUG /D WITH_SQL /D _VC80_UPGRADE=0x0710 /D _MBCS /Gm- /EHsc /RTC1 /MTd /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"login-server_sql\Debug\\" /Fd"login-server_sql\Debug\vc100.pdb" /Gd /TC /wd4100 /wd4800 /wd4996 /FIconfig.vc.h /analyze- /errorReport:prompt ..\src\login\account_sql.c ..\src\login\ipban_sql.c ..\src\login\login.c ..\src\login\loginlog_sql.c
+         account_sql.c
+         ipban_sql.c
+         login.c
+         loginlog_sql.c
+       ManifestResourceCompile:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"login-server_sql\Debug\login-server_sql.exe.embed.manifest.res" login-server_sql\Debug\login-server_sql_manifest.rc 
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"..\login-server_sql.exe" /INCREMENTAL /NOLOGO libcmtd.lib oldnames.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /NODEFAULTLIB /MANIFEST /ManifestFile:"login-server_sql\Debug\login-server_sql.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"..\login-server_sql.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE:NO /NXCOMPAT /IMPLIB:"..\login-server_sql.lib" /MACHINE:X86 "login-server_sql\Debug\login-server_sql.exe.embed.manifest.res"
+         "login-server_sql\Debug\account_sql.obj"
+         "login-server_sql\Debug\ipban_sql.obj"
+         "login-server_sql\Debug\login.obj"
+         "login-server_sql\Debug\loginlog_sql.obj"
+         "C:\Users\Dennis Gaming\Desktop\eAmod Nov 11, 2023 working\eAmod 2011-12-28\vcproj-10\common\Debug\common.lib"
+         "C:\Users\Dennis Gaming\Desktop\eAmod Nov 11, 2023 working\eAmod 2011-12-28\vcproj-10\common_sql\Debug\common_sql.lib"
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /out:"login-server_sql\Debug\login-server_sql.exe.embed.manifest" /manifest "login-server_sql\Debug\login-server_sql.exe.intermediate.manifest"
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\rc.exe /nologo /fo"login-server_sql\Debug\login-server_sql.exe.embed.manifest.res" login-server_sql\Debug\login-server_sql_manifest.rc 
+       LinkEmbedManifest:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"..\login-server_sql.exe" /INCREMENTAL /NOLOGO libcmtd.lib oldnames.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /NODEFAULTLIB /MANIFEST /ManifestFile:"login-server_sql\Debug\login-server_sql.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"..\login-server_sql.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE:NO /NXCOMPAT /IMPLIB:"..\login-server_sql.lib" /MACHINE:X86 "login-server_sql\Debug\login-server_sql.exe.embed.manifest.res"
+         "login-server_sql\Debug\account_sql.obj"
+         "login-server_sql\Debug\ipban_sql.obj"
+         "login-server_sql\Debug\login.obj"
+         "login-server_sql\Debug\loginlog_sql.obj"
+         "C:\Users\Dennis Gaming\Desktop\eAmod Nov 11, 2023 working\eAmod 2011-12-28\vcproj-10\common\Debug\common.lib"
+         "C:\Users\Dennis Gaming\Desktop\eAmod Nov 11, 2023 working\eAmod 2011-12-28\vcproj-10\common_sql\Debug\common_sql.lib"
+         login-server_sql.vcxproj -> C:\Users\Dennis Gaming\Desktop\eAmod Nov 11, 2023 working\eAmod 2011-12-28\vcproj-10\..\login-server_sql.exe
+       FinalizeBuildStatus:
+         Deleting file "login-server_sql\Debug\login-server_sql.unsuccessfulbuild".
+         Touching "login-server_sql\Debug\login-server_sql.lastbuildstate".
+     1>Done Building Project "C:\Users\Dennis Gaming\Desktop\eAmod Nov 11, 2023 working\eAmod 2011-12-28\vcproj-10\login-server_sql.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:15.93

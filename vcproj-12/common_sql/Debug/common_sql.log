@@ -1,13 +1,13 @@
-﻿Build started 11/14/2023 5:15:32 PM.
-     1>Project "C:\Users\Dennis Gaming\Desktop\eAmod Nov 11, 2023 working\eAmod 2011-12-28\vcproj-12\common_sql.vcxproj" on node 2 (Rebuild target(s)).
+﻿Build started 11/15/2023 5:44:02 PM.
+     1>Project "C:\Users\Dennis Gaming\Desktop\eAmod Nov 11, 2023 working\eAmod 2011-12-28\vcproj-12\common_sql.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I..\src\common /I..\3rdparty\msinttypes\include /I..\3rdparty\mysql\win32\include /Zi /nologo /W3 /WX- /MP /Od /Oy- /D WIN32 /D _DEBUG /D _LIB /D FD_SETSIZE=4096 /D _MBCS /Gm- /EHsc /RTC1 /MTd /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"common_sql\Debug\\" /Fd"common_sql\Debug\vc120.pdb" /Gd /TC /wd4996 /FIconfig.vc.h /analyze- /errorReport:prompt ..\src\common\sql.c
          sql.c
        Lib:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\Lib.exe /OUT:"common_sql\Debug\common_sql.lib" libmysql.lib /LIBPATH:..\3rdparty\mysql\win32\lib /NOLOGO common_sql\Debug\sql.obj
          common_sql.vcxproj -> C:\Users\Dennis Gaming\Desktop\eAmod Nov 11, 2023 working\eAmod 2011-12-28\vcproj-12\common_sql\Debug\common_sql.lib
-     1>Done Building Project "C:\Users\Dennis Gaming\Desktop\eAmod Nov 11, 2023 working\eAmod 2011-12-28\vcproj-12\common_sql.vcxproj" (Rebuild target(s)).
+     1>Done Building Project "C:\Users\Dennis Gaming\Desktop\eAmod Nov 11, 2023 working\eAmod 2011-12-28\vcproj-12\common_sql.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:02.92
+Time Elapsed 00:00:01.40

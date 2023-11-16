@@ -4387,6 +4387,26 @@ ACMD_FUNC(reloadscript)
 	return 0;
 }
 
+ACMD_FUNC(reloadfactiondb)
+{
+	nullpo_retr(-1, sd);
+
+	faction_reload();
+	clif_displaymessage (fd, msg_txt(917)); // Faction DB has been reloaded
+
+	return 0;
+}
+
+ACMD_FUNC(reloadlangdb)
+{
+	nullpo_retr(-1, sd);
+
+	lang_reload();
+	clif_displaymessage (fd, msg_txt(918)); // Language DB has been reloaded
+
+	return 0;
+}
+
 /*==========================================
  * @mapinfo [0-3] <map name> by MC_Cameri
  * => Shows information about the map [map name]

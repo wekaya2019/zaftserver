@@ -50,6 +50,9 @@ extern const int lang_pow[LANG_MAX];
 struct lang_data* lang_search(int lang_id);
 char* lang_convert(char* dst, const char* message, size_t size, int lang_id);
 
+
+void faction_reload(void);
+void lang_reload(void);
 void do_init_faction(void);
 void do_final_faction(void);
 
