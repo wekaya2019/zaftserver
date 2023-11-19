@@ -891,7 +891,7 @@ int clif_send(const uint8* buf, int len, struct block_list* bl, enum send_target
 /// 02eb <start time>.L <position>.3B <x size>.B <y size>.B <font>.W (ZC_ACCEPT_ENTER2)
 void clif_authok(struct map_session_data *sd)
 {
-#if PACKETVER < 20080102
+#if PACKETVER < 20151104
 	const int cmd = 0x73;
 #else
 	const int cmd = 0x2eb;
@@ -904,7 +904,7 @@ void clif_authok(struct map_session_data *sd)
 	WFIFOPOS(fd, 6, sd->bl.x, sd->bl.y, sd->ud.dir);
 	WFIFOB(fd, 9) = 5; // ignored
 	WFIFOB(fd,10) = 5; // ignored
-#if PACKETVER >= 20080102
+#if PACKETVER >= 20151104
 	WFIFOW(fd,11) = sd->user_font;  // FIXME: Font is currently not saved.
 #endif
 	WFIFOSET(fd,packet_len(cmd));

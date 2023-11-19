@@ -37,6 +37,7 @@ extern char mapindex_cfgfile[80];
 #define MAP_NOVICE "new_1-1"
 #define MAP_MOSCOVIA "moscovia"
 #define MAP_ERISCASTLE "dicastes01"
+#define MAP_NEWPRONT "newpront"
 
 const char* mapindex_getmapname(const char* string, char* output);
 const char* mapindex_getmapname_ext(const char* string, char* output);

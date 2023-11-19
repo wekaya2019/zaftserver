@@ -8,10 +8,10 @@
 // Premium Account conf/battle settings ( see eAmod.conf )
 
 // Extra experience Bonus when killing mobs. Value is from 0 to 100, as a Percent. Example 5 = 5%
-// premium_bonusexp: 0
+// premium_bonusexp: 1
 
 // Discount when using Cash Shops. Value is from 0 to 100, as a Percent. Example 5 = 5%
-// premium_discount: 0
+// premium_discount: 1
 
 // Drop boost for Premium account users. Value is %, where 5 become 5%.
 // The bonus drop increases the normal drop rate just like Bubble Gum does.

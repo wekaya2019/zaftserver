@@ -862,8 +862,8 @@ new_1-2,100,31,4	script	ZaftRO Staff#job2	831,{
 		set Welcome_S, 0;
 		set Welcome_W, 0;
 
-		savepoint "prontera",155,180;
-		warp "prontera",155,180;
+		savepoint "new_1-2",99,101;
+		warp "new_1-2",99,101;
 		end;
 	}
 

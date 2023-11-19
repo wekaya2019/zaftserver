@@ -1,5 +1,5 @@
-﻿Build started 11/15/2023 5:44:05 PM.
-     1>Project "C:\Users\Dennis Gaming\Desktop\eAmod Nov 11, 2023 working\eAmod 2011-12-28\vcproj-12\char-server_sql.vcxproj" on node 4 (Build target(s)).
+﻿Build started 11/19/2023 11:53:33 PM.
+     1>Project "C:\Users\Dennis Gaming\Desktop\zaftserver\vcproj-12\char-server_sql.vcxproj" on node 4 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I..\src\common /I..\3rdparty\msinttypes\include /ZI /nologo /W3 /WX- /MP /Od /Oy- /D WIN32 /D _DEBUG /D _VC80_UPGRADE=0x0710 /D _MBCS /Gm- /EHsc /RTC1 /MTd /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"char-server_sql\Debug\\" /Fd"char-server_sql\Debug\vc120.pdb" /Gd /TC /wd4800 /wd4996 /FIconfig.vc.h /analyze- /errorReport:prompt ..\src\char_sql\char.c ..\src\char_sql\int_achievement.c ..\src\char_sql\int_auction.c ..\src\char_sql\int_guild.c ..\src\char_sql\int_homun.c ..\src\char_sql\int_mail.c ..\src\char_sql\int_mercenary.c ..\src\char_sql\int_party.c ..\src\char_sql\int_pet.c ..\src\char_sql\int_quest.c ..\src\char_sql\int_storage.c ..\src\char_sql\inter.c
          char.c
@@ -27,12 +27,12 @@
          "char-server_sql\Debug\int_quest.obj"
          "char-server_sql\Debug\int_storage.obj"
          "char-server_sql\Debug\inter.obj"
-         "C:\Users\Dennis Gaming\Desktop\eAmod Nov 11, 2023 working\eAmod 2011-12-28\vcproj-12\common\Debug\common.lib"
-         "C:\Users\Dennis Gaming\Desktop\eAmod Nov 11, 2023 working\eAmod 2011-12-28\vcproj-12\common_sql\Debug\common_sql.lib"
+         "C:\Users\Dennis Gaming\Desktop\zaftserver\vcproj-12\common\Debug\common.lib"
+         "C:\Users\Dennis Gaming\Desktop\zaftserver\vcproj-12\common_sql\Debug\common_sql.lib"
      1>char.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
-         char-server_sql.vcxproj -> C:\Users\Dennis Gaming\Desktop\eAmod Nov 11, 2023 working\eAmod 2011-12-28\vcproj-12\..\char-server_sql.exe
-     1>Done Building Project "C:\Users\Dennis Gaming\Desktop\eAmod Nov 11, 2023 working\eAmod 2011-12-28\vcproj-12\char-server_sql.vcxproj" (Build target(s)).
+         char-server_sql.vcxproj -> C:\Users\Dennis Gaming\Desktop\zaftserver\vcproj-12\..\char-server_sql.exe
+     1>Done Building Project "C:\Users\Dennis Gaming\Desktop\zaftserver\vcproj-12\char-server_sql.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:10.48
+Time Elapsed 00:00:10.03

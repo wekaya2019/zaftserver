@@ -1,5 +1,5 @@
-﻿Build started 11/15/2023 5:44:04 PM.
-     1>Project "C:\Users\Dennis Gaming\Desktop\eAmod Nov 11, 2023 working\eAmod 2011-12-28\vcproj-12\login-server_sql.vcxproj" on node 2 (Build target(s)).
+﻿Build started 11/19/2023 11:53:32 PM.
+     1>Project "C:\Users\Dennis Gaming\Desktop\zaftserver\vcproj-12\login-server_sql.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I..\src\common /I..\3rdparty\msinttypes\include /ZI /nologo /W3 /WX- /MP /Od /Oy- /D WIN32 /D _DEBUG /D WITH_SQL /D _VC80_UPGRADE=0x0710 /D _MBCS /Gm- /EHsc /RTC1 /MTd /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"login-server_sql\Debug\\" /Fd"login-server_sql\Debug\vc120.pdb" /Gd /TC /wd4100 /wd4800 /wd4996 /FIconfig.vc.h /analyze- /errorReport:prompt ..\src\login\account_sql.c ..\src\login\ipban_sql.c ..\src\login\login.c ..\src\login\loginlog_sql.c
          account_sql.c
@@ -11,12 +11,12 @@
          "login-server_sql\Debug\ipban_sql.obj"
          "login-server_sql\Debug\login.obj"
          "login-server_sql\Debug\loginlog_sql.obj"
-         "C:\Users\Dennis Gaming\Desktop\eAmod Nov 11, 2023 working\eAmod 2011-12-28\vcproj-12\common\Debug\common.lib"
-         "C:\Users\Dennis Gaming\Desktop\eAmod Nov 11, 2023 working\eAmod 2011-12-28\vcproj-12\common_sql\Debug\common_sql.lib"
+         "C:\Users\Dennis Gaming\Desktop\zaftserver\vcproj-12\common\Debug\common.lib"
+         "C:\Users\Dennis Gaming\Desktop\zaftserver\vcproj-12\common_sql\Debug\common_sql.lib"
      1>account_sql.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
-         login-server_sql.vcxproj -> C:\Users\Dennis Gaming\Desktop\eAmod Nov 11, 2023 working\eAmod 2011-12-28\vcproj-12\..\login-server_sql.exe
-     1>Done Building Project "C:\Users\Dennis Gaming\Desktop\eAmod Nov 11, 2023 working\eAmod 2011-12-28\vcproj-12\login-server_sql.vcxproj" (Build target(s)).
+         login-server_sql.vcxproj -> C:\Users\Dennis Gaming\Desktop\zaftserver\vcproj-12\..\login-server_sql.exe
+     1>Done Building Project "C:\Users\Dennis Gaming\Desktop\zaftserver\vcproj-12\login-server_sql.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:07.82
+Time Elapsed 00:00:07.43

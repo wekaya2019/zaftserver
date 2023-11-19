@@ -7122,3 +7122,6 @@
 30146,White_Valkyrie_Wings,White_Valkyrie_Wings,5,20,,600,,2,,1,0xFFFFFFFF,63,2,512,,1,1,1646,{ bonus bAspdRate,10; bonus bAllStats,3; },{},{}
 30147,Winged_Headset,WingedHeadset,5,20,,600,,2,,1,0xFFFFFFFF,63,2,512,,1,1,1647,{ bonus bAspdRate,10; bonus bAllStats,3; },{},{}
 30148,Zoro_Sword,zorosword,5,20,,600,,2,,1,0xFFFFFFFF,63,2,512,,1,1,1648,{ bonus bAspdRate,10; bonus bAllStats,3; },{},{}
+
+//Mount Sytem
+//2622,Reins_Of_Mount,Reins Of Mount,11,0,,10,,,,,0xFFFFFFFF,7,2,,,,,,{ setmounting(); },{},{}

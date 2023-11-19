@@ -8,7 +8,7 @@
 // - stop, to stop the shutdown process.
 
 
--	script	Shutdown	-1,{
+new_1-2,99,123,3	script	Shutdown	831,{
 	end;
 
 OnWhisperGlobal:

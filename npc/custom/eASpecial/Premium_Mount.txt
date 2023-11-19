@@ -2,7 +2,7 @@
 // Premium Mounts System
 // ------------------------------------------
 
-itemmall,165,71,7	script	Premium Mounts::All_Riding	875,{
+new_1-2,160,162,1	script	Premium Mount	831,{
 	if( .Ready == 0 ) donpcevent "All_Riding::OnInit";
 
 	mes "[^FFA500Premium Mounts^000000]";

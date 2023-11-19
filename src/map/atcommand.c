@@ -2246,7 +2246,7 @@ ACMD_FUNC(go)
 		int x, y;
 		const char* displayname;
 	} data[] = {
-		{ MAP_PRONTERA,    156, 191, "Prontera" }, // 0
+		{ MAP_PRONTERA,    155, 185, "Prontera" }, // 0
 		{ MAP_MORROC,      156,  93, "Morroc" }, // 1
 		{ MAP_GEFFEN,      119,  59, "Geffen" }, // 2
 		{ MAP_PAYON,       162, 233, "Payon" }, // 3
@@ -2272,6 +2272,7 @@ ACMD_FUNC(go)
 		{ MAP_RACHEL,      130, 110, "Rachel" }, // 23
 		{ MAP_VEINS,       216, 123, "Veins" }, // 24
 		{ MAP_MOSCOVIA,    223, 184, "Moscovia" }, // 25
+		{ MAP_NEWPRONT,	   156, 191, "newpront" }, // 26
 	};
 
 	static const struct {
@@ -2317,6 +2318,7 @@ ACMD_FUNC(go)
 		{ MAP_RACHEL,      "rachel" },
 		{ MAP_VEINS,       "veins" },
 		{ MAP_MOSCOVIA,    "moscovia" },
+		{ MAP_NEWPRONT,    "newpront" },
 	};
 
 	nullpo_retr(-1, sd);

@@ -1,8 +1,9 @@
-﻿20737,C_Kirin_Wing,C Kirin Wing,4,10,,0,,,,0,0xFFFFFFFF,63,2,1024,,1,1,,{},{},{}
-// Items Database
-// Structure of Database:
-// ID,Name,Name,Type,Price,Sell,Weight,ATK,DEF,Range,Slot,Job,Upper,Gender,Loc,wLV,eLV,Refineable,View,{ Script },{ OnEquip_Script },{ OnUnequip_Script }
+﻿// Items Database
 //
+// Structure of Database:
+// ID,AegisName,Name,Type,Buy,Sell,Weight,ATK,DEF,Range,Slots,Job,Class,Gender,Loc,wLV,eLV,Refineable,View,{ Script },{ OnEquip_Script },{ OnUnequip_Script }
+//
+// Healing Items
 // THQ Quest Items
 //=============================================================
 //7950,THG_Membership,THG Membership,3,,10,10,,,,,,,,,,,,,{},{},{}
