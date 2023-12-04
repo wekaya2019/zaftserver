@@ -1,15 +1,9 @@
-﻿Build started 11/19/2023 11:53:30 PM.
-     1>Project "C:\Users\Dennis Gaming\Desktop\zaftserver\vcproj-12\mapcache.vcxproj" on node 3 (Build target(s)).
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I..\src\common /I..\3rdparty\msinttypes\include /ZI /nologo /W3 /WX- /MP /Od /Oy- /D WIN32 /D _DEBUG /D _MBCS /Gm- /EHsc /RTC1 /MTd /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"mapcache\Debug\\" /Fd"mapcache\Debug\vc120.pdb" /Gd /TC /wd4996 /FIconfig.vc.h /analyze- /errorReport:prompt ..\src\tool\mapcache.c
-         mapcache.c
-       Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"..\mapcache.exe" /INCREMENTAL /NOLOGO libcmtd.lib oldnames.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /NODEFAULTLIB /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"..\mapcache.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE:NO /NXCOMPAT /IMPLIB:"..\mapcache.lib" /MACHINE:X86 /SAFESEH /FIXED:NO mapcache\Debug\mapcache.obj
-         "C:\Users\Dennis Gaming\Desktop\zaftserver\vcproj-12\common\Debug\common.lib"
-     1>mapcache.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
-         mapcache.vcxproj -> C:\Users\Dennis Gaming\Desktop\zaftserver\vcproj-12\..\mapcache.exe
-     1>Done Building Project "C:\Users\Dennis Gaming\Desktop\zaftserver\vcproj-12\mapcache.vcxproj" (Build target(s)).
+﻿Build started 11/30/2023 9:14:07 PM.
+     1>Project "C:\Users\Dennis Gaming\Desktop\eAmod Nov 23, 2023 working\eAmod 2011-12-28\vcproj-12\mapcache.vcxproj" on node 3 (Rebuild target(s)).
+       Project file contains ToolsVersion="12.0". This toolset may be unknown or missing, in which case you may be able to resolve this by installing the appropriate version of MSBuild, or the build may have been forced to a particular ToolsVersion for policy reasons. Treating the project as if it had ToolsVersion="4.0". For more information, please see http://go.microsoft.com/fwlink/?LinkId=291333.
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V110\Microsoft.Cpp.Platform.targets(44,5): error MSB8020: The builds tools for v143 (Platform Toolset = 'v143') cannot be found. To build using the v143 build tools, either click the Project menu or right-click the solution, and then select "Update VC++ Projects...". Install v143 to build using the v143 build tools.
+     1>Done Building Project "C:\Users\Dennis Gaming\Desktop\eAmod Nov 23, 2023 working\eAmod 2011-12-28\vcproj-12\mapcache.vcxproj" (Rebuild target(s)) -- FAILED.
 
-Build succeeded.
+Build FAILED.
 
-Time Elapsed 00:00:03.98
+Time Elapsed 00:00:00.06

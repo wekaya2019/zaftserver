@@ -2273,6 +2273,8 @@ ACMD_FUNC(go)
 		{ MAP_VEINS,       216, 123, "Veins" }, // 24
 		{ MAP_MOSCOVIA,    223, 184, "Moscovia" }, // 25
 		{ MAP_NEWPRONT,	   156, 191, "newpront" }, // 26
+		{ MAP_MKSPEEDRUN,	143, 87, "mkspeedrun" }, // 27
+		{ MAP_VIP_LOUNGE,	143, 227, "vip_lounge" }, // 28
 	};
 
 	static const struct {
@@ -2319,6 +2321,8 @@ ACMD_FUNC(go)
 		{ MAP_VEINS,       "veins" },
 		{ MAP_MOSCOVIA,    "moscovia" },
 		{ MAP_NEWPRONT,    "newpront" },
+		{ MAP_MKSPEEDRUN,	"mkspeedrun" },
+		{ MAP_VIP_LOUNGE,	"vip_lounge" },
 	};
 
 	nullpo_retr(-1, sd);

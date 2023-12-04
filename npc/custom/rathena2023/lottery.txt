@@ -1,0 +1,686 @@
+//**********************************************************************************
+// ____                    _                                            _   _  ____ 
+//|  _ \ ___   ___   ____ | |  ___   ____   ___   ___   __  ___   _  _ | |_| |/ __ |
+//| |__// _ \ / _ \ |  _ \| | / _ \ |  _ \ / _ \ /  _| / _)/ _ \ | \| ||___  |\__  |
+//| |  |  __/ ||_|| | |__/| ||  __/ | |__/|  __/ | |  _\ \ ||_|| | \\ |    | |   | |
+//|_|___\___|_\___/_| |___|_|_\___|_| |____\___|_|_|_(___/ \___/_|_|\_|____|_|___|_|
+//------------------|_|-------------|_|---------------------------------------------
+//**********************************************************************************
+//===== rAthena Script =============================================================
+//= Powerball Lottery
+//===== By: ========================================================================
+//= Peopleperson49 (Eddie)
+//===== Start Date: ================================================================
+//= 19FEB2008
+//===== Current Version: ===========================================================
+//= 1.7
+//===== Compatible With: ===========================================================
+//= rAthena SVN
+//===== Description: ===============================================================
+//= This was one of my first scripts I ever made. I learned to script by breaking
+//=	these type of scripts down and recreating them from scratch. This script was
+//=	recreated in this same way. It is very similar to the original in design.
+//=	Powerball lottery picks 5 miniballs and 1 powerball. Different pay amounts
+//=	based on type of matches made.
+//===== Version Control: ===========================================================
+//= 1.0 First Version.
+//= 1.1 Alligned my script to use the official version location and NPC.
+//= 1.2 Modified the times to every 4 hours.
+//= 1.3 Added Lottery Rules.
+//= 1.4 Refomatted the menus to a better format.
+//= 1.5 Added pretty colors to script.
+//= 1.6 Added easy to set variables for prize amounts.
+//= 1.7 Optomized AssistLottoGen script.
+//===== Additional Comments: =======================================================
+prontera,141,182,5	script	Powerball Lottery 	76,{
+
+mes "[Lottery Official]";
+mes "Welcome to the Powerball lottery!";
+mes " ";
+mes "Note: Please play responsibly and remember that the Powerball lottery is only a game! If you feel you must play, get some help!";
+next;
+if(getgmlevel()>98) { goto GMMenu; }
+menu "Rules",Rules,"Win Amount Table",Table,"Buy New Ticket",Buy,"Check Numbers",Check,"Cancel",Cancel;
+close;
+
+Rules:
+next;
+mes "[Lottery Rules]";
+mes "•  Each ticket costs 10,000 zeny each.";
+mes " ";
+mes "•  Thier are 11 different ways to win the Powerball lottery!";
+mes " ";
+mes "•  Select 5 Miniballs out of 30 (these can be drawn in any order to win).";
+mes " ";
+mes "•  Each Miniball must be a different number from the rest.";
+mes " ";
+mes "•  The Powerball can be any number from 1 to 30 (even if already used by a Miniball).";
+mes " ";
+mes "•  A new drawing happens every 4 hours (0800, 1200, 1600, 2000, 2400, 0400) server time.";
+mes " ";
+mes "•  A ticket must be claimed before the next drawing takes place.";
+mes " ";
+mes "•  Match all 5 Miniballs and the Powerball to win the Powerball Jackpot!";
+mes " ";
+mes "•  Match all 5 Miniballs to win a cash prize!";
+mes " ";
+mes "•  Match any 4 Miniballs & the Powerball to win a cash prize!";
+mes " ";
+mes "•  Match any 4 Miniballs to win a cash prize!";
+mes " ";
+mes "•  Match any 3 Miniballs & the Powerball to win a cash prize!";
+mes " ";
+mes "•  Match any 3 Miniballs to win a cash prize!";
+mes " ";
+mes "•  Match any 2 Miniballs & the Powerball to win a cash prize!";
+mes " ";
+mes "•  Match any 2 Miniballs to win a cash prize!";
+mes " ";
+mes "•  Match any Miniball & the Powerball to win a cash prize!";
+mes " ";
+mes "•  Match any Miniball to win a cash prize!";
+mes " ";
+mes "•  Match the Powerball to win a cash prize!";
+mes " ";
+mes "•  All winners will be announced.";
+next;
+mes "[Lottery Official]";
+mes "What would you like to do?";
+menu "Rules",Rules,"Win Amount Table",Table,"Buy New Ticket",Buy,"Check Numbers",Check,"Cancel",Cancel;
+close;
+
+Table:
+next;
+mes "[Win Amount Table]";
+mes "Powerball Jackpot: ^FF0000"+$PowerballWin11a$+"z^000000.";
+mes "5 Ball Prize: ^FF0000"+$PowerballWin10a$+"z^000000.";
+mes "4 Ball & PB Prize: ^FF0000"+$PowerballWin9a$+"z^000000.";
+mes "4 Ball Prize: ^FF0000"+$PowerballWin8a$+"z^000000.";
+mes "3 Ball & PB Prize: ^FF0000"+$PowerballWin7a$+"z^000000.";
+mes "3 Ball Prize: ^FF0000"+$PowerballWin6a$+"z^000000.";
+mes "2 Ball & PB Prize: ^FF0000"+$PowerballWin5a$+"z^000000.";
+mes "2 Ball: ^FF0000"+$PowerballWin4a$+"z^000000.";
+mes "1 Ball & PB Prize: ^FF0000"+$PowerballWin3a$+"z^000000.";
+mes "1 Ball: ^FF0000"+$PowerballWin2a$+"z^000000.";
+mes "Powerball Prize: ^FF0000"+$PowerballWin1a$+"z^000000.";
+if(getgmlevel()>98) { goto GMMenu; }
+menu "Rules",Rules,"Buy New Ticket",Buy,"Check Numbers",Check,"Cancel",Cancel;
+close;
+
+// PURCHASE TICKET
+Buy:
+next;
+//if(#LID==$LID) { mes "[Lottery Official]"; mes "It appears that you already have a ticket for the upcoming draw."; mes "You may only purchase one ticket per draw."; close; }
+mes "[Lottery Official]";
+mes "Tickets cost ^0000FF"+10000+"z^000000.";
+menu "I would like to buy a ticket.",-,"Cancel",Cancel;
+next;
+mes "[Lottery Official]";
+mes "Are you sure? If you cancel after this there is no refund?";
+menu "Here is my zeny.",-,"Nevermind",Cancel;
+if(zeny<10000) { next; mes "[Lottery Official]"; mes "You can't afford a lottery ticket. Maybe you should sell a kidney!"; close; }
+set zeny,zeny-10000;
+set trustfundbalance,trustfundbalance+100;
+next;
+mes "[Lottery Official]";
+mes "Would you like your numbers hand picked or computer generated?";
+menu "Computer Generated",ComputerGen,"Hand Picked",HandPick,"Cancel",-;
+mes "[Lottery Official]";
+mes "Come back soon!";
+close;
+
+Check:
+next;
+mes "[Lottery Official]";
+if($LID>99999) { mes "Your Lotto Ticket Number:"; mes "^0000FF["+#LW1+"] ["+#LW2+"] ["+#LW3+"] ["+#LW4+"] ["+#LW5+"]^000000"; mes "Your Powerball Number: ^0000FF["+#LW6+"]^000000"; }
+mes "Last Winning Numbers:";
+mes "^FF0000["+$LW1+"] ["+$LW2+"] ["+$LW3+"] ["+$LW4+"] ["+$LW5+"]^000000";
+mes "Last Winning Powerball: ^FF0000["+$LW6+"]^000000";
+menu "Claim Prize",Claim,"Buy New Ticket",Buy,"Cancel",-;
+mes "[Lottery Official]";
+mes "Come back soon!";
+close;
+
+ComputerGen:
+next;
+set @LottoNumber1,0;
+set @LottoNumber2,0;
+set @LottoNumber3,0;
+set @LottoNumber4,0;
+set @LottoNumber5,0;
+set @LottoNumber6,0;
+Pick1:
+set @LottoNumber1,rand(1,30);
+Pick2:
+set @LottoNumber2,rand(1,30);
+if(@LottoNumber2==@LottoNumber1) { goto Pick2; }
+Pick3:
+set @LottoNumber3,rand(1,30);
+if(@LottoNumber3==@LottoNumber2) { goto Pick3; }
+if(@LottoNumber3==@LottoNumber1) { goto Pick3; }
+Pick4:
+set @LottoNumber4,rand(1,30);
+if(@LottoNumber4==@LottoNumber2) { goto Pick4; }
+if(@LottoNumber4==@LottoNumber1) { goto Pick4; }
+if(@LottoNumber4==@LottoNumber3) { goto Pick4; }
+Pick5:
+set @LottoNumber5,rand(1,30);
+if(@LottoNumber5==@LottoNumber1) { goto Pick5; }
+if(@LottoNumber5==@LottoNumber2) { goto Pick5; }
+if(@LottoNumber5==@LottoNumber3) { goto Pick5; }
+if(@LottoNumber5==@LottoNumber4) { goto Pick5; }
+Pick6:
+set @LottoNumber6,rand(1,30);
+mes "[Lottery Official]";
+mes "The computer has selected the following lotto numbers:";
+mes "^0000FF["+@LottoNumber1+"] ["+@LottoNumber2+"] ["+@LottoNumber3+"] ["+@LottoNumber4+"] ["+@LottoNumber5+"]^000000";
+mes "The computer has selected the following Powerball number:";
+mes "^0000FF["+@LottoNumber6+"]^000000";
+next;
+menu "Confirm",Confirm,"Re-Generate",ComputerGen;
+
+HandPick:
+next;
+mes "[Lottery Official]";
+mes "Please get your numbers ready between 1-30. Make sure not to repeat any number twice.";
+set @LottoNumber1,0;
+set @LottoNumber2,0;
+set @LottoNumber3,0;
+set @LottoNumber4,0;
+set @LottoNumber5,0;
+set @LottoNumber6,0;
+next;
+mes "[Lottery Official]";
+mes "Your first number is...";
+Input1:
+input @LottoNumber1;
+if(@LottoNumber1<1||@LottoNumber1>30) { goto Input1; }
+next;
+mes "[Lottery Official]";
+mes "Your second number is...";
+mes " ";
+mes " ";
+mes " ";
+mes "Your previous picks:";
+mes "^0000FF["+@LottoNumber1+"]^000000";
+Input2:
+input @LottoNumber2;
+if(@LottoNumber2<1||@LottoNumber2>30) { goto Input2; }
+if(@LottoNumber2==@LottoNumber1) { goto Input2; }
+next;
+mes "[Lottery Official]";
+mes "Your third number is...";
+mes " ";
+mes " ";
+mes " ";
+mes "Your previous picks:";
+mes "^0000FF["+@LottoNumber1+"] ["+@LottoNumber2+"]^000000";
+Input3:
+input @LottoNumber3;
+if(@LottoNumber3<1||@LottoNumber3>30) { goto Input3; }
+if(@LottoNumber3==@LottoNumber1) { goto Input3; }
+if(@LottoNumber3==@LottoNumber2) { goto Input3; }
+next;
+mes "[Lottery Official]";
+mes "Your fourth number is...";
+mes " ";
+mes " ";
+mes " ";
+mes "Your previous picks:";
+mes "^0000FF["+@LottoNumber1+"] ["+@LottoNumber2+"] ["+@LottoNumber3+"]^000000";
+Input4:
+input @LottoNumber4;
+if(@LottoNumber4<1||@LottoNumber4>30) { goto Input4; }
+if(@LottoNumber4==@LottoNumber1) { goto Input4; }
+if(@LottoNumber4==@LottoNumber2) { goto Input4; }
+if(@LottoNumber4==@LottoNumber3) { goto Input4; }
+next;
+mes "[Lottery Official]";
+mes "Your fifth number is...";
+mes " ";
+mes " ";
+mes " ";
+mes "Your previous picks:";
+mes "^0000FF["+@LottoNumber1+"] ["+@LottoNumber2+"] ["+@LottoNumber3+"] ["+@LottoNumber4+"]^000000";
+Input5:
+input @LottoNumber5;
+if(@LottoNumber5<1||@LottoNumber5>30) { goto Input5; }
+if(@LottoNumber5==@LottoNumber1) { goto Input5; }
+if(@LottoNumber5==@LottoNumber2) { goto Input5; }
+if(@LottoNumber5==@LottoNumber3) { goto Input5; }
+if(@LottoNumber5==@LottoNumber4) { goto Input5; }
+next;
+mes "[Lottery Official]";
+mes "And your Powerball number is...";
+mes " ";
+mes " ";
+mes " ";
+mes "^0000FFYou can pick any number again between 1-30 for this one.^000000";
+Input6:
+input @LottoNumber6;
+if(@LottoNumber6<1||@LottoNumber6>30) { goto Input6; }
+next;
+mes "[Lottery Official]";
+mes "Your lotto numbers are:";
+mes "^0000FF["+@LottoNumber1+"] ["+@LottoNumber2+"] ["+@LottoNumber3+"] ["+@LottoNumber4+"] ["+@LottoNumber5+"]^000000";
+mes "Your Powerball number is:";
+mes "^0000FF["+@LottoNumber6+"]^000000";
+next;
+menu "Confirm",Confirm,"Re-Pick",HandPick;
+close;
+
+Confirm:
+set #LW1,@LottoNumber1;
+set #LW2,@LottoNumber2;
+set #LW3,@LottoNumber3;
+set #LW4,@LottoNumber4;
+set #LW5,@LottoNumber5;
+set #LW6,@LottoNumber6;
+set #LID,$LID;
+mes "[Lottery Official]";
+mes "Here is your ticket. Live Powerball broadcasts are drawn every 4 hours.";
+mes "Once the Powerball broadcast is announced you have 4 hours to claim your ticket.";
+set WINONCEMES,0;
+next;
+mes "[Lottery Official]";
+mes "Good luck!";
+close;
+
+Cancel:
+mes "[Lottery Official]";
+mes "Come back soon!";
+close;
+
+Claim:
+//if(#LID!=$LID) { next; mes "[Lottery Official]"; mes "It appears that your lottery ticket has expired. Please buy another ticket for the upcoming draw."; }
+if(WINONCEMES==1) { next; mes "[Lottery Official]"; mes "You can only claim a ticket once, please buy another ticket for the upcoming draw."; close; }
+set @Prize,0;
+set @PrizeA,0;
+if(#LW1==$LW1) { set @Prize,@Prize+1; }
+if(#LW1==$LW2) { set @Prize,@Prize+1; }
+if(#LW1==$LW3) { set @Prize,@Prize+1; }
+if(#LW1==$LW4) { set @Prize,@Prize+1; }
+if(#LW1==$LW5) { set @Prize,@Prize+1; }
+if(#LW2==$LW1) { set @Prize,@Prize+1; }
+if(#LW2==$LW2) { set @Prize,@Prize+1; }
+if(#LW2==$LW3) { set @Prize,@Prize+1; }
+if(#LW2==$LW4) { set @Prize,@Prize+1; }
+if(#LW2==$LW5) { set @Prize,@Prize+1; }
+if(#LW3==$LW1) { set @Prize,@Prize+1; }
+if(#LW3==$LW2) { set @Prize,@Prize+1; }
+if(#LW3==$LW3) { set @Prize,@Prize+1; }
+if(#LW3==$LW4) { set @Prize,@Prize+1; }
+if(#LW3==$LW5) { set @Prize,@Prize+1; }
+if(#LW4==$LW1) { set @Prize,@Prize+1; }
+if(#LW4==$LW2) { set @Prize,@Prize+1; }
+if(#LW4==$LW3) { set @Prize,@Prize+1; }
+if(#LW4==$LW4) { set @Prize,@Prize+1; }
+if(#LW4==$LW5) { set @Prize,@Prize+1; }
+if(#LW5==$LW1) { set @Prize,@Prize+1; }
+if(#LW5==$LW2) { set @Prize,@Prize+1; }
+if(#LW5==$LW3) { set @Prize,@Prize+1; }
+if(#LW5==$LW4) { set @Prize,@Prize+1; }
+if(#LW5==$LW5) { set @Prize,@Prize+1; }
+if(#LW6==$LW6) { set @PrizeA,@PrizeA+1; }
+if(@Prize==5 && @PrizeA==1) { goto Win11; }
+if(@Prize==5 && @PrizeA==0) { goto Win10; }
+if(@Prize==4 && @PrizeA==1) { goto Win9; }
+if(@Prize==4 && @PrizeA==0) { goto Win8; }
+if(@Prize==3 && @PrizeA==1) { goto Win7; }
+if(@Prize==3 && @PrizeA==0) { goto Win6; }
+if(@Prize==2 && @PrizeA==1) { goto Win5; }
+if(@Prize==2 && @PrizeA==0) { goto Win4; }
+if(@Prize==1 && @PrizeA==1) { goto Win3; }
+if(@Prize==1 && @PrizeA==0) { goto Win2; }
+if(@Prize==0 && @PrizeA==1) { goto Win1; }
+mes "[Lottery Official]";
+mes "Bad luck, it appears you do not hold a winning ticket.";
+next;
+mes "[Lottery Official]";
+mes "Better luck next time!.";
+next;
+menu "Buy New Ticket",Buy,"Cancel",-;
+mes "[Lottery Official]";
+mes "Come back soon!";
+
+close;
+
+// MATCHED 5 & Powerball TO WIN Powerball
+Win11:
+next;
+mes "[Lottery Official]";
+mes "You have matched all five Miniball numbers and the Powerball number!";
+mes "Powerball Jackpot!";
+mes "You've won ^0000FF"+$PowerballWin11a$+"z^000000.";
+set zeny,zeny+$PowerballWin11;
+Announce "Lottery Official: "+strcharinfo(0)+" has won the Powerball JACKPOT of "+$PowerballWin11a$+"z!",8;
+set WINONCEMES,1;
+close;
+
+// MATCHED 5
+Win10:
+next;
+mes "[Lottery Official]";
+mes "You have matched all 5 Miniball numbers!";
+mes "5 Ball Jackpot!";
+mes "You've won ^0000FF"+$PowerballWin10a$+"z^000000.";
+set zeny,zeny+$PowerballWin10;
+Announce "Lottery Official: "+strcharinfo(0)+" has won the 5 Ball JACKPOT of "+$PowerballWin10a$+"z!",8;
+set WINONCEMES,1;
+close;
+
+// MATCHED 4 & Powerball
+Win9:
+next;
+mes "[Lottery Official]";
+mes "You have matched 4 Miniball numbers and the Powerball number!";
+mes "You've won ^0000FF"+$PowerballWin9a$+"z^000000.";
+set zeny,zeny+$PowerballWin9;
+Announce "Lottery Official: "+strcharinfo(0)+" has matched 4 numbers and the Powerball to win the prize of "+$PowerballWin9a$+"z!",8;
+set WINONCEMES,1;
+close;
+
+// MATCHED 4
+Win8:
+next;
+mes "[Lottery Official]";
+mes "You have matched 4 Miniball numbers!";
+mes "You've won ^0000FF"+$PowerballWin8a$+"z^000000.";
+set zeny,zeny+$PowerballWin8;
+Announce "Lottery Official: "+strcharinfo(0)+" has matched 4 numbers to win the prize of "+$PowerballWin8a$+"z!",8;
+set WINONCEMES,1;
+close;
+
+// MATCHED 3 & Powerball
+Win7:
+next;
+mes "[Lottery Official]";
+mes "You have matched 3 Miniball numbers and the Powerball number!";
+mes "You've won ^0000FF"+$PowerballWin7a$+"z^000000.";
+set zeny,zeny+$PowerballWin7;
+Announce "Lottery Official: "+strcharinfo(0)+" has matched 3 numbers and the Powerball to win the prize of "+$PowerballWin7a$+"z!",8;
+set WINONCEMES,1;
+close;
+
+// MATCHED 3
+Win6:
+next;
+mes "[Lottery Official]";
+mes "You have matched 3 Miniball numbers!";
+mes "You've won ^0000FF"+$PowerballWin6a$+"z^000000.";
+set zeny,zeny+$PowerballWin6;
+Announce "Lottery Official: "+strcharinfo(0)+" has matched 3 numbers to win the prize of "+$PowerballWin6a$+"z!",8;
+set WINONCEMES,1;
+close;
+
+// MATCHED 2 & Powerball
+Win5:
+next;
+mes "[Lottery Official]";
+mes "You have matched 2 Miniball numbers and the Powerball number!";
+mes "You've won ^0000FF"+$PowerballWin5a$+"z^000000.";
+set zeny,zeny+$PowerballWin5;
+Announce "Lottery Official: "+strcharinfo(0)+" has matched 2 numbers and the Powerball to win the prize of "+$PowerballWin5a$+"!",8;
+set WINONCEMES,1;
+close;
+
+// MATCHED 2
+Win4:
+next;
+mes "[Lottery Official]";
+mes "You have matched 2 Miniball numbers!";
+mes "You've won ^0000FF"+$PowerballWin4a$+"z^000000.";
+set zeny,zeny+$PowerballWin4;
+Announce "Lottery Official: "+strcharinfo(0)+" has matched 2 numbers to win the prize of "+$PowerballWin4a$+"z!",8;
+set WINONCEMES,1;
+close;
+
+// MATCHED 1 & Powerball
+Win3:
+next;
+mes "[Lottery Official]";
+mes "You have matched 1 Miniball number and the Powerball number!";
+mes "You've won ^0000FF"+$PowerballWin3a$+"z^000000.";
+set zeny,zeny+$PowerballWin3;
+Announce "Lottery Official: "+strcharinfo(0)+" has matched 1 number and the Powerball to win the prize of "+$PowerballWin3a$+"z!",8;
+set WINONCEMES,1;
+close;
+
+// MATCHED 1
+Win2:
+next;
+mes "[Lottery Official]";
+mes "You have matched 1 Miniball number!";
+mes "You've won ^0000FF"+$PowerballWin2a$+"z^000000.";
+set zeny,zeny+$PowerballWin2;
+Announce "Lottery Official: "+strcharinfo(0)+" has matched 1 number to win the prize of "+$PowerballWin2a$+"z!",8;
+set WINONCEMES,1;
+close;
+
+// MATCHED Powerball
+Win1:
+next;
+mes "[Lottery Official]";
+mes "You have matched 1 Miniball number and the Powerball number!";
+mes "You've won ^0000FF"+$PowerballWin1a$+"z^000000.";
+set zeny,zeny+$PowerballWin1;
+Announce "Lottery Official: "+strcharinfo(0)+" has matched the Powerball to win the prize of "+$PowerballWin1a$+"z!",8;
+set WINONCEMES,1;
+close;
+
+GMMenu:
+menu "Rules",Rules,"Win Amount Table",Table,"Buy New Ticket",Buy,"Check Numbers",Check,"[GM]Rig Next Draw",Rig,"[GM]Do Draw Now",GMDraw,"Cancel",Cancel;
+
+// GM MENU (Lets you manually do draws)
+GMDraw:
+mes "Are you sure you want to hold a special drawing now?";
+menu "Do the rigged draw now!",-,"Cancel",Cancel;
+if($Rigged==1) { goto Rigged_Draw; end; }
+next;
+mes "You have to rig the lottery before you can 'Do Draw Now'.";
+close;
+
+// ALLOWS GM TO DO A RIGGED DRAW
+Rig:
+mes "[Lottery]";
+mes "Please pick your numbers (1-30):";
+set $LR1,0;
+set $LR2,0;
+set $LR3,0;
+set $LR4,0;
+set $LR5,0;
+set $LR6,0;
+mes "Your first number is...";
+GMInput1:
+Input $LR1;
+if($LR1<1||$LR1>30) { goto GMInput1; }
+next;
+mes "Your second number is...";
+mes " ";
+mes " ";
+mes " ";
+mes " ";
+mes "Your previous picks:";
+mes "^0000FF["+$LR1+"]^000000";
+GMInput2:
+Input $LR2;
+if($LR2<1||$LR2>30) { goto GMInput2; }
+if($LR2==$LR1) { goto GMInput2; }
+next;
+mes "Your third number is...";
+mes " ";
+mes " ";
+mes " ";
+mes " ";
+mes "Your previous picks:";
+mes "^0000FF["+$LR1+"] ["+$LR2+"]^000000";
+GMInput3:
+Input $LR3;
+if($LR3<1||$LR3>30) { goto GMInput3; }
+if($LR3==$LR1) { goto GMInput3; }
+if($LR3==$LR2) { goto GMInput3; }
+next;
+mes "Your fourth number is...";
+mes " ";
+mes " ";
+mes " ";
+mes " ";
+mes "Your previous picks:";
+mes "^0000FF["+$LR1+"] ["+$LR2+"] ["+$LR3+"]^000000";
+GMInput4:
+Input $LR4;
+if($LR4<1||$LR4>30) { goto GMInput4; }
+if($LR4==$LR1) { goto GMInput4; }
+if($LR4==$LR2) { goto GMInput4; }
+if($LR4==$LR3) { goto GMInput4; }
+next;
+mes "Your fifth number is...";
+mes " ";
+mes " ";
+mes " ";
+mes " ";
+mes "Your previous picks:";
+mes "^0000FF["+$LR1+"] ["+$LR2+"] ["+$LR3+"] ["+$LR4+"]^000000";
+GMInput5:
+Input $LR5;
+if($LR5<1||$LR5>30) { goto GMInput5; }
+if($LR5==$LR1) { goto GMInput5; }
+if($LR5==$LR2) { goto GMInput5; }
+if($LR5==$LR3) { goto GMInput5; }
+if($LR5==$LR4) { goto GMInput5; }
+next;
+mes "And your Powerball number is...";
+mes " ";
+mes " ";
+mes " ";
+mes " ";
+mes "^0000FFYou can pick any number again between 1-30 for this one.^000000";
+GMInput6:
+Input $LR6;
+if($LR6<1||$LR6>30) { goto GMInput6; }
+next;
+mes "The next lotto numbers are:";
+mes "^0000FF["+$LR1+"] ["+$LR2+"] ["+$LR3+"] ["+$LR4+"] ["+$LR5+"]^000000";
+mes "The next Powerball number is:";
+mes "^0000FF["+$LR6+"]^000000";
+next;
+mes "Lottery rigged for next draw.";
+set $Rigged,1;
+close;
+
+// SETS DRAW TO RIGGED NUMBERS
+Rigged_Draw:
+set $LW1,$LR1;
+set $LW2,$LR2;
+set $LW3,$LR3;
+set $LW4,$LR4;
+set $LW5,$LR5;
+set $LW6,$LR6;
+set $Rigged,0;
+set .@WINMES,0;
+goto Broadcast;
+
+// BROADCASTS DRAW
+Broadcast:
+Announce "Lottery Official: This is a special Lotto draw by the GM's!",8;
+Announce "The numbers are as follows: ["+$LW1+"] ["+$LW2+"] ["+$LW3+"] ["+$LW4+"] ["+$LW5+"]",8;
+Announce "The Powerball number is ["+$LW6+"]",8;
+Announce "Go check ticket numbers now! Congratulations to the lucky winners!",8;
+close;
+
+}
+
+-	script	AssistLottoGen	-1,{
+OnInit:
+set $PowerballWin11,121000000;	//Powerball Jackpot
+set $PowerballWin10,20000000;	//5 Ball Prize
+set $PowerballWin9,15000000;	//4 Ball & PB Prize
+set $PowerballWin8,10000000;	//4 Ball Prize
+set $PowerballWin7,5000000;	//3 Ball & PB Prize
+set $PowerballWin6,1000000;	//3 Ball Prize
+set $PowerballWin5,100000;	//2 Ball & PB Prize
+set $PowerballWin4,50000;	//2 Ball
+set $PowerballWin3,25000;	//1 Ball & PB Prize
+set $PowerballWin2,5000;	//1 Ball
+set $PowerballWin1,10000;	//Powerball Prize
+
+set $PowerballWin11a$,"121,000,000";	//Powerball Jackpot
+set $PowerballWin10a$,"20,000,000";	//5 Ball Prize
+set $PowerballWin9a$,"15,000,000";	//4 Ball & PB Prize
+set $PowerballWin8a$,"10,000,000";	//4 Ball Prize
+set $PowerballWin7a$,"5,000,000";	//3 Ball & PB Prize
+set $PowerballWin6a$,"1,000,000";		//3 Ball Prize
+set $PowerballWin5a$,"100,000";		//2 Ball & PB Prize
+set $PowerballWin4a$,"50,000";		//2 Ball
+set $PowerballWin3a$,"25,000";		//1 Ball & PB Prize
+set $PowerballWin2a$,"5,000";		//1 Ball
+set $PowerballWin1a$,"10,000";		//Powerball Prize
+if($LID==0) { goto GenID; }
+end;
+
+//Modify for own time
+OnClock2400:
+OnClock0400:
+OnClock0800:
+OnClock1200:
+OnClock1600:
+OnClock2000:
+
+if($Rigged==1) { goto RiggedDraw; }
+
+Pick1:
+set $LW1,rand(1,30);
+
+Pick2:
+set $LW2,rand(1,30);
+if($LW2==$LW1) { goto Pick2; }
+
+Pick3:
+set $LW3,rand(1,30);
+if($LW3==$LW2) { goto Pick3; }
+if($LW3==$LW1) { goto Pick3; }
+
+Pick4:
+set $LW4,rand(1,30);
+if($LW4==$LW2) { goto Pick4; }
+if($LW4==$LW1) { goto Pick4; }
+if($LW4==$LW3) { goto Pick4; }
+
+Pick5:
+set $LW5,rand(1,30);
+if($LW5==$LW1) { goto Pick5; }
+if($LW5==$LW2) { goto Pick5; }
+if($LW5==$LW3) { goto Pick5; }
+if($LW5==$LW4) { goto Pick5; }
+
+Pick6:
+set $LW6,rand(1,30);
+set .@WINMES,0;
+
+// BROADCASTS GM DRAW
+Broadcast:
+Announce "Lottery Official: It's time for the current lotto draw!",8;
+Announce "The Miniball numbers are as follows: ["+$LW1+"] ["+$LW2+"] ["+$LW3+"] ["+$LW4+"] ["+$LW5+"]",8;
+Announce "The Powerball number is ["+$LW6+"]",8;
+Announce "Go check ticket numbers now! Congratulations to the lucky winners!",8;
+
+// GENERATES DRAW ID CODE
+GenID:
+set $LID2,$LID;
+// SETS TOMORROW'S ID NUMBER
+set $LID,rand(100000,999999);
+end;
+
+// SETS DRAW TO RIGGED NUMBERS
+RiggedDraw:
+set $LW1,$LR1;
+set $LW2,$LR2;
+set $LW3,$LR3;
+set $LW4,$LR4;
+set $LW5,$LR5;
+set $LW6,$LR6;
+set $Rigged,0;
+set .@WINMES,0;
+goto Broadcast;
+
+}

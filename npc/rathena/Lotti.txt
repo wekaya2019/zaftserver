@@ -1,5 +1,5 @@
 // http://rathena.org/board/topic/83017-pro-lotti-girl-refine-master/
-prontera,143,282,6	script	Lotti Girl	714,{
+quiz_00,27,109,3	script	Lotti Girl	714,{
 	mes "[Lotti Girl]";
 	mes "Hello Sir! Are you out";
 	mes "shopping in the city?!";

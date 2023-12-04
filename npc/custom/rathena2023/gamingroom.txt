@@ -1,0 +1,18 @@
+prontera,146,159,4	script	Game Room	405,{
+mes "[ Gaming ]";
+mes "I want to go Gaming room";
+next;
+mes "[ Room ]";
+mes "We warp You On Quiz Room";
+next;
+mes "[ Gaming ]";
+mes "You Ready?";
+warp "quiz_00" ,20,114;
+close;
+end;
+
+OnInit:
+waitingroom "Gaming Warper",0;
+
+end;
+}

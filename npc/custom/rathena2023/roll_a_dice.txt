@@ -1,0 +1,105 @@
+//**********************************************************************************
+// ____                    _                                            _   _  ____ 
+//|  _ \ ___   ___   ____ | |  ___   ____   ___   ___   __  ___   _  _ | |_| |/ __ |
+//| |__// _ \ / _ \ |  _ \| | / _ \ |  _ \ / _ \ /  _| / _)/ _ \ | \| ||___  |\__  |
+//| |  |  __/ ||_|| | |__/| | | __/ | |__/|  __/ | |  _\ \ ||_|| | \\ |    | |   | |
+//|_|___\___|_\___/_| |___|_|_\___|_| |____\___|_|_|_(___/ \___/_|_|\_|____|_|___|_|
+//------------------|_|-------------|_|---------------------------------------------
+//**********************************************************************************
+//===== rAthena Script =============================================================
+//= Double Dice Roll
+//===== By: ========================================================================
+//= Peopleperson49 (Eddie)
+//===== Start Date: ================================================================
+//= 11JUL2009
+//===== Current Version: ===========================================================
+//= 2.1
+//===== Compatible With: ===========================================================
+//= rAthena SVN
+//===== Description: ===============================================================
+//= Very simple dice gambling game created for my custom Comodo casino package. You
+//=	bet various amounts of zeny and roll two dice. The winner is the one with
+//=	the highest total score. This was created from scratch as part of my casino
+//=	package and had nothing to do with the rolladice script.
+//===== Version Control: ===========================================================
+//= 1.0 First Version.
+//= 1.1 Optomized script removing unnessary variables.
+//= 1.2 Replaced @ variables with .@ variables throughout script.
+//= 1.3 Replaced menu function with switch function.
+//= 1.4 Replaced select function with prompt function.
+//= 1.5 Added option to select different amounts of zeny to bet.
+//= 1.6 Added color to script.
+//= 1.7 Added .@DiceRoll to script.
+//= 1.8 Made the script close when you win and lose. A draw will still loop back to
+//=	the start.
+//= 1.9 Alligned this script to match the location of the rolladice script.
+//= 2.0 Moved physical location of NPC to the other side of the table.
+//= 2.1 Added .MaxDiceBet to allow easily setting.
+//===== Additional Comments:========================================================
+//=
+//==================================================================================
+//cmd_in02,178,101,4
+quiz_00,16,100,2	script	Dice Dealer	57,{
+
+mes "[Dyceman]";
+set .MaxDiceBet,100000000;
+mes "We each roll two dice and the highest total wins. I will match however much money you put in.";
+goto DiceStart;
+close;
+
+DiceStart:
+next;
+if(select("Lets throw some dice!:Not wasting a zeny!")==2) { mes "[Dyceman]"; mes "Please come again!"; close; }
+mes "[Dyceman]";
+mes "How much zeny would you like to bet?";
+switch(prompt("100,000 zeny:10,000,000 zeny:20,000,000 zeny:Custom Amount")) {
+case 1: set .@BetAmount,100000; break;
+case 2: set .@BetAmount,10000000; break;
+case 3: set .@BetAmount,20000000; break;
+case 4: input .@BetInput;
+	if(.@BetInput<1||.@BetInput>.MaxDiceBet) { next; mes "[Dyceman]"; mes "You must enter a number between ^FF00001z^000000 and ^FF0000"+.MaxDiceBet+"z^000000."; goto DiceStart; close; }
+	set .@BetAmount,.@BetInput;
+	next;
+	mes "[Dyceman]";
+	mes "You bet ^008800"+.@BetAmount+"z^000000!";
+	break;
+case 255: mes "[Dyceman]"; mes "Please come again!"; close;
+}
+next;
+mes "[Dyceman]";
+if(zeny<.@BetAmount) { mes "You you don't have enough zeny to make that bet!"; close; }
+set zeny,zeny-.@BetAmount;
+set trustfundbalance,trustfundbalance+(.@BetAmount/100);
+mes "The dice have been thrown...";
+next;
+set .@DiceRoll,rand(1,3);
+if(.@DiceRoll==1) { mes "roll..."; }
+if(.@DiceRoll==2) { mes "roll... roll..."; }
+if(.@DiceRoll==3) { mes "roll... roll... roll..."; }
+next;
+set .@DiceRoll,rand(1,3);
+if(.@DiceRoll==1) { mes "roll..."; }
+if(.@DiceRoll==2) { mes "roll... roll..."; }
+if(.@DiceRoll==3) { mes "roll... roll... roll..."; }
+next;
+set .@DiceRoll,rand(1,3);
+if(.@DiceRoll==1) { mes "roll..."; }
+if(.@DiceRoll==2) { mes "roll... roll..."; }
+if(.@DiceRoll==3) { mes "roll... roll... roll..."; }
+set .@diceroll1a,rand(1,6);
+set .@diceroll1b,rand(1,6);
+set .@dice1numtotal,(.@diceroll1a+.@diceroll1b);
+set .@diceroll2a,rand(1,6);
+set .@diceroll2b,rand(1,6);
+set .@dice2numtotal,(.@diceroll2a+.@diceroll2b);
+next;
+mes "[Dyceman]";
+mes "You rolled a ^0000FF"+.@diceroll2a+"^000000 and ^0000FF"+.@diceroll2b+"^000000!";
+mes " ";
+mes "I rolled a ^0000FF"+.@diceroll1a+"^000000 and ^0000FF"+.@diceroll1b+"^000000!";
+next;
+if(.@dice1numtotal>.@dice2numtotal) { mes "[Dyceman]"; mes "My ^0000FF"+.@dice1numtotal+"^000000 beats your ^0000FF"+.@dice2numtotal+"^000000!"; next; mes "[Dyceman]"; mes "I win, your ^008800"+.@BetAmount+"z^000000 is mine!"; close; }
+if(.@dice1numtotal<.@dice2numtotal) { mes "[Dyceman]"; mes "Your ^0000FF"+.@dice2numtotal+"^000000 beats my ^0000FF"+.@dice1numtotal+"^000000!"; set zeny,zeny+.@BetAmount*2; next; mes "[Dyceman]"; mes "You won ^008800"+(.@BetAmount*2)+"z^000000. I will get your zeny next time!"; close; }
+if(.@dice1numtotal==.@dice2numtotal) { mes "[Dyceman]"; mes "Draw, let's play again!"; set zeny,zeny+.@BetAmount; set trustfundbalance,trustfundbalance-(.@BetAmount/100); goto DiceStart; close; }
+close;
+}

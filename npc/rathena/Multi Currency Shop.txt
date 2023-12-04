@@ -10,7 +10,7 @@
 -	shop	Emistry_Shop	-1,512:100
 
 
-new_1-2,116,114,4	script	All In One Store	720,{
+new_1-2,113,116,5	script	All In One Store	711,{
 function ShopSettings;
 function ValidateCost;
 function CurrencyInfo;

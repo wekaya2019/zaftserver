@@ -1,0 +1,170 @@
+//**********************************************************************************
+// ____                    _                                            _   _  ____ 
+//|  _ \ ___   ___   ____ | |  ___   ____   ___   ___   __  ___   _  _ | |_| |/ __ |
+//| |__// _ \ / _ \ |  _ \| | / _ \ |  _ \ / _ \ /  _| / _)/ _ \ | \| ||___  |\__  |
+//| |  |  __/ ||_|| | |__/| | | __/ | |__/|  __/ | |  _\ \ ||_|| | \\ |    | |   | |
+//|_|___\___|_\___/_| |___|_|_\___|_| |____\___|_|_|_(___/ \___/_|_|\_|____|_|___|_|
+//------------------|_|-------------|_|---------------------------------------------
+//**********************************************************************************
+//===== rAthena Script =============================================================
+//= Paper, Rock, Scissors Roulette
+//===== By: ========================================================================
+//= Peopleperson49 (Eddie)
+//===== Start Date: ================================================================
+//= 14MAR2008
+//===== Current Version: ===========================================================
+//= 2.0
+//===== Compatible With: ===========================================================
+//= rAthena SVN
+//===== Description: ===============================================================
+//= This was one of my first scripts I ever made. I learned to script by breaking
+//=	these type of scripts down and recreating them from scratch. This script was
+//=	recreated in this same way. It is very similar to the original in design.
+//=	Allows the player to play roulette with a 5 chamber pistol. Only one bullet
+//=	is loaded at a time. The script will continue to loop until somebody is
+//=	shot.
+//===== Version Control: ===========================================================
+//= 1.0 First Version.
+//= 1.1 Alligned my script to use the official version location and NPC.
+//= 1.2 Added OPB prizes for winning.
+//= 1.3 Added color to script.
+//= 1.4 Modified script to spin chamber everytime to allow it to loop.
+//= 1.5 Added the option for, "This is crazy!".
+//= 1.6 Added the option for, "I can't go on!".
+//= 1.7 Optomized script.
+//= 1.8 Added Trustfund bonus to script.
+//= 1.9 Added strcharinfo(0) to show player actions.
+//= 2.0 Made the prizes more cosly match that the official version gives.
+//===== Additional Comments:========================================================
+//=
+//==================================================================================
+quiz_00,23,100,2	script	RPS	85,{
+
+mes "[Crazy Boris]";
+mes "Each game costs ^008800100,000 zeny^000000 and possibly your life!";
+goto RouletteStart;
+end;
+
+RouletteStart:
+next;
+switch(prompt("Let's play!:Explain the rules.:This is crazy!")) {
+case 1:
+	if(zeny<100000) { next; mes "[Crazy Boris]"; mes "Come back when you have the zeny!"; close; }
+	set zeny, zeny-100000;
+	set trustfundbalance,trustfundbalance+1000;
+	goto ROUGAME;
+case 2:
+	mes "[Crazy Boris]";
+	mes "Ok here are the rules:";
+	mes "I have with me a ^FF00005^000000 chamber pistol with ^FF00001^000000 round loaded. First we play ^FF0000Paper ^00FF00Rock ^0000FFScissors^000000 and the loser pulls the trigger.";
+	next;
+	mes "[Crazy Boris]";
+	mes "If the gun does not fire we will spin the chamber until again repositing the bullet.";
+	mes "The winner is whoever does not get shot.";
+	next;
+	mes "[Crazy Boris]";
+	mes "Beat me to win one of many many random prizes. If you die you loose more than just your diginity!";
+	next;
+	mes "[Crazy Boris]";
+	mes "If you can't handle it and want to quit I will only give you back part of your zeny!";
+	goto RouletteStart;
+	close;
+case 3:
+	mes "[Crazy Boris]";
+	mes "What is a little risk in life?";
+	close;
+case 255:
+	mes "[Crazy Boris]";
+	mes "What is a little risk in life?";
+	close;
+}
+
+ROUGAME:
+next;
+mes "["+strcharinfo(0)+"]  [Crazy Boris]";
+mes "Rock...";
+next;
+mes "["+strcharinfo(0)+"]  [Crazy Boris]";
+mes "Paper...";
+next;
+mes "["+strcharinfo(0)+"]  [Crazy Boris]";
+mes "Scissors...";
+next;
+switch(prompt("^00FF00ROCK!^000000:^00FF00SCISSORS!^000000:^00FF00PAPER!^000000:I can't go on!")) {
+case 1:
+	set .@rouopp,rand(1,3);
+	if(.@rouopp==1) { emotion 11; mes "[Crazy Boris]"; mes "We both picked rock. Lets go again."; goto ROUGAME; }
+	if(.@rouopp==2) { emotion 10; mes "[Crazy Boris]"; mes "Your Rock crushes my Scissors..."; emotion 19; goto ROUOPPPULL; }
+	if(.@rouopp==3) { emotion 12; mes "[Crazy Boris]"; mes "My Paper wraps your Rock..."; emotion 18; goto ROUYOUPULL; }
+case 2:
+	set .@rouopp,rand (1,3);
+	if(.@rouopp==1) { emotion 11; next; mes "[Crazy Boris]"; mes "We both picked scissors. Lets go again."; next; goto ROUGAME; }
+	if(.@rouopp==2) { emotion 10; next; mes "[Crazy Boris]"; mes "Your Scissors cuts my Paper..."; emotion 19; next; goto ROUOPPPULL; }
+	if(.@rouopp==3) { emotion 12; next; mes "[Crazy Boris]"; mes "My Rock crushes your Scissors..."; emotion 18; next; goto ROUYOUPULL; }
+case 3:
+	set .@rouopp,rand (1,3);
+	if(.@rouopp==1) { emotion 11; next; mes "[Crazy Boris]"; mes "We both picked paper. Lets go again."; next; goto ROUGAME; }
+	if(.@rouopp==2) { emotion 10; next; mes "[Crazy Boris]"; mes "Your Paper wraps my Rock..."; emotion 19; next; goto ROUOPPPULL; }
+	if(.@rouopp==3) { emotion 12; next; mes "[Crazy Boris]"; mes "My Scissors cuts your Paper..."; emotion 18; next; goto ROUYOUPULL; }
+case 4:
+	mes "[Crazy Boris]";
+	mes "Here is part of your zeny back you coward!";
+	set zeny, zeny+75000;
+	set trustfundbalance,trustfundbalance-750;
+	close;
+case 255:
+	mes "[Crazy Boris]";
+	mes "Here is part of your zeny back you coward!";
+	set zeny, zeny+75000;
+	set trustfundbalance,trustfundbalance-750;
+	close;
+		}
+
+ROUYOUPULL:
+next;
+mes "["+strcharinfo(0)+"]";
+mes "zzzz...zzzzz...zzzzz... The chamber has been spun!";
+next;
+mes "["+strcharinfo(0)+"]";
+mes "The gun is aimed to your mouth.";
+next;
+set .@roupull,rand(1,4);
+if(.@roupull==1) { mes "["+strcharinfo(0)+"]"; specialeffect2 183; mes "*^0000FFClick^000000* *^FF0000BANG^000000*"; emotion 29; percentheal -100,-100; mes "["+strcharinfo(0)+"]"; mes "You're dead!"; close; }
+if(.@roupull!=1) { mes "["+strcharinfo(0)+"]"; mes "*^0000FFClick^000000* whew..."; emotion 32; goto ROUGAME; }
+
+ROUOPPPULL:
+next;
+mes "[Crazy Boris]";
+mes "zzzz...zzzzz...zzzzz... The chamber has been spun!";
+next;
+mes "[Crazy Boris]";
+mes "The gun is aimed to his mouth.";
+next;
+set .@roupull,rand(1,4);
+if(.@roupull==1) { specialeffect 183; mes "[Crazy Boris]"; mes "*^0000FFClick^000000* *^FF0000BANG^000000*"; emotion 23; mes "OWWW @#$%^!! THAT HURT LIKE HELL GOOD THING I'M IMMORTAL!"; next; goto ROUPRIZE; }
+if(.@roupull!=1) { mes "[Crazy Boris]"; mes "*^0000FFClick^000000* whew..."; emotion 32; goto ROUGAME; }
+
+ROUPRIZE:
+mes "[Crazy Boris]";
+mes "Congratulations! You have won...";
+set trustfundbalance,trustfundbalance+1000;
+set .@gameprize,rand(1,15);
+if(.@gameprize==1) { next; mes "[Crazy Boris]"; mes "...looks like I'm all out of prizes!"; }
+if(.@gameprize==2) { next; mes "[Crazy Boris]"; mes "...10x Oridicon!"; getitem 984,10; close; }
+if(.@gameprize==3) { next; mes "[Crazy Boris]"; mes "...10x Elunium!"; getitem 985,10; close; }
+if(.@gameprize==4) { next; mes "[Crazy Boris]"; mes "...Fly Wings!"; getitem 601,100; close; }
+if(.@gameprize==5) { next; mes "[Crazy Boris]"; mes "...8x Old Blue Box!"; getitem 603,8; close; }
+if(.@gameprize==6) { next; mes "[Crazy Boris]"; mes "...4x Old Violet Box!"; getitem 617,4; close; }
+if(.@gameprize==7) { next; mes "[Crazy Boris]"; mes "...1x Old Card Album!"; getitem 616,1; close; }
+if(.@gameprize==8) { next; mes "[Crazy Boris]"; mes "...10x Dead Branch!"; getitem 604,10; close; }
+if(.@gameprize==9) { next; mes "[Crazy Boris]"; mes "...2x Gold!"; getitem 969,2; close; }
+if(.@gameprize==10) { next; mes "[Crazy Boris]"; mes "...10x Elunium!"; getitem 985,10; close; }
+if(.@gameprize==11) { next; mes "[Crazy Boris]"; mes "...20x Blue Potion!"; getitem 505,20; close; }
+if(.@gameprize==12) { next; mes "[Crazy Boris]"; mes "...50,000z plus your zeny back!"; dispbottom "Gained 50000z."; set zeny,zeny+50000; }
+if(.@gameprize==13) { next; mes "[Crazy Boris]"; mes "...100,000z plus your zeny back!"; dispbottom "Gained 100000z."; set zeny,zeny+100000; }
+if(.@gameprize==14) { next; mes "[Crazy Boris]"; mes "...150,000z plus your zeny back!"; dispbottom "Gained 150000z."; set zeny,zeny+150000; }
+if(.@gameprize==15) { next; mes "[Crazy Boris]"; mes "...200,000z plus your zeny back!"; dispbottom "Gained 200000z."; set zeny,zeny+200000; }
+goto RouletteStart;
+close;
+
+}

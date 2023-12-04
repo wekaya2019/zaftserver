@@ -1,222 +1,83 @@
--	script	LMS#disable	-1,{
-
-OnInit:
-disablenpc "Mr. Banker";
-disablenpc "All Job Manager";
-//disablenpc "Baby Manager";
-//disablenpc "Novice Manager";
-end;
-}
-
--	script	LMS	-1,{
-
-OnClock000:
-OnClock0300:
-OnClock0600:
-OnClock0900:
-OnClock1200:
-OnClock1500:
-OnClock1800:
-OnClock2100:// Edit this to what ever you want. note : OnClock0000 is 12 midnight and OnClock1200 is 12 Noon
-goto startlmsevent;
-
-startlmsevent:
-announce "Mr. Manager: The Last Man Standing event will be starting shortly.",0;
-sleep2 10000;
-announce "Mr. Manager: Those who want to play, please proceed to Prontera and Register.",0;
-sleep2 10000;
-announce "Mr. Manager: After 1 Minute the Registration will close.",0;
-sleep2 10000;
-announce "Mr. Manager: Please go to Prontera and Register now if you want to join.",0;
-enablenpc "All Job Manager";
-initnpctimer;
-end;
-
-OnTimer30000:
-announce "Mr. Manager: Last 30 seconds.",0;
-sleep2 5000;
-announce "Mr. Manager: If you want to join please Register in Prontera.",0;
-end;
-
-OnTimer50000:
-announce "Mr. Manager: Last 10 seconds.",0;
-end;
-
-OnTimer55000:
-announce "Mr. Manager: 5.",0;
-end;
-
-OnTimer56000:
-announce "Mr. Manager: 4.",0;
-end;
-
-OnTimer57000:
-announce "Mr. Manager: 3.",0;
-end;
-
-OnTimer58000:
-announce "Mr. Manager: 2.",0;
-end;
-
-OnTimer59000:
-announce "Mr. Manager: 1.",0;
-end;
-
-OnTimer60000:
-announce "Mr. Manager: Time's up.",0;
-end;
-
-OnTimer61000:
-disablenpc "All Job Manager";
-donpcevent "Mr. Banker::OnEnable";
-stopnpctimer;
-end;
-}
-//---------All Job Registration---------------
-prontera,146,171,7	script	All Job Manager	106,{
-
-mes "[Mr. Manager]";
-mes "Hello What can I do for you?";
-next;
-menu "Register",-,"What is LMS?",what,"Leave",leave;
-next;
-mes "[Mr. Manager]";
-mes "Thankyou for registering Mr. " + strcharinfo(0) + ", Have fun!";
-warp "rwc03",0,0;
-end;
-what:
-mes "[Mr. Manager]";
-mes "LMS is also known as Last Man Standing Event";
-next;
-mes "[Mr. Manager]";
-mes "LMS is also like a PvP.";
-mes "The only difference is at LMS you will get 50 HPRO Point if you are the Last Man Standing at the arena.";
-next;
-mes "[Mr. Manager]";
-mes "That's all";
-close;
-leave:
-mes "[Mr. Manager]";
-mes "I hope you will register next time";
-close;
-
-
-}
-
-//--------------------------
-
-//--------------------------
-rwc03,49,49,6	script	Mr. Banker	56,{
-
-mes "[Banker]";
-mes "Congrats. You've won.";
-next;
-announce "Mr. Manager: We have a winner! well done "+strcharinfo(0)+".",0;
-set #CASHPOINTS, #CASHPOINTS + 50; // Change This item id to what ever you want . item id,amount
-dispbottom "+50 HPRO Point";
-mes "You will return now";
-warp "prontera",155,182;
-disablenpc "Mr. Banker";
-close;
-end;
-OnEnable:
-pvpoff "rwc03";
-mapannounce "rwc03","Mr. Manager:The Last Man Standing Event will start shortly",0;
-sleep2 10000;
-mapannounce "rwc03","Mr. Manager:But before we start this is just a few reminders..",0;
-sleep2 10000;
-mapannounce "rwc03","Mr. Manager:Using Cloaking , Hiding is strictly not allowed..",0;
-sleep2 10000;
-mapannounce "rwc03","Mr. Manager: Only the Last Man Standing will win this event!!",0;
-sleep2 10000;
-mapannounce "rwc03","Mr. Manager: What are we waiting for?..Let's Get Ready to Rumble!!...",0;
-sleep2 10000;
-goto L_Start;
-end;
-L_Start:
-if(getmapusers("rwc03") == 1) goto L_Champ;
-if(getmapusers("rwc03") == 0) goto L_None;
-if(getmapusers("rwc03") > 1) {
-mapannounce "rwc03","Mr. Manager: Get ready at the count of 5 we will start!....",0;
-sleep2 10000;
-mapannounce "rwc03","Mr. Manager: 5",0;
-sleep2 5000;
-mapannounce "rwc03","Mr. Manager: 4",0;
-sleep2 4000;
-mapannounce "rwc03","Mr. Manager: 3",0;
-sleep2 3000;
-mapannounce "rwc03","Mr. Manager: 2",0;
-sleep2 2000;
-mapannounce "rwc03","Mr. Manager: 1",0;
-sleep2 1000;
-pvpon "rwc03";
-goto timer;
-end;
-}
-timer:
-initnpctimer;
-end;
-
-OnTimer1000:
-end;
-
-OnTimer1100:
-if(getmapusers("rwc03") == 1) goto L_Champ;
-if(getmapusers("rwc03") > 2) goto timer;
-if(getmapusers("rwc03") == 2) goto champ;
-stopnpctimer;
-end;
-
-champ:
-announce "Mr. Manager: Last 2 Brave warriors are still alive!",0;
-sleep2 10000;
-if(getmapusers("rwc03") == 1) goto L_Champ;
-if(getmapusers("rwc03") > 1) goto timer;
-end;
-
-L_Champ:
-mapannounce "quiz_02","Mr. Banker: Please talk to me to get your prize..",0;
-pvpoff "rwc03";
-enablenpc "Mr. Banker";
-end;
-
-L_None:
-disablenpc "Banker";
-pvpoff "rwc03";
-end;
-}
-//----- Die = warp prt -----
--	script	Killa_warp	-1,{
-
-OnPCDieEvent:
-	getmapxy(.@map$,.@x,.@y,0);
-	if(.@map$=="rwc03")
-	{
-		set #kill_point, 0;
-		announce ""+strcharinfo(0)+" died, and out of the game!.",bc_all;
-		warp "prontera",0,0;
+quiz_00,23,100,4	script	Last Man Standing	637,{
+	if ( !.start ) {
+		mes "no event atm";
+		close;
+	}
+	if ( .start == 2 ) {
+		mes "event is running";
+		close;
+	}
+	if ( .register_count >= .register_limit ) {
+		mes "this event has reach the maximum player participations";
+		close;
+	}
+	percentheal 100,100;
+	warp "guild_vs5", 0,0;
+	.register_aid[ .register_count ] = getcharid(3);
+	.register_count++;
+	end;
+OnWhisperGlobal:
+	if ( getgmlevel() < 99 ) end;
+//OnClock0000: // put all your start timer here
+OnClock2100:
+	if ( .start == 2 )
+		callsub L_resetmap;
+	else if ( .start == 1 )
+		end;
+	announce "LMS event registration start. Credit - 10 Credit", 0;
+	.start = 1;
+	sleep 50000; // registration timer here
+	announce "LMS event registration close.", 0;
+	.start = 2;
+	sleep 3000;
+	mapannounce "guild_vs5", "THIS IS SPARTA !!!!!", 0;
+	if ( .register_count < .register_min ) {
+		announce "not enough participants for LMS event", 0;
+		mapwarp "guild_vs5", .map$, .x, .y;
+		callsub L_resetmap;
 		end;
 	}
-OnPCKillEvent:
-	getmapxy(.@map$,.@x,.@y,0);
-	if(.@map$=="rwc03")
-	{
-	set #kill_point,#kill_point+1;
-	if ( #kill_point % 4 == 0) {
-	announce ""+strcharinfo(0)+" have made 4 Consecutive Kills!!He will be granted an item",bc_all;
-	getitem 7179,50;
+	pvpon "guild_vs5";
 	end;
-	}
-	}
+OnPCDieEvent:
+OnPCLogoutEvent:
+	if ( .start != 2 || strcharinfo(3) != "guild_vs5" ) end;
+	while ( .register_aid != getcharid(3) && .@i < .register_count ) .@i++;
+	deletearray .register_aid[.@i], 1;
+	.register_count--;
+	warp "SavePoint", 0,0;
+	if ( .register_count > 1 ) end;
+	killmonsterall "guild_vs5";
+	announce "Congratulations ~ the winner of LMS event got 100 Credit. - "+ rid2name( .register_aid ), 0;
+	getitem .reward_item_id, .reward_item_amount, .register_aid; // winner prize
+	warpchar "SavePoint", 0,0, getcharid( 0, rid2name( .register_aid ) );
+	callsub L_reset;
+	end;
+L_resetmap:
+	mapwarp "guild_vs5", .map$, .x, .y;
+L_reset:
+	.start = 0;
+	deletearray .register_aid;
+	.register_count = 0;
+	pvpoff "guild_vs5";
+	return;
+OnInit:
+	getmapxy .map$, .x, .y, 1;
+	.register_min = 2; // minimum amount of players to start this event, or else it auto-abort
+	.register_limit = 100; // maximum amount of players able to participate in this event
+	.reward_item_id = 20080;
+	.reward_item_amount = 100;
+	end;
 }
 
-
-// == Mapflags
-rwc03	mapflag	nowarp
-rwc03	mapflag	nowarpto
-rwc03	mapflag	noteleport
-rwc03	mapflag	nosave
-rwc03	mapflag	nomemo
-rwc03	mapflag	nobranch
-rwc03	mapflag	pvp_noparty
-rwc03	mapflag	restricted	1
+// Mapflag
+guild_vs5	mapflag	nosave	SavePoint
+guild_vs5	mapflag	nowarp
+guild_vs5	mapflag	nowarpto
+guild_vs5	mapflag	noteleport
+guild_vs5	mapflag	nomemo
+//guild_vs5	mapflag	nopenalty
+//guild_vs5	mapflag	nobranch
+//guild_vs5	mapflag	noicewall
+guild_vs5	mapflag	pvp_noparty
+guild_vs5	mapflag	pvp_noguild

@@ -24,6 +24,7 @@
 #define MAX_PC_SKILL_REQUIRE 5
 #define MAX_PC_FEELHATE 3
 #define MAX_AUTOLOOTID 20
+#define MAX_DEVOTION 5
 
 struct weapon_data {
 	int atkmods[3];
@@ -359,7 +360,7 @@ struct map_session_data {
 	unsigned char mission_count; //Stores the bounty kill count for TK_MISSION
 	short mission_mobid; //Stores the target mob_id for TK_MISSION
 	int die_counter; //Total number of times you've died
-	int devotion[10]; //Stores the account IDs of chars devoted to.
+	int devotion[5]; //Stores the account IDs of chars devoted to.
 	int reg_num; //Number of registries (type numeric)
 	int regstr_num; //Number of registries (type string)
 

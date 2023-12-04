@@ -1,5 +1,114 @@
-﻿Build started 11/14/2023 2:35:52 AM.
-
-Build succeeded.
-
-Time Elapsed 00:00:00.15
+﻿  mt19937ar.c
+  core.c
+  db.c
+  des.c
+  ers.c
+  grfio.c
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1912,1): warning C4005: 'snprintf': macro redefinition
+  (compiling source file '../src/common/grfio.c')
+  C:\Users\Dennis Gaming\Desktop\eAmod Nov 23, 2023 working\eAmod 2011-12-28\src\common\cbasetypes.h(211,1):
+  see previous definition of 'snprintf'
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1914,1): error C1189: #error:  Macro definition of snprintf conflicts with Standard Library function declaration
+  (compiling source file '../src/common/grfio.c')
+  
+  lock.c
+  malloc.c
+  mapindex.c
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1912,1): warning C4005: 'snprintf': macro redefinition
+  (compiling source file '../src/common/lock.c')
+  C:\Users\Dennis Gaming\Desktop\eAmod Nov 23, 2023 working\eAmod 2011-12-28\src\common\cbasetypes.h(211,1):
+  see previous definition of 'snprintf'
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1914,1): error C1189: #error:  Macro definition of snprintf conflicts with Standard Library function declaration
+  (compiling source file '../src/common/lock.c')
+  
+  md5calc.c
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1912,1): warning C4005: 'snprintf': macro redefinition
+  (compiling source file '../src/common/malloc.c')
+  C:\Users\Dennis Gaming\Desktop\eAmod Nov 23, 2023 working\eAmod 2011-12-28\src\common\cbasetypes.h(211,1):
+  see previous definition of 'snprintf'
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1914,1): error C1189: #error:  Macro definition of snprintf conflicts with Standard Library function declaration
+  (compiling source file '../src/common/malloc.c')
+  
+  nullpo.c
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1912,1): warning C4005: 'snprintf': macro redefinition
+  (compiling source file '../src/common/mapindex.c')
+  C:\Users\Dennis Gaming\Desktop\eAmod Nov 23, 2023 working\eAmod 2011-12-28\src\common\cbasetypes.h(211,1):
+  see previous definition of 'snprintf'
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1914,1): error C1189: #error:  Macro definition of snprintf conflicts with Standard Library function declaration
+  (compiling source file '../src/common/mapindex.c')
+  
+  plugins.c
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1912,1): warning C4005: 'snprintf': macro redefinition
+  (compiling source file '../src/common/nullpo.c')
+  C:\Users\Dennis Gaming\Desktop\eAmod Nov 23, 2023 working\eAmod 2011-12-28\src\common\cbasetypes.h(211,1):
+  see previous definition of 'snprintf'
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1914,1): error C1189: #error:  Macro definition of snprintf conflicts with Standard Library function declaration
+  (compiling source file '../src/common/nullpo.c')
+  
+  random.c
+  showmsg.c
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1912,1): warning C4005: 'snprintf': macro redefinition
+  (compiling source file '../src/common/plugins.c')
+  C:\Users\Dennis Gaming\Desktop\eAmod Nov 23, 2023 working\eAmod 2011-12-28\src\common\cbasetypes.h(211,1):
+  see previous definition of 'snprintf'
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1914,1): error C1189: #error:  Macro definition of snprintf conflicts with Standard Library function declaration
+  (compiling source file '../src/common/plugins.c')
+  
+  socket.c
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1912,1): warning C4005: 'snprintf': macro redefinition
+  (compiling source file '../src/common/core.c')
+  C:\Users\Dennis Gaming\Desktop\eAmod Nov 23, 2023 working\eAmod 2011-12-28\src\common\cbasetypes.h(211,1):
+  see previous definition of 'snprintf'
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1914,1): error C1189: #error:  Macro definition of snprintf conflicts with Standard Library function declaration
+  (compiling source file '../src/common/core.c')
+  
+  strlib.c
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1912,1): warning C4005: 'snprintf': macro redefinition
+  (compiling source file '../src/common/showmsg.c')
+  C:\Users\Dennis Gaming\Desktop\eAmod Nov 23, 2023 working\eAmod 2011-12-28\src\common\cbasetypes.h(211,1):
+  see previous definition of 'snprintf'
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1914,1): error C1189: #error:  Macro definition of snprintf conflicts with Standard Library function declaration
+  (compiling source file '../src/common/showmsg.c')
+  
+  timer.c
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1912,1): warning C4005: 'snprintf': macro redefinition
+  (compiling source file '../src/common/strlib.c')
+  C:\Users\Dennis Gaming\Desktop\eAmod Nov 23, 2023 working\eAmod 2011-12-28\src\common\cbasetypes.h(211,1):
+  see previous definition of 'snprintf'
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1914,1): error C1189: #error:  Macro definition of snprintf conflicts with Standard Library function declaration
+  (compiling source file '../src/common/strlib.c')
+  
+  utils.c
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1912,1): warning C4005: 'snprintf': macro redefinition
+  (compiling source file '../src/common/timer.c')
+  C:\Users\Dennis Gaming\Desktop\eAmod Nov 23, 2023 working\eAmod 2011-12-28\src\common\cbasetypes.h(211,1):
+  see previous definition of 'snprintf'
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1914,1): error C1189: #error:  Macro definition of snprintf conflicts with Standard Library function declaration
+  (compiling source file '../src/common/timer.c')
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1912,1): warning C4005: 'snprintf': macro redefinition
+  (compiling source file '../src/common/socket.c')
+  C:\Users\Dennis Gaming\Desktop\eAmod Nov 23, 2023 working\eAmod 2011-12-28\src\common\cbasetypes.h(211,1):
+  see previous definition of 'snprintf'
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1914,1): error C1189: #error:  Macro definition of snprintf conflicts with Standard Library function declaration
+  (compiling source file '../src/common/socket.c')
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1912,1): warning C4005: 'snprintf': macro redefinition
+  (compiling source file '../src/common/utils.c')
+  C:\Users\Dennis Gaming\Desktop\eAmod Nov 23, 2023 working\eAmod 2011-12-28\src\common\cbasetypes.h(211,1):
+  see previous definition of 'snprintf'
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1914,1): error C1189: #error:  Macro definition of snprintf conflicts with Standard Library function declaration
+  (compiling source file '../src/common/utils.c')
+  

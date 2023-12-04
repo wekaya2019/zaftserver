@@ -1,38 +1,15 @@
-﻿Build started 11/19/2023 11:53:33 PM.
-     1>Project "C:\Users\Dennis Gaming\Desktop\zaftserver\vcproj-12\char-server_sql.vcxproj" on node 4 (Build target(s)).
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I..\src\common /I..\3rdparty\msinttypes\include /ZI /nologo /W3 /WX- /MP /Od /Oy- /D WIN32 /D _DEBUG /D _VC80_UPGRADE=0x0710 /D _MBCS /Gm- /EHsc /RTC1 /MTd /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"char-server_sql\Debug\\" /Fd"char-server_sql\Debug\vc120.pdb" /Gd /TC /wd4800 /wd4996 /FIconfig.vc.h /analyze- /errorReport:prompt ..\src\char_sql\char.c ..\src\char_sql\int_achievement.c ..\src\char_sql\int_auction.c ..\src\char_sql\int_guild.c ..\src\char_sql\int_homun.c ..\src\char_sql\int_mail.c ..\src\char_sql\int_mercenary.c ..\src\char_sql\int_party.c ..\src\char_sql\int_pet.c ..\src\char_sql\int_quest.c ..\src\char_sql\int_storage.c ..\src\char_sql\inter.c
-         char.c
-         int_achievement.c
-         int_auction.c
-         int_guild.c
-         int_homun.c
-         int_mail.c
-         int_mercenary.c
-         int_party.c
-         int_pet.c
-         int_quest.c
-         int_storage.c
-         inter.c
-       Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"..\char-server_sql.exe" /INCREMENTAL /NOLOGO libcmtd.lib oldnames.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /NODEFAULTLIB /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"..\char-server_sql.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE:NO /NXCOMPAT /IMPLIB:"..\char-server_sql.lib" /MACHINE:X86 /SAFESEH "char-server_sql\Debug\char.obj"
-         "char-server_sql\Debug\int_achievement.obj"
-         "char-server_sql\Debug\int_auction.obj"
-         "char-server_sql\Debug\int_guild.obj"
-         "char-server_sql\Debug\int_homun.obj"
-         "char-server_sql\Debug\int_mail.obj"
-         "char-server_sql\Debug\int_mercenary.obj"
-         "char-server_sql\Debug\int_party.obj"
-         "char-server_sql\Debug\int_pet.obj"
-         "char-server_sql\Debug\int_quest.obj"
-         "char-server_sql\Debug\int_storage.obj"
-         "char-server_sql\Debug\inter.obj"
-         "C:\Users\Dennis Gaming\Desktop\zaftserver\vcproj-12\common\Debug\common.lib"
-         "C:\Users\Dennis Gaming\Desktop\zaftserver\vcproj-12\common_sql\Debug\common_sql.lib"
-     1>char.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/SAFESEH' specification
-         char-server_sql.vcxproj -> C:\Users\Dennis Gaming\Desktop\zaftserver\vcproj-12\..\char-server_sql.exe
-     1>Done Building Project "C:\Users\Dennis Gaming\Desktop\zaftserver\vcproj-12\char-server_sql.vcxproj" (Build target(s)).
+﻿Build started 11/30/2023 9:14:07 PM.
+     1>Project "C:\Users\Dennis Gaming\Desktop\eAmod Nov 23, 2023 working\eAmod 2011-12-28\vcproj-12\char-server_sql.vcxproj" on node 2 (Rebuild target(s)).
+       Project file contains ToolsVersion="12.0". This toolset may be unknown or missing, in which case you may be able to resolve this by installing the appropriate version of MSBuild, or the build may have been forced to a particular ToolsVersion for policy reasons. Treating the project as if it had ToolsVersion="4.0". For more information, please see http://go.microsoft.com/fwlink/?LinkId=291333.
+     1>Project "C:\Users\Dennis Gaming\Desktop\eAmod Nov 23, 2023 working\eAmod 2011-12-28\vcproj-12\char-server_sql.vcxproj" (1) is building "C:\Users\Dennis Gaming\Desktop\eAmod Nov 23, 2023 working\eAmod 2011-12-28\vcproj-12\common_sql.vcxproj" (2) on node 2 (GetTargetPath target(s)).
+       Project file contains ToolsVersion="12.0". This toolset may be unknown or missing, in which case you may be able to resolve this by installing the appropriate version of MSBuild, or the build may have been forced to a particular ToolsVersion for policy reasons. Treating the project as if it had ToolsVersion="4.0". For more information, please see http://go.microsoft.com/fwlink/?LinkId=291333.
+     2>Done Building Project "C:\Users\Dennis Gaming\Desktop\eAmod Nov 23, 2023 working\eAmod 2011-12-28\vcproj-12\common_sql.vcxproj" (GetTargetPath target(s)) -- FAILED.
+     1>Project "C:\Users\Dennis Gaming\Desktop\eAmod Nov 23, 2023 working\eAmod 2011-12-28\vcproj-12\char-server_sql.vcxproj" (1) is building "C:\Users\Dennis Gaming\Desktop\eAmod Nov 23, 2023 working\eAmod 2011-12-28\vcproj-12\common_sql.vcxproj" (2:2) on node 2 (GetNativeManifest target(s)).
+       Project file contains ToolsVersion="12.0". This toolset may be unknown or missing, in which case you may be able to resolve this by installing the appropriate version of MSBuild, or the build may have been forced to a particular ToolsVersion for policy reasons. Treating the project as if it had ToolsVersion="4.0". For more information, please see http://go.microsoft.com/fwlink/?LinkId=291333.
+     2>Done Building Project "C:\Users\Dennis Gaming\Desktop\eAmod Nov 23, 2023 working\eAmod 2011-12-28\vcproj-12\common_sql.vcxproj" (GetNativeManifest target(s)) -- FAILED.
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V110\Microsoft.Cpp.Platform.targets(44,5): error MSB8020: The builds tools for v143 (Platform Toolset = 'v143') cannot be found. To build using the v143 build tools, either click the Project menu or right-click the solution, and then select "Update VC++ Projects...". Install v143 to build using the v143 build tools.
+     1>Done Building Project "C:\Users\Dennis Gaming\Desktop\eAmod Nov 23, 2023 working\eAmod 2011-12-28\vcproj-12\char-server_sql.vcxproj" (Rebuild target(s)) -- FAILED.
 
-Build succeeded.
+Build FAILED.
 
-Time Elapsed 00:00:10.03
+Time Elapsed 00:00:00.06

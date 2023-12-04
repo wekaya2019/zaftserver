@@ -1,5 +1,12 @@
-﻿Build started 11/14/2023 2:35:51 AM.
-
-Build succeeded.
-
-Time Elapsed 00:00:00.39
+﻿  account_sql.c
+  ipban_sql.c
+  login.c
+  loginlog_sql.c
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1912,1): warning C4005: 'snprintf': macro redefinition
+  (compiling source file '../src/login/login.c')
+  C:\Users\Dennis Gaming\Desktop\eAmod Nov 23, 2023 working\eAmod 2011-12-28\src\common\cbasetypes.h(211,1):
+  see previous definition of 'snprintf'
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1914,1): error C1189: #error:  Macro definition of snprintf conflicts with Standard Library function declaration
+  (compiling source file '../src/login/login.c')
+  

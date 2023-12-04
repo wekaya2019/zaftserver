@@ -1398,3 +1398,5 @@ bat_c07
 bat_c08
 region_8
 newpront
+mkspeedrun
+vip_lounge

@@ -10,7 +10,7 @@
 //= 5.1 Cleaned and standardized, mostly. [Euphy]
 //============================================================
 
-prontera,156,280,4	script	Disguise Event	798,{
+quiz_00,26,103,4	script	Disguise Event	798,{
 
 	// Currently set to run every two hours.
 	// To change times, edit the OnClock labels below.

@@ -38,6 +38,8 @@ extern char mapindex_cfgfile[80];
 #define MAP_MOSCOVIA "moscovia"
 #define MAP_ERISCASTLE "dicastes01"
 #define MAP_NEWPRONT "newpront"
+#define MAP_MKSPEEDRUN "mkspeedrun"
+#define MAP_VIP_LOUNGE "vip_lounge"
 
 const char* mapindex_getmapname(const char* string, char* output);
 const char* mapindex_getmapname_ext(const char* string, char* output);

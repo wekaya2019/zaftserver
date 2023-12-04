@@ -1,0 +1,111 @@
+-	script	Sample1	-1,{
+
+function    CustomRateItem;
+
+OnNPCKillEvent:
+
+// CustomRateItem( <MobID>,<CardID>,<Rate> );
+
+// Rate : 1 = 0.01% / 1000 = 10% / 10000 = 100%
+
+CustomRateItem( 1038,30484,3000 ); //
+
+CustomRateItem( 1039,30484,3000 ); //
+
+CustomRateItem( 1046,30484,3000 ); //
+
+CustomRateItem( 1059,30484,3000 ); //
+
+CustomRateItem( 1086,30484,3000 ); // 
+
+CustomRateItem( 1087,30484,3000 ); //
+
+CustomRateItem( 1096,30484,3000 ); //
+
+CustomRateItem( 1112,30484,3000 ); //
+
+CustomRateItem( 1115,30484,3000 ); //
+
+CustomRateItem( 1120,30484,3000 ); //
+
+CustomRateItem( 1147,30484,3000 ); //
+
+CustomRateItem( 1150,30484,3000 ); //
+
+CustomRateItem( 1157,30484,3000 ); //
+
+CustomRateItem( 1159,30484,3000 ); //
+
+CustomRateItem( 1190,30484,3000 ); //
+
+CustomRateItem( 1251,30484,3000 ); // 
+
+CustomRateItem( 1252,30484,3000 ); // 
+
+CustomRateItem( 1272,30484,3000 ); // 
+
+CustomRateItem( 1312,30484,3000 ); // 
+
+CustomRateItem( 1373,30484,3000 ); // 
+
+CustomRateItem( 1388,30484,3000 ); // 
+
+CustomRateItem( 1389,30484,3000 ); // 
+
+CustomRateItem( 1418,30484,3000 ); // 
+
+CustomRateItem( 1492,30484,3000 ); // 
+
+CustomRateItem( 1511,30484,3000 ); // 
+
+CustomRateItem( 1582,30484,3000 ); // 
+
+CustomRateItem( 1583,30484,3000 ); // 
+
+CustomRateItem( 1623,30484,3000 ); // 
+
+CustomRateItem( 1630,30484,3000 ); // 
+
+CustomRateItem( 1658,30484,3000 ); // 
+
+CustomRateItem( 1688,30484,3000 ); // 
+
+CustomRateItem( 1708,30484,3000 ); // 
+
+CustomRateItem( 1719,30484,3000 ); // 
+
+CustomRateItem( 1734,30484,3000 ); // 
+
+CustomRateItem( 1751,30484,3000 ); // 
+
+CustomRateItem( 1768,30484,3000 ); // 
+
+CustomRateItem( 1779,30484,3000 ); // 
+
+CustomRateItem( 1785,30484,3000 ); // 
+
+CustomRateItem( 1832,30484,3000 ); // 
+
+CustomRateItem( 1871,30484,3000 ); // 
+
+CustomRateItem( 1873,30484,3000 ); // 
+
+CustomRateItem( 1885,30484,3000 ); // 
+
+CustomRateItem( 1751,30484,3000 ); // 
+
+end;
+
+function    CustomRateItem    {
+
+if( killedrid == getarg(0) && rand( 10000 ) <= getarg(2) ){
+
+getitem getarg(1),1;
+
+}
+
+return;
+
+}
+
+}

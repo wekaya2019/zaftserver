@@ -1929,6 +1929,16 @@ int status_calc_pc_(struct map_session_data* sd, bool first)
 	pc_delautobonus(sd,sd->autobonus2,ARRAYLENGTH(sd->autobonus2),true);
 	pc_delautobonus(sd,sd->autobonus3,ARRAYLENGTH(sd->autobonus3),true);
 
+	for ( i=0; i < MAX_INVENTORY; i++ ) { //dh
+		if ( !sd->inventory_data[i] || sd->inventory_data[i]->type != IT_CHARM )
+			continue;
+		if ( sd->inventory_data[i]->script && sd->inventory_data[i]->elv <= sd->status.base_level && sd->inventory_data[i]->class_upper ) {
+			run_script( sd->inventory_data[i]->script, 0, sd->bl.id, 0 );
+			if ( !calculating ) //Abort, run_script retriggered this. [Skotlex]
+				return 1;
+		}
+	}
+
 	// Parse Faction Bonus
 	if( fd && fd->script )
 	{

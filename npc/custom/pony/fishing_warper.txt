@@ -13,6 +13,6 @@ end;
 
 OnInit:
 waitingroom "Fishing Warper",0;
-close;
+
 end;
 }

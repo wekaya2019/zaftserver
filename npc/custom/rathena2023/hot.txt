@@ -1,0 +1,218 @@
+//**********************************************************************************
+// ____                    _                                            _   _  ____ 
+//|  _ \ ___   ___   ____ | |  ___   ____   ___   ___   __  ___   _  _ | |_| |/ __ |
+//| |__// _ \ / _ \ |  _ \| | / _ \ |  _ \ / _ \ /  _| / _)/ _ \ | \| ||___  |\__  |
+//| |  |  __/ ||_|| | |__/| | | __/ | |__/|  __/ | |  _\ \ ||_|| | \\ |    | |   | |
+//|_|___\___|_\___/_| |___|_|_\___|_| |____\___|_|_|_(___/ \___/_|_|\_|____|_|___|_|
+//------------------|_|-------------|_|---------------------------------------------
+//**********************************************************************************
+//===== rAthena Script =============================================================
+//= Heads or Tails
+//===== By: ========================================================================
+//= Peopleperson49 (Eddie)
+//===== Start Date: ================================================================
+//= 12DEC2008
+//===== Current Version: ===========================================================
+//= 2.4
+//===== Compatible With: ===========================================================
+//= rAthena SVN
+//===== Description: ===============================================================
+//= This was one of my first scripts I ever made. I learned to script by breaking
+//=	these type of scripts down and recreating them from scratch. I remember
+//=	making this one, but I'm not sure if I based it off of another script or
+//=	not. Player starts by betting 500z and then flips a coin. If heads their
+//=	money is disabled, if tails they loose all their money.
+//===== Version Control: ===========================================================
+//= 1.0 First Version.
+//= 1.1 Relocated NPC.
+//= 1.2 Added rules to script.
+//= 1.3 Cleaned up the script and added color to it.
+//= 1.4 Added emoticon for the circle and x.
+//= 1.5 Added goto HotStart; loop to script.
+//= 1.6 Rigged script so you have a higher chance of winning rounds 1-2, normal
+//=	chance of winning rounds 3-8, and a lower chance of winning rounds 9-10.
+//= 1.7 Added variable @hottotalwin instead of having it give and take zeny each
+//=	time from the player.
+//= 1.8 Removed my gag version of script. It had a random chance of doing an
+//=	alternate version of the script that said if head is flipped the Coin Man
+//=	wins and if tails is flipped the player looses. So the player always lost.
+//= 1.9 Made Vincent's dialog more thug like...
+//= 2.0 Added Trustfund to to script.
+//= 2.1 Replaced @hottotalwin with .@hottotalwin & @hotcoinflip with .@hotcoinflip.
+//= 2.2 Replaced menu function with switch function.
+//= 2.3 Replaced select function with prompt function.
+//= 2.4 Made it loop back to HotStart after reading the rules instead of closing the
+//=	script.
+//===== Additional Comments:========================================================
+//=
+//==================================================================================
+cmd_in02,163,95,2	script	Coin Man	85,{
+
+mes "[Coin Man]";
+mes "Yo homie names Vincent!";
+mes "Try my heads or tails game! That is if you can handle it!";
+mes "It's not for everybody but if you feel lucky punk...";
+next;
+mes "[Vincent]";
+mes "It costs ^008800500z^000000 to start a game.";
+goto HoTStart;
+close;
+
+HoTStart:
+next;
+switch(prompt("I want to play!:Whats the rules?")) {
+case 1:
+	next;
+	if(zeny<500) { next; mes "[Vincent]"; mes "You don't even have 500z how sad, hahaha!!!"; close; }
+	set zeny,zeny-500;
+	set trustfundbalance,trustfundbalance+5;
+	set .@hottotalwin,0;
+	mes "[Vincent]";
+	mes "Ok here we go...";
+	next;
+	goto HoTPlay;
+	close;
+case 2:
+	next;
+	mes "[Vincent]";
+	mes "The rules are simple:";
+	mes "I have a coin here on the heads side is a treasure chest with a red ring of fire around it and one the tails side is an open treasure chest that is empty with a red X over it.";
+	next;
+	mes "[Vincent]";
+	mes "Heads I win and tails you loose, right? Each round the coin is flipped if you get heads I double your zeny, but if you get tails you loose all the zeny you won and what you paid to play!";
+	next;
+	mes "[Vincent]";
+	mes "Nobody has ever made it all 10 rounds with me, and that is where the real prize is given out!";
+	next;
+	goto HoTPlay;
+	close;
+case 255:
+	mes "[Vincent]";
+	mes "Please come again!";
+	close;
+}
+
+HoTPlay:
+mes "[Vincent]";
+mes "Round 1: The coin is flipped high into the air...";
+next;
+mes "Clink...";
+next;
+mes "Ka-plunk!";
+next;
+set .@hotcoinflip,rand(1,3);
+if(.@hotcoinflip==1) { next; mes "[Vincent]"; mes "Heads you win"; mes "You made round 1"; emotion e_oh; next; set .@hottotalwin,0; set .@hottotalwin,1000; set trustfundbalance,trustfundbalance+10; if(rand(0,100)==0) { getitem 644,1; } switch(select("Continue:Keep what I already won!")) { case 1: goto HoTPlay2; end; case 2: mes "[Vincent]"; mes "Enjoy your winnings!"; set zeny,zeny+.@hottotalwin; set .@hottotalwin,0; mes "Come back if you get bored!"; next; goto HoTStart; close; } }
+if(.@hotcoinflip==2) { next; mes "[Vincent]"; mes "Heads you win"; mes "You made round 1"; emotion e_oh; next; set .@hottotalwin,0; set .@hottotalwin,1000; set trustfundbalance,trustfundbalance+10; if(rand(0,100)==0) { getitem 644,1; } switch(select("Continue:Keep what I already won!")) { case 1: goto HoTPlay2; end; case 2: mes "[Vincent]"; mes "Enjoy your winnings!"; set zeny,zeny+.@hottotalwin; set .@hottotalwin,0; mes "Come back if you get bored!"; next; goto HoTStart; close; } }
+if(.@hotcoinflip==3) { next; mes "[Vincent]"; mes "Tails you loose"; mes "Your zeny is mine!"; emotion e_X; set .@hottotalwin,0; next; goto HoTStart; close; }
+
+HoTPlay2:
+mes "[Vincent]";
+mes "Round 2: The coin is flipped high into the air...";
+next;
+mes "Clink...";
+next;
+mes "Ka-plunk!";
+next;
+set .@hotcoinflip,rand(1,3);
+if(.@hotcoinflip==1) { next; mes "[Vincent]"; mes "Heads you win"; mes "You made round 2"; emotion e_oh; next; set .@hottotalwin,2000; set trustfundbalance,trustfundbalance+20; if(rand(0,100)==0) { getitem 644,1; } switch(select("Continue:Keep what I already won!")) { case 1: goto HoTPlay3; end; case 2: mes "[Vincent]"; mes "Enjoy your winnings!"; set zeny,zeny+.@hottotalwin; set .@hottotalwin,0; mes "Come back if you get bored!"; next; goto HoTStart; close; } }
+if(.@hotcoinflip==2) { next; mes "[Vincent]"; mes "Heads you win"; mes "You made round 2"; emotion e_oh; next; set .@hottotalwin,2000; set trustfundbalance,trustfundbalance+20; if(rand(0,100)==0) { getitem 644,1; } switch(select("Continue:Keep what I already won!")) { case 1: goto HoTPlay3; end; case 2: mes "[Vincent]"; mes "Enjoy your winnings!"; set zeny,zeny+.@hottotalwin; set .@hottotalwin,0; mes "Come back if you get bored!"; next; goto HoTStart; close; } }
+if(.@hotcoinflip==3) { next; mes "[Vincent]"; mes "Tails you loose"; mes "Your zeny is mine!"; emotion e_X; set .@hottotalwin,0; next; goto HoTStart; close; }
+
+HoTPlay3:
+mes "[Vincent]";
+mes "Round 3: The coin is flipped high into the air...";
+next;
+mes "Clink...";
+next;
+mes "Ka-plunk!";
+next;
+set .@hotcoinflip,rand(1,2);
+if(.@hotcoinflip==1) { next; mes "[Vincent]"; mes "Heads you win"; mes "You made round 3"; emotion e_oh; next; set .@hottotalwin,4000; set trustfundbalance,trustfundbalance+40; if(rand(0,100)==0) { getitem 644,1; } switch(select("Continue:Keep what I already won!")) { case 1: goto HoTPlay4; end; case 2: mes "[Vincent]"; mes "Enjoy your winnings!"; set zeny,zeny+.@hottotalwin; set .@hottotalwin,0; mes "Come back if you get bored!"; next; goto HoTStart; close; } }
+if(.@hotcoinflip==2) { next; mes "[Vincent]"; mes "Tails you loose"; mes "Your zeny is mine!"; emotion e_X; set .@hottotalwin,0; next; goto HoTStart; close; }
+
+HoTPlay4:
+mes "[Vincent]";
+mes "Round 4: The coin is flipped high into the air...";
+next;
+mes "Clink...";
+next;
+mes "Ka-plunk!";
+next;
+set .@hotcoinflip,rand(1,2);
+if(.@hotcoinflip==1) { next; mes "[Vincent]"; mes "Heads you win"; mes "You made round 4"; emotion e_oh; next; set .@hottotalwin,8000; set trustfundbalance,trustfundbalance+80; if(rand(0,100)==0) { getitem 644,1; } switch(select("Continue:Keep what I already won!")) { case 1: goto HoTPlay5; end; case 2: mes "[Vincent]"; mes "Enjoy your winnings!"; set zeny,zeny+.@hottotalwin; set .@hottotalwin,0; mes "Come back if you get bored!"; next; goto HoTStart; close; } }
+if(.@hotcoinflip==2) { next; mes "[Vincent]"; mes "Tails you loose"; mes "Your zeny is mine!"; emotion e_X; set .@hottotalwin,0; next; goto HoTStart; close; }
+
+HoTPlay5:
+mes "[Vincent]";
+mes "Round 5: The coin is flipped high into the air...";
+next;
+mes "Clink...";
+next;
+mes "Ka-plunk!";
+next;
+set .@hotcoinflip,rand(1,2);
+if(.@hotcoinflip==1) { next; mes "[Vincent]"; mes "Heads you win"; mes "You made round 5"; emotion e_oh; next; set .@hottotalwin,16000; set trustfundbalance,trustfundbalance+160; if(rand(0,100)==0) { getitem 644,1; } switch(select("Continue:Keep what I already won!")) { case 1: goto HoTPlay6; end; case 2: mes "[Vincent]"; mes "Enjoy your winnings!"; set zeny,zeny+.@hottotalwin; set .@hottotalwin,0; mes "Come back if you get bored!"; next; goto HoTStart; close; } }
+if(.@hotcoinflip==2) { next; mes "[Vincent]"; mes "Tails you loose"; mes "Your zeny is mine!"; emotion e_X; set .@hottotalwin,0; next; goto HoTStart; close; }
+
+HoTPlay6:
+mes "[Vincent]";
+mes "Round 6: The coin is flipped high into the air...";
+next;
+mes "Clink...";
+next;
+mes "Ka-plunk!";
+next;
+set .@hotcoinflip,rand(1,2);
+if(.@hotcoinflip==1) { next; mes "[Vincent]"; mes "Heads you win"; mes "You made round 6"; emotion e_oh; next; set .@hottotalwin,32000; set trustfundbalance,trustfundbalance+320; if(rand(0,100)==0) { getitem 603,1; } switch(select("Continue:Keep what I already won!")) { case 1: goto HoTPlay7; end; case 2: mes "[Vincent]"; mes "Enjoy your winnings!"; set zeny,zeny+.@hottotalwin; set .@hottotalwin,0; mes "Come back if you get bored!"; next; goto HoTStart; close; } }
+if(.@hotcoinflip==2) { next; mes "[Vincent]"; mes "Tails you loose"; mes "Your zeny is mine!"; emotion e_X; set .@hottotalwin,0; next; goto HoTStart; close; }
+
+HoTPlay7:
+mes "[Vincent]";
+mes "Round 7: The coin is flipped high into the air...";
+next;
+mes "Clink...";
+next;
+mes "Ka-plunk!";
+next;
+set .@hotcoinflip,rand(1,2);
+if(.@hotcoinflip==1) { next; mes "[Vincent]"; mes "Heads you win"; mes "You made round 7"; emotion e_oh; next; set .@hottotalwin,64000; set trustfundbalance,trustfundbalance+640; if(rand(0,100)==0) { getitem 603,1; } switch(select("Continue:Keep what I already won!")) { case 1: goto HoTPlay8; end; case 2: mes "[Vincent]"; mes "Enjoy your winnings!"; set zeny,zeny+.@hottotalwin; set .@hottotalwin,0; mes "Come back if you get bored!"; next; goto HoTStart; close; } }
+if(.@hotcoinflip==2) { next; mes "[Vincent]"; mes "Tails you loose"; mes "Your zeny is mine!"; emotion e_X; set .@hottotalwin,0; next; goto HoTStart; close; }
+
+HoTPlay8:
+mes "[Vincent]";
+mes "Round 8: The coin is flipped high into the air...";
+next;
+mes "Clink...";
+next;
+mes "Ka-plunk!";
+next;
+set .@hotcoinflip,rand(1,2);
+if(.@hotcoinflip==1) { next; mes "[Vincent]"; mes "Heads you win"; mes "You made round 8"; emotion e_oh; next; set .@hottotalwin,128000; set trustfundbalance,trustfundbalance+1280; if(rand(0,100)==0) { getitem 617,1; }switch(select("Continue:Keep what I already won!")) { case 1: goto HoTPlay9; end; case 2: mes "[Vincent]"; mes "Enjoy your winnings!"; set zeny,zeny+.@hottotalwin; set .@hottotalwin,0; mes "Come back if you get bored!"; next; goto HoTStart; close; } }
+if(.@hotcoinflip==2) { next; mes "[Vincent]"; mes "Tails you loose"; mes "Your zeny is mine!"; emotion e_X; set .@hottotalwin,0; next; goto HoTStart; close; }
+
+HoTPlay9:
+mes "[Vincent]";
+mes "Round 9: The coin is flipped high into the air...";
+next;
+mes "Clink...";
+next;
+mes "Ka-plunk!";
+next;
+set .@hotcoinflip,rand(1,3);
+if(.@hotcoinflip==1) { next; mes "[Vincent]"; mes "Heads you win"; mes "You made round 9"; emotion e_oh; next; set .@hottotalwin,256000; set trustfundbalance,trustfundbalance+2560; if(rand(0,100)<=10) { getitem 617,1; }switch(select("Continue:Keep what I already won!")) { case 1: goto HoTPlay10; end; case 2: mes "[Vincent]"; mes "Enjoy your winnings!"; set zeny,zeny+.@hottotalwin; set .@hottotalwin,0; mes "Come back if you get bored!"; next; goto HoTStart; close; } }
+if(.@hotcoinflip==2) { next; mes "[Vincent]"; mes "Tails you loose"; mes "Your zeny is mine!"; emotion e_X; set .@hottotalwin,0; next; goto HoTStart; close; }
+if(.@hotcoinflip==3) { next; mes "[Vincent]"; mes "Tails you loose"; mes "Your zeny is mine!"; emotion e_X; set .@hottotalwin,0; next; goto HoTStart; close; }
+
+HoTPlay10:
+mes "[Vincent]";
+mes "Round 10: The coin is flipped high into the air...";
+next;
+mes "Clink...";
+next;
+mes "Ka-plunk!";
+next;
+set .@hotcoinflip,rand(1,3);
+if(.@hotcoinflip==1) { emotion e_oh; mes "[Vincent]"; mes "Heads you win"; mes "Well, you made it all 10 rounds! I hope your not disappointed!"; emotion e_grat; Announce ""+strcharinfo(0)+" has won all TEN rounds of HEADS OR Tails!",8; set .@hottotalwin,512000; set trustfundbalance,trustfundbalance+10000; getitem 617,1; mes "You won "+ .@hottotalwin +"z"; set zeny,zeny+.@hottotalwin; set .@hottotalwin,0; next; goto HoTStart; close; }
+if(.@hotcoinflip==2) { next; mes "[Vincent]"; mes "Tails you loose"; mes "Your zeny is mine!"; emotion e_X; set .@hottotalwin,0; next; goto HoTStart; close; }
+if(.@hotcoinflip==3) { next; mes "[Vincent]"; mes "Tails you loose"; mes "Your zeny is mine!"; emotion e_X; set .@hottotalwin,0; next; goto HoTStart; close; }
+}

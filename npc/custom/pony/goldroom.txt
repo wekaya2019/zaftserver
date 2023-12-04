@@ -178,6 +178,12 @@ wa:
 prontera,146,162,4	script	Gold Room#pront	907,{
 	set @name$,"prontera";
 	callfunc "goldmain";
+	end;
+	
+	OnInit:
+	waitingroom "Gold Room",0;
+	
+	end;
 }
 
 aldebaran,133,116,4	script	Gold Room Warperer#alde	813,{

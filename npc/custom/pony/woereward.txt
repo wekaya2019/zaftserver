@@ -18,7 +18,7 @@
 //= v1.5 - Little bit of cleaning [Mysterious]
 //============================================================
 
-prontera,146,166,4	script	Castle Rewards	871,{
+prontera,146,171,4	script	Castle Rewards	871,{
 
 	mes "[Castle Rewards]";
 	if (agitcheck() || agitcheck2()) { mes "WoE is currently still in progress."; close; }

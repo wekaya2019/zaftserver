@@ -1,0 +1,24 @@
+-	script	ShowerEvent	-1,{
+	OnInit:
+		set .amount, 10000; // Warning!! : Do not add more or els it will cause you a server crash
+		set .item_id, 7227; // item id to shower
+		set .item_id2, 7608; // next item id to shower
+		bindatcmd "itemshower",strnpcinfo(3)+"::OnShower";
+		end;
+	OnShower:
+
+		getmapxy .@map$, .@x, .@y, BL_PC;
+		freeloop(1);
+		while ( .count < .amount ) {
+			do {
+				.@x_diff = .@x + rand(-200,200);
+				.@y_diff = .@y + rand(-200,200);
+			} while (!checkcell(.@map$,.@x,.@y,cell_chkpass));
+			.@var = rand(2);
+			makeitem .@var?.item_id:.item_id2,1,.@map$,.@x_diff,.@y_diff;
+			set .count, .count + 1;
+		}
+		freeloop(0);
+		set .count, 0;
+		end;
+}

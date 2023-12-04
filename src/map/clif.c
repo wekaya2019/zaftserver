@@ -65,6 +65,7 @@ struct s_packet_db packet_db[MAX_PACKET_VER + 1][MAX_PACKET_DB + 1];
 
 //Converts item type in case of pet eggs.
 static inline int itemtype(int type)
+#define itemtype(a) (a == IT_PETEGG)?IT_WEAPON:(a == IT_CHARM)?IT_ETC:a
 {
 	return ( type == IT_PETEGG ) ? IT_WEAPON : type;
 }

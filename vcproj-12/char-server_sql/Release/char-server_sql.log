@@ -1,5 +1,108 @@
-﻿Build started 11/14/2023 2:35:50 AM.
-
-Build succeeded.
-
-Time Elapsed 00:00:00.22
+﻿  char.c
+  int_achievement.c
+  int_auction.c
+  int_guild.c
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1912,1): warning C4005: 'snprintf': macro redefinition
+  (compiling source file '../src/char_sql/int_achievement.c')
+  C:\Users\Dennis Gaming\Desktop\eAmod Nov 23, 2023 working\eAmod 2011-12-28\src\common\cbasetypes.h(211,1):
+  see previous definition of 'snprintf'
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1914,1): error C1189: #error:  Macro definition of snprintf conflicts with Standard Library function declaration
+  (compiling source file '../src/char_sql/int_achievement.c')
+  
+  int_homun.c
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1912,1): warning C4005: 'snprintf': macro redefinition
+  (compiling source file '../src/char_sql/int_auction.c')
+  C:\Users\Dennis Gaming\Desktop\eAmod Nov 23, 2023 working\eAmod 2011-12-28\src\common\cbasetypes.h(211,1):
+  see previous definition of 'snprintf'
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1914,1): error C1189: #error:  Macro definition of snprintf conflicts with Standard Library function declaration
+  (compiling source file '../src/char_sql/int_auction.c')
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1912,1): warning C4005: 'snprintf': macro redefinition
+  (compiling source file '../src/char_sql/char.c')
+  C:\Users\Dennis Gaming\Desktop\eAmod Nov 23, 2023 working\eAmod 2011-12-28\src\common\cbasetypes.h(211,1):
+  see previous definition of 'snprintf'
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1914,1): error C1189: #error:  Macro definition of snprintf conflicts with Standard Library function declaration
+  (compiling source file '../src/char_sql/char.c')
+  
+  int_mail.c
+  int_mercenary.c
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1912,1): warning C4005: 'snprintf': macro redefinition
+  (compiling source file '../src/char_sql/int_guild.c')
+  C:\Users\Dennis Gaming\Desktop\eAmod Nov 23, 2023 working\eAmod 2011-12-28\src\common\cbasetypes.h(211,1):
+  see previous definition of 'snprintf'
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1914,1): error C1189: #error:  Macro definition of snprintf conflicts with Standard Library function declaration
+  (compiling source file '../src/char_sql/int_guild.c')
+  
+  int_party.c
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1912,1): warning C4005: 'snprintf': macro redefinition
+  (compiling source file '../src/char_sql/int_mercenary.c')
+  C:\Users\Dennis Gaming\Desktop\eAmod Nov 23, 2023 working\eAmod 2011-12-28\src\common\cbasetypes.h(211,1):
+  see previous definition of 'snprintf'
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1914,1): error C1189: #error:  Macro definition of snprintf conflicts with Standard Library function declaration
+  (compiling source file '../src/char_sql/int_mercenary.c')
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1912,1): warning C4005: 'snprintf': macro redefinition
+  (compiling source file '../src/char_sql/int_homun.c')
+  C:\Users\Dennis Gaming\Desktop\eAmod Nov 23, 2023 working\eAmod 2011-12-28\src\common\cbasetypes.h(211,1):
+  see previous definition of 'snprintf'
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1914,1): error C1189: #error:  Macro definition of snprintf conflicts with Standard Library function declaration
+  (compiling source file '../src/char_sql/int_homun.c')
+  
+  int_pet.c
+  int_quest.c
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1912,1): warning C4005: 'snprintf': macro redefinition
+  (compiling source file '../src/char_sql/int_mail.c')
+  C:\Users\Dennis Gaming\Desktop\eAmod Nov 23, 2023 working\eAmod 2011-12-28\src\common\cbasetypes.h(211,1):
+  see previous definition of 'snprintf'
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1914,1): error C1189: #error:  Macro definition of snprintf conflicts with Standard Library function declaration
+  (compiling source file '../src/char_sql/int_mail.c')
+  
+  int_storage.c
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1912,1): warning C4005: 'snprintf': macro redefinition
+  (compiling source file '../src/char_sql/int_party.c')
+  C:\Users\Dennis Gaming\Desktop\eAmod Nov 23, 2023 working\eAmod 2011-12-28\src\common\cbasetypes.h(211,1):
+  see previous definition of 'snprintf'
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1914,1): error C1189: #error:  Macro definition of snprintf conflicts with Standard Library function declaration
+  (compiling source file '../src/char_sql/int_party.c')
+  
+  inter.c
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1912,1): warning C4005: 'snprintf': macro redefinition
+  (compiling source file '../src/char_sql/int_pet.c')
+  C:\Users\Dennis Gaming\Desktop\eAmod Nov 23, 2023 working\eAmod 2011-12-28\src\common\cbasetypes.h(211,1):
+  see previous definition of 'snprintf'
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1914,1): error C1189: #error:  Macro definition of snprintf conflicts with Standard Library function declaration
+  (compiling source file '../src/char_sql/int_pet.c')
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1912,1): warning C4005: 'snprintf': macro redefinition
+  (compiling source file '../src/char_sql/int_quest.c')
+  C:\Users\Dennis Gaming\Desktop\eAmod Nov 23, 2023 working\eAmod 2011-12-28\src\common\cbasetypes.h(211,1):
+  see previous definition of 'snprintf'
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1914,1): error C1189: #error:  Macro definition of snprintf conflicts with Standard Library function declaration
+  (compiling source file '../src/char_sql/int_quest.c')
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1912,1): warning C4005: 'snprintf': macro redefinition
+  (compiling source file '../src/char_sql/int_storage.c')
+  C:\Users\Dennis Gaming\Desktop\eAmod Nov 23, 2023 working\eAmod 2011-12-28\src\common\cbasetypes.h(211,1):
+  see previous definition of 'snprintf'
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1914,1): error C1189: #error:  Macro definition of snprintf conflicts with Standard Library function declaration
+  (compiling source file '../src/char_sql/int_storage.c')
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1912,1): warning C4005: 'snprintf': macro redefinition
+  (compiling source file '../src/char_sql/inter.c')
+  C:\Users\Dennis Gaming\Desktop\eAmod Nov 23, 2023 working\eAmod 2011-12-28\src\common\cbasetypes.h(211,1):
+  see previous definition of 'snprintf'
+  
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\ucrt\stdio.h(1914,1): error C1189: #error:  Macro definition of snprintf conflicts with Standard Library function declaration
+  (compiling source file '../src/char_sql/inter.c')
+  

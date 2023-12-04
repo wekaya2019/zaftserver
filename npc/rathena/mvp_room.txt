@@ -92,17 +92,17 @@ OnInit:
 	set .killmonster, 0; // Default is yes
 
 	//	Options menu setting for MVP Summoner NPC.
-	set .@menu[0], 1; // Turn Heal option On/Off
-	set .@menu[1], 1; // Turn Group 1 summons On/Off -> MVP
-	set .@menu[2], 1; // Turn Group 2 summons On/Off -> mini boss
-	set .@menu[3], 1; // Turn Group 3 summons On/Off
-	set .@menu[4], 0; // Turn Group 4 summons On/Off
-	set .@menu[5], 0; // Turn Group 5 summons On/Off
-	set .@menu[6], 0; // Turn Group 6 summons On/Off
-	set .@menu[7], 0; // Turn Group 7 summons On/Off
-	set .@menu[8], 0; // Turn Group 8 summons On/Off
-	set .@menu[9], 0; // Turn Group 9 summons On/Off
-	set .@menu[10], 0; // Sell shop items options On/Off ( shop npc above )
+//	set .@menu[0], 1; // Turn Heal option On/Off
+//	set .@menu[1], 1; // Turn Group 1 summons On/Off -> MVP
+//	set .@menu[2], 1; // Turn Group 2 summons On/Off -> mini boss
+//	set .@menu[3], 1; // Turn Group 3 summons On/Off
+//	set .@menu[4], 0; // Turn Group 4 summons On/Off
+//	set .@menu[5], 0; // Turn Group 5 summons On/Off
+//	set .@menu[6], 0; // Turn Group 6 summons On/Off
+//	set .@menu[7], 0; // Turn Group 7 summons On/Off
+//	set .@menu[8], 0; // Turn Group 8 summons On/Off
+//	set .@menu[9], 0; // Turn Group 9 summons On/Off
+//	set .@menu[10], 0; // Sell shop items options On/Off ( shop npc above )
 
 	//	set respawn point when they leave the room. Obviously warp to the Private MVP Room Warper npc
 	set .respawnmap$, "dicastes01"; // Note : "SavePoint" does NOT work

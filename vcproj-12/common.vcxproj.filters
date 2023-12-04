@@ -26,6 +26,7 @@
     <ClCompile Include="..\src\common\strlib.c" />
     <ClCompile Include="..\src\common\timer.c" />
     <ClCompile Include="..\src\common\utils.c" />
+    <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\3rdparty\mt19937ar\mt19937ar.h">

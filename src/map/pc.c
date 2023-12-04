@@ -4236,6 +4236,7 @@ int pc_additem(struct map_session_data *sd,struct item *item_data,int amount,e_l
 
 	sd->weight += w;
 	pc_onstatuschanged(sd,SP_WEIGHT);
+	if(sd->inventory_data[i]->type == IT_CHARM) status_calc_pc(sd,0);//dh
 	return 0;
 }
 
@@ -4244,6 +4245,7 @@ int pc_additem(struct map_session_data *sd,struct item *item_data,int amount,e_l
  *------------------------------------------*/
 int pc_delitem(struct map_session_data *sd,int n,int amount,int type, short reason, e_log_pick_type log_type)
 {
+    int mem = 0;
 	nullpo_retr(1, sd);
 
 	if(sd->status.inventory[n].nameid==0 || amount <= 0 || sd->status.inventory[n].amount<amount || sd->inventory_data[n] == NULL)
@@ -4257,6 +4259,7 @@ int pc_delitem(struct map_session_data *sd,int n,int amount,int type, short reas
 	if( sd->status.inventory[n].amount <= 0 ){
 		if(sd->status.inventory[n].equip)
 			pc_unequipitem(sd,n,3);
+        mem = sd->inventory_data[n]->type;
 		memset(&sd->status.inventory[n],0,sizeof(sd->status.inventory[0]));
 		sd->inventory_data[n] = NULL;
 	}
@@ -4264,6 +4267,8 @@ int pc_delitem(struct map_session_data *sd,int n,int amount,int type, short reas
 		clif_delitem(sd,n,amount,reason);
 	if(!(type&2))
 		pc_onstatuschanged(sd,SP_WEIGHT);
+
+	if(mem == IT_CHARM) status_calc_pc(sd,0);//dh
 
 	return 0;
 }
